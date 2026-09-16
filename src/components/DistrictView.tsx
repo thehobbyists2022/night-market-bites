@@ -42,7 +42,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
             onClick={() => setCat(c)}
             className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-bold capitalize transition ${
               cat === c
-                ? 'border-paper-gold bg-paper-gold text-white'
+                ? 'bg-paper-ink border-paper-ink text-white'
                 : 'border-paper-border bg-paper-card text-paper-muted hover:text-paper-ink'
             }`}
           >

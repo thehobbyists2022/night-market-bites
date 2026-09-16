@@ -44,7 +44,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
             onClick={() => setCountry(c.code)}
             className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-bold ${
               country === c.code
-                ? 'border-paper-gold bg-paper-gold/10 text-paper-gold'
+                ? 'border-paper-ink bg-paper-soft text-paper-ink'
                 : 'border-paper-border text-paper-muted hover:text-paper-ink'
             }`}
           >
@@ -91,7 +91,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
                   href={it.amazonUrl}
                   target="_blank"
                   rel="noopener noreferrer sponsored"
-                  className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl bg-paper-gold py-2 text-xs font-bold text-night-bg"
+                  className="mt-3 flex w-full items-center justify-center gap-1.5 rounded bg-paper-ink py-2 text-xs font-bold text-white"
                 >
                   Shop on Amazon
                   <span className="text-[9px] font-bold opacity-70">↗</span>

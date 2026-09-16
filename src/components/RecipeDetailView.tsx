@@ -95,7 +95,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
                   {recipe.culture?.audioPronunciationText && (
                     <button
                       onClick={() => speak(String(recipe.culture!.audioPronunciationText), recipe.country)}
-                      className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-paper-gold/10 text-paper-gold"
+                      className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-paper-soft text-paper-ink"
                       title="Pronounce"
                     >
                       <Volume2 className="h-4 w-4" />
@@ -106,7 +106,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
               {!recipe.culture?.nativeName && recipe.culture?.audioPronunciationText && (
                 <button
                   onClick={() => speak(String(recipe.culture!.audioPronunciationText), recipe.country)}
-                  className="mt-1.5 flex items-center gap-1.5 rounded-xl bg-paper-gold/10 px-3 py-1.5 text-xs font-bold text-paper-gold"
+                  className="mt-1.5 flex items-center gap-1.5 rounded-xl bg-paper-soft border border-paper-border px-3 py-1.5 text-xs font-bold text-paper-ink"
                 >
                   <Volume2 className="h-3.5 w-3.5" />
                   Pronounce
@@ -128,7 +128,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
               <button
                 key={u}
                 onClick={() => setUnits(u)}
-                className={`rounded-lg px-3 py-1.5 ${units === u ? 'bg-paper-gold/10 text-paper-gold' : 'text-paper-muted'}`}
+                className={`rounded-lg px-3 py-1.5 ${units === u ? 'bg-paper-soft text-paper-ink' : 'text-paper-muted'}`}
               >
                 {u === 'metric' ? 'g / ml' : 'oz / cup'}
               </button>
@@ -179,7 +179,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
               <p className="mt-2 text-[13px] leading-relaxed text-slate-300">{text(s.instruction, language)}</p>
               {s.image && <img src={s.image} alt="" className="mt-3 h-40 w-full rounded-lg object-cover" />}
               {s.crucialTips && (
-                <p className="mt-2.5 rounded-xl bg-paper-gold/10 px-3 py-2 text-xs text-paper-gold">
+                <p className="mt-2.5 rounded-xl bg-paper-soft px-3 py-2 text-xs text-paper-ink border border-paper-border">
                   💡 {text(s.crucialTips as never, language)}
                 </p>
               )}
@@ -224,4 +224,5 @@ const IngredientNative: React.FC<{ ing: IngredientLike }> = ({ ing }) => {
     </span>
   );
 };
+
 

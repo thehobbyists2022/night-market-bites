@@ -9,37 +9,38 @@ body,
 }
 
 body {
-  background-color: #faf7f2;
-  color: #1c1917;
+  background-color: #ffffff;
+  color: #121212;
 }
 
 @layer components {
   .card-e {
-    @apply rounded-xl border border-paper-border bg-paper-card;
-    box-shadow: 0 1px 2px rgba(28, 25, 23, 0.05), 0 8px 24px -18px rgba(28, 25, 23, 0.25);
+    @apply rounded-lg border border-paper-border bg-white;
+    box-shadow: none;
   }
   .card-e-hover {
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
   .card-e-hover:hover {
-    transform: translateY(-2px);
-    border-color: #d8cdb9;
-    box-shadow: 0 2px 4px rgba(28, 25, 23, 0.06), 0 14px 30px -18px rgba(28, 25, 23, 0.35);
+    border-color: #cfcac4;
+    box-shadow: 0 6px 18px -8px rgba(18, 18, 18, 0.18);
   }
   .kicker {
-    @apply text-[10px] font-bold uppercase tracking-wideish text-paper-muted;
+    @apply text-[11px] font-bold uppercase tracking-wideish text-paper-muted;
   }
   .chip-e {
-    @apply inline-flex items-center rounded-full border border-paper-border bg-paper-soft px-2.5 py-0.5 text-[10px] font-bold text-paper-muted;
+    @apply inline-flex items-center rounded border border-paper-border bg-paper-soft px-2 py-0.5 text-[10px] font-semibold text-paper-muted;
   }
-  .btn-gold {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-lg bg-paper-gold px-4 py-2 text-xs font-bold text-white;
-    box-shadow: 0 1px 2px rgba(180, 83, 9, 0.3);
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-1.5 rounded bg-paper-ink px-4 py-2 text-xs font-bold text-white;
   }
   .img-grad {
-    background: linear-gradient(180deg, transparent 45%, rgba(20, 15, 10, 0.72) 100%);
+    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.66) 100%);
   }
   .hairline {
-    @apply h-px w-4 bg-paper-gold/70;
+    @apply h-px w-5 bg-paper-ink;
+  }
+  .rule {
+    @apply border-t border-paper-border;
   }
 }

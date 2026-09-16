@@ -4,18 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Editorial food-magazine palette (replaces the neon night theme)
+        // NYT Cooking-style palette: white, near-black, grays, one paprika accent
         paper: {
-          bg: '#FAF7F2',
+          bg: '#FFFFFF',
           card: '#FFFFFF',
-          border: '#E8E1D5',
-          soft: '#F2EDE4',
-          ink: '#1C1917',
-          muted: '#78716C',
-          gold: '#B45309',      // turmeric/curry gold — primary accent
-          persimmon: '#C2410C', // terracotta red — secondary accent
-          olive: '#3F6212',     // success / veggie green
-          wash: '#F3E8DC'       // tinted wash for panels
+          border: '#E6E4E1',
+          soft: '#F7F6F3',
+          ink: '#121212',
+          muted: '#6F6B67',
+          gold: '#C04A22',      // paprika red accent (buttons, active states, links)
+          persimmon: '#C21E1E', // alerts / heart only
+          olive: '#48621F',
+          wash: '#F4F2EE'
         }
       },
       fontFamily: {
