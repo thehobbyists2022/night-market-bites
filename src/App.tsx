@@ -1,5 +1,5 @@
 import React from 'react';
-import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { UserProvider } from './context/UserContext';
 import { HeaderBar } from './components/HeaderBar';
 import { MarketHall } from './components/MarketHall';
