@@ -10,74 +10,53 @@ interface MarketHallProps {
 
 export const MarketHall: React.FC<MarketHallProps> = ({ onSelectCountry }) => {
   const { language, t } = useLanguage();
+  const hero = recipesOf('kr')[0]?.heroImage || '';
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16">
-      {/* Hero banner */}
-      <div className="relative mt-6 overflow-hidden rounded-3xl border border-night-border">
-        <div className="bg-gradient-to-br from-[#16224e] via-night-panel to-[#0a0e22] px-6 pb-10 pt-12 text-center">
-          <div className="lantern-string">
-            {Array.from({ length: 18 }).map((_, i) => (
-              <span
-                key={i}
-                style={{
-                  color: i % 3 === 0 ? '#ffc24b' : i % 3 === 1 ? '#ff4d6d' : '#3ddc97',
-                  opacity: 0.85,
-                }}
-              />
-            ))}
-          </div>
-          <div className="mt-6 text-4xl">🏮 🍢 🧋 🥟 🍜 🎡</div>
-          <span className="mt-4 inline-block rounded-full bg-night-lantern/15 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-night-lantern">
-            Night Market Bites
-          </span>
-          <h1 className="mt-3 text-3xl font-black tracking-tight text-night-ink sm:text-4xl">
-            {t('hallTitle') || 'Asia Night Market'}
+      {/* Editorial hero: full-bleed photograph, serif headline */}
+      <div className="relative mt-5 overflow-hidden rounded-xl border border-paper-border">
+        {hero && <img src={hero} alt="" className="h-64 w-full object-cover sm:h-80" />}
+        <div className="img-grad absolute inset-0" />
+        <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
+          <p className="kicker text-[10px] font-bold text-amber-200!">Night Market Bites</p>
+          <h1 className="mt-1.5 max-w-lg font-display text-3xl font-bold leading-tight text-white sm:text-4xl">
+            {t('hallTitle') || 'The street food of Asia, cooked in your own kitchen.'}
           </h1>
-          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-night-muted">
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-stone-200">
             {t('hallSubtitle') ||
-              'Walk into a district, pick a stall, cook the real street food of seven countries.'}
-          </p>
-          <p className="mt-3 text-[11px] font-bold text-night-muted">
-            130+ recipes · 8 languages · order cards · taste passport
+              'Seven night markets, 130+ recipes, local order cards and a taste passport — from Taiwan to Vietnam.'}
           </p>
         </div>
       </div>
 
-      <p className="mt-8 mb-3 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.2em] text-night-muted">
-        <span className="h-px w-4 bg-night-lantern" /> Pick a district
+      <p className="mt-9 mb-3 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wideish text-paper-muted">
+        <span className="hairline" /> Choose a market
       </p>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {COUNTRIES.filter((c) => recipesOf(c.code).length > 0).map((c) => {
           const recipes = recipesOf(c.code);
-          const top = recipes.slice(0, 3);
+          const cover = recipes[0]?.heroImage;
           return (
             <button
               key={c.code}
               onClick={() => onSelectCountry(c.code)}
-              className="neon-card neon-card-hover group overflow-hidden text-left"
+              className="card-e card-e-hover group overflow-hidden text-left"
             >
-              <div className="relative h-32">
-                <div className="grid h-full grid-cols-3 gap-px bg-night-border">
-                  {top.map((r) => (
-                    <img key={r.id} src={r.heroImage} alt="" className="h-full w-full object-cover" />
-                  ))}
-                </div>
+              <div className="relative h-40">
+                {cover && <img src={cover} alt="" className="h-full w-full object-cover" />}
                 <div className="img-grad absolute inset-0" />
-                <span
-                  className="absolute left-3 bottom-2.5 text-lg font-black text-white drop-shadow"
-                  style={{ color: c.accent }}
-                >
-                  {c.flag} {countryName(c.code, language)}
+                <span className="absolute bottom-3 left-4 font-display text-lg font-bold text-white">
+                  {countryName(c.code, language)}
                 </span>
-                <span className="absolute right-2.5 bottom-2.5 chip">{recipes.length} dishes</span>
+                <span className="absolute right-3 bottom-3 rounded-full bg-black/45 px-2.5 py-0.5 text-[10px] font-bold text-white">
+                  {recipes.length} dishes
+                </span>
               </div>
-              <div className="px-4 py-3">
-                <p className="truncate text-xs text-night-muted">{c.district}</p>
-                <p className="mt-1 truncate text-[11px] text-night-muted/80">
-                  {top.map((r) => (r.title?.en || '').split(' ').slice(-2).join(' ')).join(' · ')}
-                </p>
+              <div className="flex items-center justify-between px-4 py-3">
+                <p className="text-xs font-semibold text-paper-ink">{c.district}</p>
+                <p className="text-[10px] font-bold uppercase tracking-wideish text-paper-muted">{c.name}</p>
               </div>
             </button>
           );

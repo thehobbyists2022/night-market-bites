@@ -11,34 +11,38 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-night-panel/95 border-b border-night-border backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-3 px-4">
+    <header className="sticky top-0 z-40 border-b border-paper-border bg-paper-card/92 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-3 px-4">
         <button onClick={onBackHome} className="flex items-center gap-2.5 text-left">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-tr from-night-lantern via-night-neonred to-night-mint text-xl shadow-lg shadow-night-neonred/20">
-            🏮
+          <span className="grid h-8 w-8 place-items-center rounded-lg border border-paper-gold/40 bg-paper-wash font-display text-[15px] font-bold text-paper-gold">
+            N
           </span>
-          <span>
-            <span className="block text-sm font-black tracking-tight text-night-ink">Night Market Bites</span>
-            <span className="block text-[10px] text-night-muted">Asia Street Food Guide</span>
+          <span className="text-left">
+            <span className="block font-display text-[15px] font-bold tracking-tight text-paper-ink">
+              Night Market Bites
+            </span>
+            <span className="block text-[9px] font-semibold uppercase tracking-wideish text-paper-muted">
+              Asia Street Food Guide
+            </span>
           </span>
         </button>
 
         <div className="relative">
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-1.5 rounded-xl border border-night-border bg-night-card px-3 py-2 text-xs font-bold text-night-ink"
+            className="flex items-center gap-1.5 rounded-lg border border-paper-border bg-paper-soft px-3 py-1.5 text-xs font-bold text-paper-ink"
           >
-            <Languages className="h-3.5 w-3.5 text-night-lantern" />
+            <Languages className="h-3.5 w-3.5 text-paper-gold" />
             {UI_LANGUAGES.find((l) => l.code === language)?.flag}
           </button>
           {open && (
-            <div className="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-2xl border border-night-border bg-night-panel shadow-xl">
+            <div className="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-xl border border-paper-border bg-paper-card shadow-lg">
               {UI_LANGUAGES.map((l) => (
                 <button
                   key={l.code}
                   onClick={() => { setLanguage(l.code); setOpen(false); }}
                   className={`flex w-full items-center gap-2 px-3 py-2 text-left text-xs ${
-                    language === l.code ? 'bg-night-lantern/15 font-bold text-night-lantern' : 'text-night-muted'
+                    language === l.code ? 'bg-paper-wash font-bold text-paper-gold' : 'text-paper-muted hover:bg-paper-soft'
                   }`}
                 >
                   <span>{l.flag}</span>

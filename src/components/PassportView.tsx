@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { recipesOf, text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
@@ -21,10 +21,10 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16">
-      <div className="mt-6 rounded-3xl border border-night-border bg-gradient-to-br from-night-panel to-night-card p-6 text-center">
-        <Stamp className="mx-auto h-10 w-10 text-night-lantern" />
-        <h2 className="mt-2 text-2xl font-black text-night-ink">{t('passportTitle') || 'Taste Passport'}</h2>
-        <p className="mt-1 text-sm text-night-muted">
+      <div className="mt-6 rounded-xl border border-paper-border bg-gradient-to-br from-paper-card to-paper-soft p-6 text-center">
+        <Stamp className="mx-auto h-10 w-10 text-paper-gold" />
+        <h2 className="mt-2 text-2xl font-bold text-paper-ink">{t('passportTitle') || 'Taste Passport'}</h2>
+        <p className="mt-1 text-sm text-paper-muted">
           {t('passportSubtitle') || 'Every stall you fully open gets stamped into the passport.'}
         </p>
       </div>
@@ -38,13 +38,13 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
             <button
               key={c.code}
               onClick={onBack}
-              className="rounded-3xl border border-night-border bg-night-card p-4 text-left"
+              className="rounded-xl border border-paper-border bg-paper-card p-4 text-left"
             >
               <div className="flex items-center justify-between">
-                <span className="font-black text-night-ink">{c.flag} {countryName(c.code, language)}</span>
-                <span className="text-[11px] font-bold text-night-muted">{done}/{all.length}</span>
+                <span className="font-bold text-paper-ink">{c.flag} {countryName(c.code, language)}</span>
+                <span className="text-[11px] font-bold text-paper-muted">{done}/{all.length}</span>
               </div>
-              <div className="mt-2 h-2 overflow-hidden rounded-full bg-night-panel">
+              <div className="mt-2 h-2 overflow-hidden rounded-full bg-paper-soft">
                 <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: c.accent }} />
               </div>
             </button>
@@ -52,12 +52,12 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
         })}
       </div>
 
-      <h3 className="mt-8 flex items-center gap-2 text-base font-black text-night-ink">
-        <Heart className="h-4 w-4 text-night-neonred" />
+      <h3 className="mt-8 flex items-center gap-2 text-base font-bold text-paper-ink">
+        <Heart className="h-4 w-4 text-paper-persimmon" />
         {t('pocketListTitle') || 'Pocket list'}
       </h3>
       {favList.length === 0 ? (
-        <p className="mt-2 rounded-2xl border border-night-border bg-night-card px-4 py-6 text-center text-sm text-night-muted">
+        <p className="mt-2 rounded-lg border border-paper-border bg-paper-card px-4 py-6 text-center text-sm text-paper-muted">
           {t('pocketListEmpty') || 'No favorites yet — tap the heart on any stall.'}
         </p>
       ) : (
@@ -66,12 +66,12 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
             <button
               key={`${r.country}-${r.id}`}
               onClick={() => onSelectRecipe(r)}
-              className="flex items-center gap-3 rounded-2xl border border-night-border bg-night-card p-2.5 text-left"
+              className="flex items-center gap-3 rounded-lg border border-paper-border bg-paper-card p-2.5 text-left"
             >
               <img src={r.heroImage} alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
               <span className="min-w-0">
-                <span className="block truncate text-xs font-bold text-night-ink">{text(r.title, language)}</span>
-                <span className="block text-[10px] text-night-muted">
+                <span className="block truncate text-xs font-bold text-paper-ink">{text(r.title, language)}</span>
+                <span className="block text-[10px] text-paper-muted">
                   {COUNTRIES.find((c) => c.code === r.country)?.flag}
                 </span>
               </span>
@@ -82,3 +82,4 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
     </div>
   );
 };
+

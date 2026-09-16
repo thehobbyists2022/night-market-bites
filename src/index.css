@@ -9,45 +9,37 @@ body,
 }
 
 body {
-  background-color: #0b1026;
-  color: #f1f5fb;
-  background-image:
-    radial-gradient(900px 420px at 12% -8%, rgba(255, 194, 75, 0.10), transparent 60%),
-    radial-gradient(760px 380px at 88% 4%, rgba(255, 77, 109, 0.10), transparent 60%),
-    radial-gradient(700px 500px at 50% 110%, rgba(61, 220, 151, 0.07), transparent 60%);
-  background-attachment: fixed;
+  background-color: #faf7f2;
+  color: #1c1917;
 }
 
 @layer components {
-  /* hanging neon light string */
-  .lantern-string {
-    @apply pointer-events-none absolute left-0 right-0 top-0 h-3 flex items-center;
+  .card-e {
+    @apply rounded-xl border border-paper-border bg-paper-card;
+    box-shadow: 0 1px 2px rgba(28, 25, 23, 0.05), 0 8px 24px -18px rgba(28, 25, 23, 0.25);
   }
-  .lantern-string span {
-    @apply mx-1 h-2 w-2 rounded-full;
-    box-shadow: 0 0 10px 2px currentColor;
+  .card-e-hover {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   }
-  .glass {
-    background: rgba(18, 26, 56, 0.82);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+  .card-e-hover:hover {
+    transform: translateY(-2px);
+    border-color: #d8cdb9;
+    box-shadow: 0 2px 4px rgba(28, 25, 23, 0.06), 0 14px 30px -18px rgba(28, 25, 23, 0.35);
   }
-  .neon-card {
-    @apply rounded-3xl border border-night-border bg-night-card;
-    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.55);
+  .kicker {
+    @apply text-[10px] font-bold uppercase tracking-wideish text-paper-muted;
   }
-  .neon-card-hover {
-    transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+  .chip-e {
+    @apply inline-flex items-center rounded-full border border-paper-border bg-paper-soft px-2.5 py-0.5 text-[10px] font-bold text-paper-muted;
   }
-  .neon-card-hover:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255, 194, 75, 0.55);
-    box-shadow: 0 14px 34px -12px rgba(255, 194, 75, 0.28);
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg bg-paper-gold px-4 py-2 text-xs font-bold text-white;
+    box-shadow: 0 1px 2px rgba(180, 83, 9, 0.3);
   }
   .img-grad {
-    background: linear-gradient(180deg, transparent 40%, rgba(11, 16, 38, 0.85) 100%);
+    background: linear-gradient(180deg, transparent 45%, rgba(20, 15, 10, 0.72) 100%);
   }
-  .chip {
-    @apply inline-flex items-center gap-1 rounded-full bg-night-panel px-2.5 py-1 text-[10px] font-bold text-night-muted;
+  .hairline {
+    @apply h-px w-4 bg-paper-gold/70;
   }
 }
