@@ -1,0 +1,85 @@
+{
+  "en": {
+    "keys": 232,
+    "primary": "vn",
+    "contributors": [
+      "vn",
+      "tw",
+      "my",
+      "kr",
+      "ph",
+      "th",
+      "jp"
+    ]
+  },
+  "zh-TW": {
+    "keys": 232,
+    "primary": "vn",
+    "contributors": [
+      "vn",
+      "tw",
+      "my",
+      "kr",
+      "ph",
+      "th",
+      "jp"
+    ]
+  },
+  "ja": {
+    "keys": 232,
+    "primary": "vn",
+    "contributors": [
+      "vn",
+      "tw",
+      "my",
+      "kr",
+      "ph",
+      "th",
+      "jp"
+    ]
+  },
+  "ko": {
+    "keys": 232,
+    "primary": "vn",
+    "contributors": [
+      "vn",
+      "tw",
+      "my",
+      "kr",
+      "ph",
+      "th",
+      "jp"
+    ]
+  },
+  "th": {
+    "keys": 153,
+    "primary": "kr",
+    "contributors": [
+      "kr",
+      "th",
+      "jp"
+    ]
+  },
+  "vi": {
+    "keys": 232,
+    "primary": "vn",
+    "contributors": [
+      "vn",
+      "tw"
+    ]
+  },
+  "fil": {
+    "keys": 123,
+    "primary": "ph",
+    "contributors": [
+      "ph"
+    ]
+  },
+  "ms": {
+    "keys": 191,
+    "primary": "my",
+    "contributors": [
+      "my"
+    ]
+  }
+}
