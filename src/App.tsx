@@ -6,13 +6,15 @@ import { MarketHall } from './components/MarketHall';
 import { DistrictView } from './components/DistrictView';
 import { RecipeDetailView } from './components/RecipeDetailView';
 import { PassportView } from './components/PassportView';
-import { Compass, Ticket } from 'lucide-react';
+import { PantryView } from './components/PantryView';
+import { Compass, ShoppingBasket, Ticket } from 'lucide-react';
 import type { CountryCode, CountryRecipe } from './types/unified';
 
 type Screen =
   | { view: 'hall' }
   | { view: 'district'; country: CountryCode }
   | { view: 'recipe'; recipe: CountryRecipe }
+  | { view: 'pantry' }
   | { view: 'passport' };
 
 const Shell: React.FC = () => {
@@ -39,6 +41,7 @@ const Shell: React.FC = () => {
             onBack={() => setScreen({ view: 'hall' })}
           />
         )}
+        {screen.view === 'pantry' && <PantryView onBack={() => setScreen({ view: 'hall' })} />}
         {screen.view === 'passport' && (
           <PassportView
             onBack={() => setScreen({ view: 'hall' })}
@@ -48,15 +51,26 @@ const Shell: React.FC = () => {
       </main>
 
       <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-night-border bg-night-panel/95 backdrop-blur-lg">
-        <div className="mx-auto grid max-w-md grid-cols-2 items-center px-4">
+        <div className="mx-auto grid max-w-md grid-cols-3 items-center px-4">
           <button
             onClick={() => setScreen({ view: 'hall' })}
             className={`flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-bold ${
-              screen.view !== 'passport' ? 'text-night-lantern' : 'text-night-muted'
+              screen.view === 'hall' || screen.view === 'district' || screen.view === 'recipe'
+                ? 'text-night-lantern'
+                : 'text-night-muted'
             }`}
           >
             <Compass className="h-5 w-5" />
             Markets
+          </button>
+          <button
+            onClick={() => setScreen({ view: 'pantry' })}
+            className={`flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-bold ${
+              screen.view === 'pantry' ? 'text-night-lantern' : 'text-night-muted'
+            }`}
+          >
+            <ShoppingBasket className="h-5 w-5" />
+            Pantry
           </button>
           <button
             onClick={() => setScreen({ view: 'passport' })}

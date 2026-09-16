@@ -4,7 +4,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
 import { COUNTRIES } from '../config/countries';
 import type { CountryRecipe, IngredientLike, StepLike } from '../lib/selectRecipe';
-import { ArrowLeft, Clock, Flame, Heart, Users } from 'lucide-react';
+import { ArrowLeft, Clock, Flame, Heart, Users, Volume2 } from 'lucide-react';
+import { speak } from '../utils/speech';
 
 interface RecipeDetailViewProps {
   recipe: CountryRecipe;
@@ -75,13 +76,40 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
             <span className="rounded-full bg-night-panel px-3 py-1.5 capitalize">{recipe.difficulty}</span>
           </div>
 
-          {recipe.culture?.nativeName && (
+          {(recipe.culture?.nativeName || recipe.culture?.audioPronunciationText) && (
             <div className="mt-4 rounded-2xl bg-night-panel px-4 py-3">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-night-muted">Local order</p>
-              <p className="mt-0.5 text-lg font-black text-night-lantern">{recipe.culture.nativeName}</p>
-              {recipe.culture.nativePhonetics && (
-                <p className="text-xs italic text-night-muted">{recipe.culture.nativePhonetics}</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-night-muted">Show this card to the clerk</p>
+              {recipe.culture?.nativeName && (
+                <p className="mt-0.5 flex items-center justify-between gap-2">
+                  <span>
+                    <span className="text-lg font-black text-night-lantern">{recipe.culture.nativeName}</span>
+                    {recipe.culture?.nativePhonetics && (
+                      <span className="block text-xs italic text-night-muted">{recipe.culture.nativePhonetics}</span>
+                    )}
+                  </span>
+                  {recipe.culture?.audioPronunciationText && (
+                    <button
+                      onClick={() => speak(String(recipe.culture!.audioPronunciationText), recipe.country)}
+                      className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-night-lantern/20 text-night-lantern"
+                      title="Pronounce"
+                    >
+                      <Volume2 className="h-4 w-4" />
+                    </button>
+                  )}
+                </p>
               )}
+              {!recipe.culture?.nativeName && recipe.culture?.audioPronunciationText && (
+                <button
+                  onClick={() => speak(String(recipe.culture!.audioPronunciationText), recipe.country)}
+                  className="mt-1.5 flex items-center gap-1.5 rounded-xl bg-night-lantern/20 px-3 py-1.5 text-xs font-bold text-night-lantern"
+                >
+                  <Volume2 className="h-3.5 w-3.5" />
+                  Pronounce
+                </button>
+              )}
+              <p className="mt-1.5 text-[10px] text-night-muted">
+                Cannot buy the exact plates? Key ingredients with their local names are listed below; show them to shop staff.
+              </p>
             </div>
           )}
         </div>
@@ -105,15 +133,18 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
         <ul className="space-y-2">
           {ingredients.map((ing, i) => (
             <li key={i} className="flex items-start justify-between gap-3 rounded-2xl border border-night-border bg-night-card px-4 py-3">
-              <span className="text-sm text-night-ink">
-                {text(ing.name, language)}
-                {ing.isKeyFlavor && (
-                  <span className="ml-2 rounded-full bg-night-mint/20 px-1.5 py-0.5 text-[9px] font-extrabold uppercase text-night-mint">
-                    key
-                  </span>
-                )}
+              <span className="min-w-0">
+                <span className="text-sm text-night-ink">
+                  {text(ing.name, language)}
+                  {ing.isKeyFlavor && (
+                    <span className="ml-2 rounded-full bg-night-mint/20 px-1.5 py-0.5 text-[9px] font-extrabold uppercase text-night-mint">
+                      key
+                    </span>
+                  )}
+                </span>
+                <IngredientNative ing={ing} />
               </span>
-              <span className="whitespace-nowrap text-sm font-bold text-night-lantern">
+              <span className="whitespace-nowrap text-right text-sm font-bold text-night-lantern">
                 {ing.amount} {units === 'metric' ? ing.unitMetric : ing.unitUS}
               </span>
             </li>
@@ -165,5 +196,26 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
         </section>
       )}
     </div>
+  );
+};
+
+const IngredientNative: React.FC<{ ing: IngredientLike }> = ({ ing }) => {
+  const native =
+    (ing as Record<string, unknown>).koreanName ||
+    (ing as Record<string, unknown>).japaneseKanji ||
+    (ing as Record<string, unknown>).chineseName ||
+    (ing as Record<string, unknown>).thaiName ||
+    (ing as Record<string, unknown>).malayName ||
+    (ing as Record<string, unknown>).filipinoName;
+  const phonetic =
+    (ing as Record<string, unknown>).koreanPronunciation ||
+    (ing as Record<string, unknown>).japaneseRomaji ||
+    (ing as Record<string, unknown>).englishPronunciation;
+  if (typeof native !== 'string') return null;
+  return (
+    <span className="mt-0.5 block text-[11px] font-bold text-night-lantern">
+      {native}
+      {typeof phonetic === 'string' && <span className="ml-1.5 font-normal italic text-night-muted">{phonetic}</span>}
+    </span>
   );
 };
