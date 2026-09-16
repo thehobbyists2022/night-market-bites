@@ -25,16 +25,25 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
         <ArrowLeft className="h-3.5 w-3.5" /> All districts
       </button>
 
-      <div className="mt-4 rounded-3xl border border-night-border bg-gradient-to-br from-night-panel to-night-card p-6">
+      <div className="mt-4 rounded-3xl border border-night-border p-6" style={{ background: `linear-gradient(135deg, ${meta.accent}22, rgba(18,26,56,0.9) 60%)` }}>
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-black text-night-ink">
-              {meta.flag} {countryName(country, language)}
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-night-muted">Night market district</p>
+            <h2 className="mt-1 text-2xl font-black text-night-ink sm:text-3xl">
+              <span className="mr-1.5 text-2xl">{meta.flag}</span>
+              {countryName(country, language)}
             </h2>
-            <p className="text-xs text-night-muted">{meta.district}</p>
+            <p className="mt-0.5 flex items-center gap-1.5 text-xs text-night-muted">
+              <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: meta.accent, boxShadow: `0 0 8px ${meta.accent}` }} />
+              {meta.district}
+            </p>
           </div>
-          <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ backgroundColor: `${meta.accent}22`, color: meta.accent }}>
-            {recipes.length} stalls
+          <span
+            className="rounded-2xl px-3.5 py-2 text-center text-xs font-black"
+            style={{ backgroundColor: `${meta.accent}26`, color: meta.accent }}
+          >
+            {recipes.length}
+            <span className="block text-[9px] font-bold uppercase tracking-wider opacity-80">stalls</span>
           </span>
         </div>
       </div>
@@ -60,9 +69,13 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
           <button
             key={r.id}
             onClick={() => onSelectRecipe(r)}
-            className="overflow-hidden rounded-3xl border border-night-border bg-night-card text-left shadow transition hover:-translate-y-0.5 hover:border-night-lantern/60"
+            className="neon-card neon-card-hover group overflow-hidden text-left"
           >
-            <img src={r.heroImage} alt="" className="h-36 w-full object-cover" />
+            <div className="relative h-36">
+              <img src={r.heroImage} alt="" className="h-full w-full object-cover" />
+              <div className="img-grad absolute inset-0" />
+              <span className="absolute right-2 bottom-2 chip">{r.cookTimeMinutes} min · {r.cookTimeMinutes && r.prepTimeMinutes ? r.prepTimeMinutes + r.cookTimeMinutes + ' total' : ''}</span>
+            </div>
             <div className="p-3.5">
               <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-bold text-night-ink">
                 {text(r.title, language)}
@@ -70,12 +83,10 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
               <p className="mt-1.5 line-clamp-2 text-[11px] text-night-muted">
                 {text(r.subtitle, language)}
               </p>
-              <div className="mt-2.5 flex items-center gap-2 text-[10px] font-bold text-night-muted">
-                <span className="rounded-full bg-night-panel px-2 py-0.5">{r.cookTimeMinutes} min</span>
-                <span className="rounded-full bg-night-panel px-2 py-0.5 capitalize">{r.difficulty}</span>
-                {r.caloriesPerServing && (
-                  <span className="rounded-full bg-night-panel px-2 py-0.5">{r.caloriesPerServing} kcal</span>
-                )}
+              <div className="mt-2.5 flex items-center gap-2">
+                <span className="chip capitalize">{r.difficulty}</span>
+                <span className="chip capitalize">{r.category}</span>
+                {r.caloriesPerServing && <span className="chip">{r.caloriesPerServing} kcal</span>}
               </div>
             </div>
           </button>

@@ -33,18 +33,23 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
       </button>
 
       <div className="mt-4 overflow-hidden rounded-3xl border border-night-border bg-night-card">
-        <img src={recipe.heroImage} alt="" className="h-56 w-full object-cover sm:h-72" />
-        <div className="p-5">
+        <div className="relative">
+          <img src={recipe.heroImage} alt="" className="h-56 w-full object-cover sm:h-72" />
+          <div className="img-grad absolute inset-0" />
           <span
-            className="rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider"
-            style={{ backgroundColor: `${meta.accent}22`, color: meta.accent }}
+            className="absolute left-4 top-4 rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider"
+            style={{ backgroundColor: `${meta.accent}26`, color: meta.accent }}
           >
             {meta.flag} {meta.district}
           </span>
-          <h2 className="mt-2.5 text-2xl font-black leading-snug text-night-ink">
-            {text(recipe.title, language)}
-          </h2>
-          <p className="mt-1.5 text-sm text-night-muted">{text(recipe.subtitle, language)}</p>
+          <div className="absolute right-4 bottom-4 left-4">
+            <h2 className="text-2xl font-black leading-tight text-white drop-shadow sm:text-3xl">
+              {text(recipe.title, language)}
+            </h2>
+            <p className="mt-1 text-sm text-slate-200/90 line-clamp-2">{text(recipe.subtitle, language)}</p>
+          </div>
+        </div>
+        <div className="p-5">
 
           <button
             onClick={() => toggleFavorite(recipe.country, recipe.id)}

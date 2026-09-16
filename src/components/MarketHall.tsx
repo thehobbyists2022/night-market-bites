@@ -13,53 +13,71 @@ export const MarketHall: React.FC<MarketHallProps> = ({ onSelectCountry }) => {
 
   return (
     <div className="mx-auto max-w-5xl px-4 pb-16">
-      <div className="rounded-3xl border border-night-border bg-gradient-to-br from-night-panel to-night-card p-8 text-center mt-6">
-        <span className="inline-block rounded-full bg-night-lantern/15 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-night-lantern">
-          Night Market Bites
-        </span>
-        <h1 className="mt-3 text-2xl font-black tracking-tight text-night-ink sm:text-3xl">
-          {t('hallTitle') || 'Asia Night Market'}
-        </h1>
-        <p className="mx-auto mt-2 max-w-md text-sm text-night-muted">
-          {t('hallSubtitle') ||
-            'Walk into a district, pick a stall, cook the real street food of seven countries.'}
-        </p>
+      {/* Hero banner */}
+      <div className="relative mt-6 overflow-hidden rounded-3xl border border-night-border">
+        <div className="bg-gradient-to-br from-[#16224e] via-night-panel to-[#0a0e22] px-6 pb-10 pt-12 text-center">
+          <div className="lantern-string">
+            {Array.from({ length: 18 }).map((_, i) => (
+              <span
+                key={i}
+                style={{
+                  color: i % 3 === 0 ? '#ffc24b' : i % 3 === 1 ? '#ff4d6d' : '#3ddc97',
+                  opacity: 0.85,
+                }}
+              />
+            ))}
+          </div>
+          <div className="mt-6 text-4xl">🏮 🍢 🧋 🥟 🍜 🎡</div>
+          <span className="mt-4 inline-block rounded-full bg-night-lantern/15 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-night-lantern">
+            Night Market Bites
+          </span>
+          <h1 className="mt-3 text-3xl font-black tracking-tight text-night-ink sm:text-4xl">
+            {t('hallTitle') || 'Asia Night Market'}
+          </h1>
+          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-night-muted">
+            {t('hallSubtitle') ||
+              'Walk into a district, pick a stall, cook the real street food of seven countries.'}
+          </p>
+          <p className="mt-3 text-[11px] font-bold text-night-muted">
+            130+ recipes · 8 languages · order cards · taste passport
+          </p>
+        </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <p className="mt-8 mb-3 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.2em] text-night-muted">
+        <span className="h-px w-4 bg-night-lantern" /> Pick a district
+      </p>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {COUNTRIES.filter((c) => recipesOf(c.code).length > 0).map((c) => {
           const recipes = recipesOf(c.code);
-          const hero1 = recipes[0]?.heroImage;
-          const hero2 = recipes[1]?.heroImage;
-          const hero3 = recipes[2]?.heroImage;
+          const top = recipes.slice(0, 3);
           return (
             <button
               key={c.code}
               onClick={() => onSelectCountry(c.code)}
-              className="group overflow-hidden rounded-3xl border border-night-border bg-night-card text-left shadow transition hover:-translate-y-0.5 hover:border-night-lantern/60"
+              className="neon-card neon-card-hover group overflow-hidden text-left"
             >
-              <div className="relative h-28 bg-night-panel">
-                {hero1 && (
-                  <img src={hero1} alt="" className="h-full w-full rounded-2xl object-cover opacity-70" />
-                )}
-                <div className="absolute inset-0 grid grid-cols-3 gap-0.5 p-1">
-                  {hero2 && <img src={hero2} alt="" className="rounded-lg object-cover opacity-90" />}
-                  {hero3 && <img src={hero3} alt="" className="rounded-lg object-cover opacity-90" />}
+              <div className="relative h-32">
+                <div className="grid h-full grid-cols-3 gap-px bg-night-border">
+                  {top.map((r) => (
+                    <img key={r.id} src={r.heroImage} alt="" className="h-full w-full object-cover" />
+                  ))}
                 </div>
+                <div className="img-grad absolute inset-0" />
+                <span
+                  className="absolute left-3 bottom-2.5 text-lg font-black text-white drop-shadow"
+                  style={{ color: c.accent }}
+                >
+                  {c.flag} {countryName(c.code, language)}
+                </span>
+                <span className="absolute right-2.5 bottom-2.5 chip">{recipes.length} dishes</span>
               </div>
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-black text-night-ink">
-                    {c.flag} {countryName(c.code, language)}
-                  </span>
-                  <span
-                    className="rounded-full px-2 py-0.5 text-[10px] font-bold"
-                    style={{ backgroundColor: `${c.accent}22`, color: c.accent }}
-                  >
-                    {recipes.length} dishes
-                  </span>
-                </div>
-                <p className="mt-1 truncate text-xs text-night-muted">{c.district}</p>
+              <div className="px-4 py-3">
+                <p className="truncate text-xs text-night-muted">{c.district}</p>
+                <p className="mt-1 truncate text-[11px] text-night-muted/80">
+                  {top.map((r) => (r.title?.en || '').split(' ').slice(-2).join(' ')).join(' · ')}
+                </p>
               </div>
             </button>
           );
