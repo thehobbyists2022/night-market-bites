@@ -1,9 +1,11 @@
 import React from 'react';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { UserProvider } from './context/UserContext';
 import { HeaderBar } from './components/HeaderBar';
 import { MarketHall } from './components/MarketHall';
 import { DistrictView } from './components/DistrictView';
 import { RecipeDetailView } from './components/RecipeDetailView';
+import { PassportView } from './components/PassportView';
 import { Compass, Ticket } from 'lucide-react';
 import type { CountryCode, CountryRecipe } from './types/unified';
 
@@ -14,7 +16,6 @@ type Screen =
   | { view: 'passport' };
 
 const Shell: React.FC = () => {
-  const { t } = useLanguage();
   const [screen, setScreen] = React.useState<Screen>({ view: 'hall' });
 
   return (
@@ -39,10 +40,10 @@ const Shell: React.FC = () => {
           />
         )}
         {screen.view === 'passport' && (
-          <div className="mx-auto max-w-3xl px-6 py-20 text-center text-sm text-night-muted">
-            <Ticket className="mx-auto mb-3 h-10 w-10 text-night-lantern" />
-            {t('passportTitle') || 'Taste Passport — coming with step 6.'}
-          </div>
+          <PassportView
+            onBack={() => setScreen({ view: 'hall' })}
+            onSelectRecipe={(recipe) => setScreen({ view: 'recipe', recipe })}
+          />
         )}
       </main>
 
@@ -74,7 +75,9 @@ const Shell: React.FC = () => {
 
 const App: React.FC = () => (
   <LanguageProvider>
-    <Shell />
+    <UserProvider>
+      <Shell />
+    </UserProvider>
   </LanguageProvider>
 );
 

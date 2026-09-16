@@ -1,9 +1,10 @@
 import React from 'react';
 import { text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
+import { useUser } from '../context/UserContext';
 import { COUNTRIES } from '../config/countries';
 import type { CountryRecipe, IngredientLike, StepLike } from '../lib/selectRecipe';
-import { ArrowLeft, Clock, Flame, Users } from 'lucide-react';
+import { ArrowLeft, Clock, Flame, Heart, Users } from 'lucide-react';
 
 interface RecipeDetailViewProps {
   recipe: CountryRecipe;
@@ -12,11 +13,17 @@ interface RecipeDetailViewProps {
 
 export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBack }) => {
   const { language } = useLanguage();
+  const { favorites, toggleFavorite, markTasted } = useUser();
   const [units, setUnits] = React.useState<'metric' | 'US'>('metric');
   const meta = COUNTRIES.find((c) => c.code === recipe.country)!;
   const ingredients = (recipe.ingredients as IngredientLike[]) || [];
   const steps = (recipe.steps as StepLike[]) || [];
   const proTips = (recipe.proTips as unknown[]) || [];
+  const isFav = (favorites[recipe.country] || []).includes(recipe.id);
+
+  React.useEffect(() => {
+    markTasted(recipe.country, recipe.id);
+  }, [recipe.country, recipe.id, markTasted]);
 
   return (
     <div className="mx-auto max-w-3xl px-4 pb-16">
@@ -37,6 +44,18 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
             {text(recipe.title, language)}
           </h2>
           <p className="mt-1.5 text-sm text-night-muted">{text(recipe.subtitle, language)}</p>
+
+          <button
+            onClick={() => toggleFavorite(recipe.country, recipe.id)}
+            className={`mt-3 flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold ${
+              isFav
+                ? 'border-night-neonred bg-night-neonred/15 text-night-neonred'
+                : 'border-night-border text-night-muted'
+            }`}
+          >
+            <Heart className={`h-3.5 w-3.5 ${isFav ? 'fill-current' : ''}`} />
+            {isFav ? 'In pocket list' : 'Add to pocket list'}
+          </button>
 
           <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-bold text-night-muted">
             <span className="flex items-center gap-1 rounded-full bg-night-panel px-3 py-1.5">
