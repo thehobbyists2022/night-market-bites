@@ -12,7 +12,7 @@ interface PassportViewProps {
 }
 
 export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBack }) => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const { favorites, tasted } = useUser();
 
   const favList = COUNTRIES.flatMap((c) =>
@@ -23,9 +23,9 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
     <div className="mx-auto max-w-5xl px-4 pb-16">
       <div className="mt-6 rounded-xl border border-paper-border bg-gradient-to-br from-paper-card to-paper-soft p-6 text-center">
         <Stamp className="mx-auto h-10 w-10 text-paper-gold" />
-        <h2 className="mt-2 text-2xl font-bold text-paper-ink">{t('passportTitle') || 'Taste Passport'}</h2>
+        <h2 className="mt-2 text-2xl font-bold text-paper-ink">Taste Passport</h2>
         <p className="mt-1 text-sm text-paper-muted">
-          {t('passportSubtitle') || 'Every stall you fully open gets stamped into the passport.'}
+          Every stall you tour gets stamped into your passport.
         </p>
       </div>
 
@@ -54,11 +54,11 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
 
       <h3 className="mt-8 flex items-center gap-2 text-base font-bold text-paper-ink">
         <Heart className="h-4 w-4 text-paper-persimmon" />
-        {t('pocketListTitle') || 'Pocket list'}
+        Pocket list
       </h3>
       {favList.length === 0 ? (
         <p className="mt-2 rounded-lg border border-paper-border bg-paper-card px-4 py-6 text-center text-sm text-paper-muted">
-          {t('pocketListEmpty') || 'No favorites yet — tap the heart on any stall.'}
+          No favorites yet — tap the heart on any recipe.
         </p>
       ) : (
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -82,4 +82,5 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
     </div>
   );
 };
+
 

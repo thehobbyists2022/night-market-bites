@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { recipesOf } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
@@ -9,7 +9,7 @@ interface MarketHallProps {
 }
 
 export const MarketHall: React.FC<MarketHallProps> = ({ onSelectCountry }) => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const hero = recipesOf('kr')[0]?.heroImage || '';
 
   return (
@@ -21,11 +21,10 @@ export const MarketHall: React.FC<MarketHallProps> = ({ onSelectCountry }) => {
         <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
           <p className="kicker text-[10px] font-bold text-amber-200!">Night Market Bites</p>
           <h1 className="mt-1.5 max-w-lg font-display text-3xl font-bold leading-tight text-white sm:text-4xl">
-            {t('hallTitle') || 'The street food of Asia, cooked in your own kitchen.'}
+            The street food of Asia, cooked in your own kitchen.
           </h1>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-stone-200">
-            {t('hallSubtitle') ||
-              'Seven night markets, 130+ recipes, local order cards and a taste passport — from Taiwan to Vietnam.'}
+            Seven night markets, 130+ recipes, local order cards and a taste passport — from Taiwan to Vietnam.
           </p>
         </div>
       </div>
@@ -65,3 +64,5 @@ export const MarketHall: React.FC<MarketHallProps> = ({ onSelectCountry }) => {
     </div>
   );
 };
+
+

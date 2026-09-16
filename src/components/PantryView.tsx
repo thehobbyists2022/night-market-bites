@@ -12,7 +12,7 @@ interface PantryViewProps {
 }
 
 export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }) => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const [country, setCountry] = React.useState<CountryCode>(initialCountry || 'tw');
   const meta = COUNTRIES.find((c) => c.code === country)!;
   const items = PANTRY[country] || [];
@@ -28,7 +28,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
           <div>
             <h2 className="flex items-center gap-2 text-2xl font-bold text-paper-ink">
               <ShoppingBasket className="h-5 w-5 text-paper-gold" />
-              {t('pantryTitle') || 'Korean Pantry'}
+              {meta.name} Pantry
             </h2>
             <p className="text-xs text-paper-muted">
               {meta.flag} {meta.district}
@@ -104,4 +104,5 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
     </div>
   );
 };
+
 

@@ -67,7 +67,7 @@ export const COUNTRIES: CountryMeta[] = [
     names: {
       en: 'Philippines', 'zh-TW': '菲律賓', th: 'ฟิลิปปินส์', ja: 'フィリピン', ko: '필리핀', ms: 'Pilipinas', fil: 'Pilipinas', vi: 'Philippines',
     },
-    district: 'MercatoCapitagento',
+    district: 'Mercato Centrale',
     accent: '#3DDC97',
   },
   {
