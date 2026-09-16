@@ -1,0 +1,72 @@
+{
+  "report": [
+    {
+      "country": "tw",
+      "items": 6,
+      "withAmazon": 6,
+      "images": 0
+    },
+    {
+      "country": "th",
+      "items": 8,
+      "withAmazon": 8,
+      "images": 0
+    },
+    {
+      "country": "jp",
+      "items": 6,
+      "withAmazon": 6,
+      "images": 6
+    },
+    {
+      "country": "kr",
+      "items": 5,
+      "withAmazon": 5,
+      "images": 0
+    },
+    {
+      "country": "my",
+      "items": 10,
+      "withAmazon": 10,
+      "images": 0
+    },
+    {
+      "country": "ph",
+      "items": 6,
+      "withAmazon": 6,
+      "images": 0
+    },
+    {
+      "country": "vn",
+      "items": 3,
+      "withAmazon": 3,
+      "images": 0
+    }
+  ],
+  "copied": [
+    {
+      "country": "jp",
+      "rel": "images/pantry-hondashi-kombu.jpg"
+    },
+    {
+      "country": "jp",
+      "rel": "images/pantry-hon-mirin.jpg"
+    },
+    {
+      "country": "jp",
+      "rel": "images/pantry-ryorishu-sake.jpg"
+    },
+    {
+      "country": "jp",
+      "rel": "images/pantry-kewpie-mayo.jpg"
+    },
+    {
+      "country": "jp",
+      "rel": "images/pantry-okonomi-sauce.jpg"
+    },
+    {
+      "country": "jp",
+      "rel": "images/pantry-katsuobushi-aonori.jpg"
+    }
+  ]
+}
