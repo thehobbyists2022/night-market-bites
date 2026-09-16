@@ -80,7 +80,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
                   🔄 {it.substituteTip}
                 </p>
               )}
-              {it.recommendedBrands && Array.isArray(it.recommendedBrands) && (
+              {Array.isArray(it.recommendedBrands) && (it.recommendedBrands as unknown[]).length > 0 && (
                 <p className="mt-2 text-[11px] text-night-muted">
                   <span className="font-bold text-slate-300">Brands: </span>
                   {(it.recommendedBrands as unknown[]).filter((b) => typeof b === 'string').join(', ')}
