@@ -1,44 +1,80 @@
 import React from 'react';
-import { LanguageProvider, UI_LANGUAGES, useLanguage } from './context/LanguageContext';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { HeaderBar } from './components/HeaderBar';
+import { MarketHall } from './components/MarketHall';
+import { DistrictView } from './components/DistrictView';
+import { RecipeDetailView } from './components/RecipeDetailView';
+import { Compass, Ticket } from 'lucide-react';
+import type { CountryCode, CountryRecipe } from './types/unified';
 
-const Demo: React.FC = () => {
-  const { language, setLanguage, t } = useLanguage();
-  const active = UI_LANGUAGES.find((l) => l.code === language)!;
+type Screen =
+  | { view: 'hall' }
+  | { view: 'district'; country: CountryCode }
+  | { view: 'recipe'; recipe: CountryRecipe }
+  | { view: 'passport' };
+
+const Shell: React.FC = () => {
+  const { t } = useLanguage();
+  const [screen, setScreen] = React.useState<Screen>({ view: 'hall' });
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-5 px-6 text-center">
-      <span className="inline-block rounded-full bg-night-lantern/15 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.18em] text-night-lantern">
-        Night Market Bites
-      </span>
-      <h1 className="text-3xl font-black tracking-tight text-night-ink sm:text-4xl">
-        Asia Night Markets — Demo
-      </h1>
-      <p className="max-w-md text-sm text-night-muted">
-        {t('appSubtitle') || 'Seven night-market districts will appear here (step 5).'}
-      </p>
-      <div className="flex flex-wrap justify-center gap-2">
-        {UI_LANGUAGES.map((l) => (
+    <div className="min-h-screen bg-night-bg text-night-ink">
+      <HeaderBar onBackHome={() => setScreen({ view: 'hall' })} />
+
+      <main>
+        {screen.view === 'hall' && (
+          <MarketHall onSelectCountry={(country) => setScreen({ view: 'district', country })} />
+        )}
+        {screen.view === 'district' && (
+          <DistrictView
+            country={screen.country}
+            onBack={() => setScreen({ view: 'hall' })}
+            onSelectRecipe={(recipe) => setScreen({ view: 'recipe', recipe })}
+          />
+        )}
+        {screen.view === 'recipe' && (
+          <RecipeDetailView
+            recipe={screen.recipe}
+            onBack={() => setScreen({ view: 'hall' })}
+          />
+        )}
+        {screen.view === 'passport' && (
+          <div className="mx-auto max-w-3xl px-6 py-20 text-center text-sm text-night-muted">
+            <Ticket className="mx-auto mb-3 h-10 w-10 text-night-lantern" />
+            {t('passportTitle') || 'Taste Passport — coming with step 6.'}
+          </div>
+        )}
+      </main>
+
+      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-night-border bg-night-panel/95 backdrop-blur-lg">
+        <div className="mx-auto grid max-w-md grid-cols-2 items-center px-4">
           <button
-            key={l.code}
-            onClick={() => setLanguage(l.code)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-bold transition ${
-              language === l.code
-                ? 'border-night-lantern bg-night-lantern/20 text-night-lantern'
-                : 'border-night-border text-night-muted hover:text-night-ink'
+            onClick={() => setScreen({ view: 'hall' })}
+            className={`flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-bold ${
+              screen.view !== 'passport' ? 'text-night-lantern' : 'text-night-muted'
             }`}
           >
-            {l.flag} {l.label}
+            <Compass className="h-5 w-5" />
+            Markets
           </button>
-        ))}
-      </div>
-      <p className="text-xs text-night-muted">Current: {active.label} ({language})</p>
+          <button
+            onClick={() => setScreen({ view: 'passport' })}
+            className={`flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-bold ${
+              screen.view === 'passport' ? 'text-night-lantern' : 'text-night-muted'
+            }`}
+          >
+            <Ticket className="h-5 w-5" />
+            Passport
+          </button>
+        </div>
+      </nav>
     </div>
   );
 };
 
 const App: React.FC = () => (
   <LanguageProvider>
-    <Demo />
+    <Shell />
   </LanguageProvider>
 );
 
