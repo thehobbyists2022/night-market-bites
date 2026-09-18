@@ -81,13 +81,47 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
         </div>
 
         {/* Street Ordering Phrase Card */}
-        <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-md sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1.5 flex-1">
+        <div className="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-md space-y-4">
+          {/* Top Bar: Title badge on left, Action buttons on right */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-1.5 text-xs font-black tracking-wider text-amber-300 uppercase">
               <Sparkles className="h-3.5 w-3.5" />
               <span>{ui.recipeDetail.orderingPhraseTitle}</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-black tracking-wide text-white">
+
+            <div className="flex items-center gap-2.5">
+              {/* Audio Button */}
+              <button
+                onClick={handleSpeak}
+                className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-3.5 py-2 text-xs sm:text-sm font-black text-stone-950 shadow-md shadow-amber-500/25 transition-all hover:bg-amber-400 active:scale-95"
+              >
+                <Volume2 className={`h-4 w-4 ${isPlaying ? 'animate-bounce' : ''}`} />
+                <span>{isPlaying ? ui.recipeDetail.speaking : ui.recipeDetail.listenPronunciation}</span>
+              </button>
+
+              {/* Show Stall Card */}
+              <button
+                onClick={() =>
+                  onOpenClerkModal({
+                    type: 'dish',
+                    country,
+                    nativeTitle: nativeName || orderPhrase,
+                    phoneticTitle: phonetic,
+                    userLangTitle: recipeTitle,
+                    orderPhrase,
+                  })
+                }
+                className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3.5 py-2 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-white/20"
+              >
+                <Store className="h-4 w-4 text-amber-300" />
+                <span>{ui.recipeDetail.stallFlashcard}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Main Phrase & Phonetic (Full Width!) */}
+          <div className="space-y-1">
+            <div className="text-2xl sm:text-3xl font-black tracking-wide text-white leading-snug">
               {orderPhrase}
             </div>
             {phonetic && (
@@ -95,60 +129,31 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
                 {phonetic}
               </div>
             )}
+          </div>
 
-            {/* Localized Meaning & Breakdown for foreign visitors */}
-            {phraseDetails && (
-              <div className="mt-2 rounded-xl border border-amber-400/20 bg-black/30 p-3 space-y-1.5 text-left">
-                <div>
+          {/* Localized Meaning & Breakdown (Full Width!) */}
+          {phraseDetails && (
+            <div className="rounded-xl border border-amber-400/25 bg-black/40 p-4 space-y-2.5 text-left shadow-inner">
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300 block">
+                  💡 {ui.recipeDetail.phraseMeaningLabel}
+                </span>
+                <span className="text-sm sm:text-base font-semibold text-white/95 block mt-0.5 leading-snug">
+                  {phraseDetails.meaning}
+                </span>
+              </div>
+              {phraseDetails.breakdown && (
+                <div className="pt-2.5 border-t border-white/10">
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300 block">
-                    💡 {ui.recipeDetail.phraseMeaningLabel}
+                    🔍 {ui.recipeDetail.phraseBreakdownLabel}
                   </span>
-                  <span className="text-sm sm:text-base font-semibold text-white/90 block mt-0.5 leading-snug">
-                    {phraseDetails.meaning}
+                  <span className="text-xs sm:text-sm font-medium text-amber-100/90 block mt-0.5 leading-relaxed">
+                    {phraseDetails.breakdown}
                   </span>
                 </div>
-                {phraseDetails.breakdown && (
-                  <div className="pt-1.5 border-t border-white/10">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300 block">
-                      🔍 {ui.recipeDetail.phraseBreakdownLabel}
-                    </span>
-                    <span className="text-xs sm:text-sm font-medium text-amber-100/80 block mt-0.5 leading-relaxed">
-                      {phraseDetails.breakdown}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="flex items-center gap-2.5 flex-wrap">
-            {/* Audio Button */}
-            <button
-              onClick={handleSpeak}
-              className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-xs sm:text-sm font-black text-stone-950 shadow-md shadow-amber-500/25 transition-all hover:bg-amber-400 active:scale-95"
-            >
-              <Volume2 className={`h-4 w-4 sm:h-5 sm:w-5 ${isPlaying ? 'animate-bounce' : ''}`} />
-              <span>{isPlaying ? ui.recipeDetail.speaking : ui.recipeDetail.listenPronunciation}</span>
-            </button>
-
-            {/* Show Stall Card */}
-            <button
-              onClick={() =>
-                onOpenClerkModal({
-                  type: 'dish',
-                  country,
-                  nativeTitle: nativeName || orderPhrase,
-                  phoneticTitle: phonetic,
-                  userLangTitle: recipeTitle,
-                  orderPhrase,
-                })
-              }
-              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-white/20"
-            >
-              <Store className="h-4 w-4 sm:h-5 sm:w-5 text-amber-300" />
-              <span>{ui.recipeDetail.stallFlashcard}</span>
-            </button>
-          </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Cultural Lore Story */}

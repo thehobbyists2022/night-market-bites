@@ -155,55 +155,18 @@ export const NightMarketModal: React.FC<NightMarketModalProps> = ({
 
           {/* Local Slang Ordering Phrase Card */}
           {market.localSlangOrderPhrase && (
-            <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-br from-stone-900 to-amber-950/60 p-4 text-white shadow-md">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-amber-400">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    <span>{ui.nightMarketModal.orderPhrase}</span>
-                  </div>
-                  <div className="text-base sm:text-lg font-black text-white">
-                    {market.localSlangOrderPhrase}
-                  </div>
-                  {market.localSlangRomaji && (
-                    <div className="font-mono text-xs text-amber-200/80">
-                      {market.localSlangRomaji}
-                    </div>
-                  )}
-                  {slangMeaning && (
-                    <div className="text-xs text-stone-300">
-                      💡 {slangMeaning}
-                    </div>
-                  )}
-                  {/* Localized translation from phraseTranslation dictionary */}
-                  {phraseDetails && !slangMeaning && (
-                    <div className="mt-1.5 rounded-xl border border-amber-400/20 bg-black/25 p-2.5 space-y-1.5">
-                      <div>
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300 block">
-                          💡 {ui.nightMarketModal.orderPhrase} — Meaning
-                        </span>
-                        <span className="text-xs sm:text-sm font-semibold text-white/90 block mt-0.5">
-                          {phraseDetails.meaning}
-                        </span>
-                      </div>
-                      {phraseDetails.breakdown && (
-                        <div className="pt-1.5 border-t border-white/10">
-                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300 block">
-                            🔍 Breakdown
-                          </span>
-                          <span className="text-xs font-medium text-amber-100/80 block mt-0.5 leading-relaxed">
-                            {phraseDetails.breakdown}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
+            <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-br from-stone-900 to-amber-950/60 p-4 sm:p-5 text-white shadow-md space-y-3">
+              {/* Top Header Row: Category Badge + Speak Button */}
+              <div className="flex flex-wrap items-center justify-between gap-2.5">
+                <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-amber-400">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span>{ui.nightMarketModal.orderPhrase}</span>
                 </div>
 
                 <button
                   onClick={handleSpeak}
                   disabled={isPlaying}
-                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 px-4 py-2.5 text-xs font-black text-stone-950 shadow-md transition-all active:scale-95 disabled:opacity-50"
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 px-3.5 py-2 text-xs font-black text-stone-950 shadow-md transition-all active:scale-95 disabled:opacity-50"
                 >
                   <Volume2 className={`h-4 w-4 ${isPlaying ? 'animate-bounce' : ''}`} />
                   <span>
@@ -213,6 +176,46 @@ export const NightMarketModal: React.FC<NightMarketModalProps> = ({
                   </span>
                 </button>
               </div>
+
+              {/* Main Phrase & Romaji (Full Width!) */}
+              <div className="space-y-0.5">
+                <div className="text-lg sm:text-xl font-black text-white leading-snug">
+                  {market.localSlangOrderPhrase}
+                </div>
+                {market.localSlangRomaji && (
+                  <div className="font-mono text-xs text-amber-200/80">
+                    {market.localSlangRomaji}
+                  </div>
+                )}
+              </div>
+
+              {/* Localized translation + breakdown (Full Width!) */}
+              {phraseDetails ? (
+                <div className="rounded-xl border border-amber-400/20 bg-black/35 p-3 space-y-2 text-left">
+                  <div>
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300 block">
+                      💡 {ui.nightMarketModal.orderPhrase} — Meaning
+                    </span>
+                    <span className="text-xs sm:text-sm font-semibold text-white/95 block mt-0.5 leading-snug">
+                      {phraseDetails.meaning}
+                    </span>
+                  </div>
+                  {phraseDetails.breakdown && (
+                    <div className="pt-2 border-t border-white/10">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300 block">
+                        🔍 Breakdown
+                      </span>
+                      <span className="text-xs font-medium text-amber-100/85 block mt-0.5 leading-relaxed">
+                        {phraseDetails.breakdown}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ) : slangMeaning ? (
+                <div className="text-xs text-stone-300">
+                  💡 {slangMeaning}
+                </div>
+              ) : null}
             </div>
           )}
 

@@ -623,14 +623,14 @@ export const NightMarketExplorer: React.FC<NightMarketExplorerProps> = ({
                     return (
                       <div className="rounded-2xl bg-stone-900 text-white border border-stone-800 shadow-sm overflow-hidden">
                         {/* Phrase row */}
-                        <div className="flex items-center justify-between p-4">
-                          <div className="flex items-center gap-3 overflow-hidden pr-2">
-                            <span className="text-xl shrink-0">🗣️</span>
-                            <div className="truncate">
+                        <div className="flex flex-wrap items-center justify-between gap-3 p-4">
+                          <div className="flex items-start gap-3 flex-1 min-w-[200px]">
+                            <span className="text-xl shrink-0 mt-0.5">🗣️</span>
+                            <div>
                               <span className="text-xs text-amber-400 font-extrabold block uppercase tracking-wider">
                                 {ui.district.orderingSimulation}
                               </span>
-                              <span className="text-sm sm:text-base text-stone-100 font-bold truncate block">
+                              <span className="text-sm sm:text-base text-stone-100 font-bold block mt-0.5 leading-snug">
                                 &ldquo;{market.localSlangOrderPhrase}&rdquo;
                               </span>
                             </div>

@@ -285,24 +285,31 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
         </div>
       </div>
 
-      {/* Night Market Culture & Street Ordering + Troubleshooting FAQ (2 columns on desktop) */}
-      <div className="mt-10 lg:grid lg:grid-cols-12 lg:gap-8 items-start">
-        <section className="lg:col-span-6">
-          <NightMarketStory
-            culture={recipe.culture}
-            country={recipe.country}
-            recipeTitle={recipeTitle}
-            onOpenClerkModal={(data) => setClerkModalData(data)}
-          />
-        </section>
+      {/* Night Market Culture & Street Ordering + Troubleshooting FAQ */}
+      {(() => {
+        const hasFaq = (troubleshooting && troubleshooting.length > 0) || (proTips && proTips.length > 0);
+        return (
+          <div className="mt-10 lg:grid lg:grid-cols-12 lg:gap-8 items-start">
+            <section className={hasFaq ? "lg:col-span-6" : "lg:col-span-12"}>
+              <NightMarketStory
+                culture={recipe.culture}
+                country={recipe.country}
+                recipeTitle={recipeTitle}
+                onOpenClerkModal={(data) => setClerkModalData(data)}
+              />
+            </section>
 
-        <section className="mt-8 lg:mt-0 lg:col-span-6">
-          <TroubleshootingFAQ
-            troubleshooting={troubleshooting}
-            proTips={proTips}
-          />
-        </section>
-      </div>
+            {hasFaq && (
+              <section className="mt-8 lg:mt-0 lg:col-span-6">
+                <TroubleshootingFAQ
+                  troubleshooting={troubleshooting}
+                  proTips={proTips}
+                />
+              </section>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Focus Cooking Mode Modal */}
       {isFocusMode && (
