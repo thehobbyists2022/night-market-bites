@@ -14,16 +14,50 @@ export function canSpeak(): boolean {
   return typeof window !== 'undefined' && 'speechSynthesis' in window;
 }
 
-/** Speak text in the target country's language. Safe no-op when unsupported. */
-export function speak(text: string, country: CountryCode): void {
-  if (!canSpeak() || !text.trim()) return;
+export function stopSpeaking(): void {
+  if (canSpeak()) {
+    window.speechSynthesis.cancel();
+  }
+}
+
+export interface SpeakOptions {
+  rate?: number;
+  pitch?: number;
+  onStart?: () => void;
+  onEnd?: () => void;
+  onError?: () => void;
+}
+
+/** Speak text in the target country's or language code. Safe no-op when unsupported. */
+export function speak(
+  text: string,
+  target: CountryCode | string,
+  options?: SpeakOptions
+): void {
+  if (!canSpeak() || !text?.trim()) return;
+
   const synth = window.speechSynthesis;
   synth.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = SPEECH_LANG[country];
-  const tag = u.lang.split('-')[0].toLowerCase();
-  const voice = synth.getVoices().find((v) => v.lang.toLowerCase().startsWith(tag));
-  if (voice) u.voice = voice;
-  u.rate = 0.85;
+
+  const langCode = (SPEECH_LANG[target as CountryCode] || target || 'en-US');
+  const u = new SpeechSynthesisUtterance(text.trim());
+  u.lang = langCode;
+  u.rate = options?.rate ?? 0.88;
+  if (options?.pitch) u.pitch = options.pitch;
+
+  if (options?.onStart) u.onstart = options.onStart;
+  if (options?.onEnd) u.onend = options.onEnd;
+  if (options?.onError) u.onerror = options.onError;
+
+  // Best-effort voice matching
+  const voices = synth.getVoices();
+  const prefix = langCode.split('-')[0].toLowerCase();
+  const matchedVoice = voices.find((v) => v.lang.toLowerCase() === langCode.toLowerCase()) ||
+    voices.find((v) => v.lang.toLowerCase().startsWith(prefix));
+  if (matchedVoice) {
+    u.voice = matchedVoice;
+  }
+
   synth.speak(u);
 }
+

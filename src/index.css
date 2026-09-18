@@ -9,38 +9,57 @@ body,
 }
 
 body {
-  background-color: #ffffff;
-  color: #121212;
+  background-color: #FBF9F5;
+  color: #1C1917;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS Safe Areas */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 @layer components {
   .card-e {
-    @apply rounded-lg border border-paper-border bg-white;
-    box-shadow: none;
+    @apply rounded-2xl border border-warm-border/80 bg-white shadow-soft transition-all duration-200;
   }
   .card-e-hover {
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  }
-  .card-e-hover:hover {
-    border-color: #cfcac4;
-    box-shadow: 0 6px 18px -8px rgba(18, 18, 18, 0.18);
+    @apply hover:border-warm-gold/50 hover:shadow-card hover:-translate-y-0.5 active:translate-y-0;
   }
   .kicker {
-    @apply text-[11px] font-bold uppercase tracking-wideish text-paper-muted;
+    @apply text-[11px] font-bold uppercase tracking-wider text-warm-muted;
   }
   .chip-e {
-    @apply inline-flex items-center rounded border border-paper-border bg-paper-soft px-2 py-0.5 text-[10px] font-semibold text-paper-muted;
+    @apply inline-flex items-center rounded-lg border border-warm-border bg-warm-bg px-2.5 py-1 text-[11px] font-semibold text-warm-ink;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-warm-gold to-warm-accent px-5 py-3 text-sm font-bold text-white shadow-glow transition-all active:scale-95;
   }
   .btn-dark {
-    @apply inline-flex items-center justify-center gap-1.5 rounded bg-paper-ink px-4 py-2 text-xs font-bold text-white;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-night-900 px-4 py-2.5 text-xs font-bold text-white shadow-soft transition-all hover:bg-night-850 active:scale-95;
   }
   .img-grad {
-    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.66) 100%);
+    background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.4) 70%, rgba(11, 15, 25, 0.85) 100%);
   }
   .hairline {
-    @apply h-px w-5 bg-paper-ink;
+    @apply h-px w-5 bg-warm-gold;
   }
   .rule {
-    @apply border-t border-paper-border;
+    @apply border-t border-warm-border;
   }
 }
+
+/* Hide scrollbar for clean horizontal scrolls */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

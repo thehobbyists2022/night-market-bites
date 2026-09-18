@@ -1,86 +1,188 @@
-﻿import React from 'react';
+import React from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { recipesOf, text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
-import type { CountryRecipe } from '../lib/selectRecipe';
-import { Heart, Stamp } from 'lucide-react';
+import type { CountryRecipe } from '../types/unified';
+import { Heart, Stamp, Lock, Award } from 'lucide-react';
+import { soundEffects } from '../utils/soundEffects';
 
 interface PassportViewProps {
   onSelectRecipe: (r: CountryRecipe) => void;
   onBack: () => void;
 }
 
+const STAMP_NAMES: Record<string, string> = {
+  tw: '士林・寧夏夜市之印',
+  th: 'Chatuchak 恰圖恰之印',
+  jp: '道頓堀・中洲屋台之印',
+  kr: '明洞・廣藏市場之印',
+  my: 'Jalan Alor 亞羅街之印',
+  ph: 'Quiapo 奎阿波之印',
+  vn: 'Bến Thành 濱城之印',
+};
+
 export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBack }) => {
   const { language } = useLanguage();
   const { favorites, tasted } = useUser();
 
   const favList = COUNTRIES.flatMap((c) =>
-    (favorites[c.code] || []).map((id) => recipesOf(c.code).find((r) => r.id === id)).filter(Boolean)
+    (favorites[c.code] || [])
+      .map((id) => recipesOf(c.code).find((r) => r.id === id))
+      .filter(Boolean)
   ) as CountryRecipe[];
 
+  const totalRecipesCount = COUNTRIES.reduce((acc, c) => acc + recipesOf(c.code).length, 0);
+  const totalTastedCount = COUNTRIES.reduce(
+    (acc, c) => acc + (tasted[c.code] || []).length,
+    0
+  );
+
   return (
-    <div className="mx-auto max-w-5xl px-4 pb-16">
-      <div className="mt-6 rounded-xl border border-paper-border bg-gradient-to-br from-paper-card to-paper-soft p-6 text-center">
-        <Stamp className="mx-auto h-10 w-10 text-paper-gold" />
-        <h2 className="mt-2 text-2xl font-bold text-paper-ink">Taste Passport</h2>
-        <p className="mt-1 text-sm text-paper-muted">
-          Every stall you tour gets stamped into your passport.
-        </p>
-      </div>
+    <div className="mx-auto max-w-5xl px-4 pb-24 pt-4">
+      <button
+        onClick={onBack}
+        className="mb-4 flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-xs font-bold text-stone-700 shadow-2xs hover:bg-stone-50"
+      >
+        <span>← Back to Markets</span>
+      </button>
 
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {COUNTRIES.map((c) => {
-          const all = recipesOf(c.code);
-          const done = (tasted[c.code] || []).filter((id) => all.some((r) => r.id === id)).length;
-          const pct = all.length ? Math.round((done / all.length) * 100) : 0;
-          return (
-            <button
-              key={c.code}
-              onClick={onBack}
-              className="rounded-xl border border-paper-border bg-paper-card p-4 text-left"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-paper-ink">{c.flag} {countryName(c.code, language)}</span>
-                <span className="text-[11px] font-bold text-paper-muted">{done}/{all.length}</span>
-              </div>
-              <div className="mt-2 h-2 overflow-hidden rounded-full bg-paper-soft">
-                <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: c.accent }} />
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      <h3 className="mt-8 flex items-center gap-2 text-base font-bold text-paper-ink">
-        <Heart className="h-4 w-4 text-paper-persimmon" />
-        Pocket list
-      </h3>
-      {favList.length === 0 ? (
-        <p className="mt-2 rounded-lg border border-paper-border bg-paper-card px-4 py-6 text-center text-sm text-paper-muted">
-          No favorites yet — tap the heart on any recipe.
-        </p>
-      ) : (
-        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {favList.map((r) => (
-            <button
-              key={`${r.country}-${r.id}`}
-              onClick={() => onSelectRecipe(r)}
-              className="flex items-center gap-3 rounded-lg border border-paper-border bg-paper-card p-2.5 text-left"
-            >
-              <img src={r.heroImage} alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
-              <span className="min-w-0">
-                <span className="block truncate text-xs font-bold text-paper-ink">{text(r.title, language)}</span>
-                <span className="block text-[10px] text-paper-muted">
-                  {COUNTRIES.find((c) => c.code === r.country)?.flag}
-                </span>
-              </span>
-            </button>
-          ))}
+      {/* Passport Hero */}
+      <div className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-stone-900 via-stone-950 to-amber-950/40 p-6 sm:p-8 text-center text-white shadow-xl">
+        <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-400/30 shadow-glow">
+          <Stamp className="h-7 w-7" />
         </div>
-      )}
+        <h1 className="text-2xl font-black sm:text-3xl text-white">
+          亞洲夜市味蕾護照 (Taste Passport)
+        </h1>
+        <p className="mt-1 text-xs sm:text-sm text-stone-300">
+          每探索或烹飪一道夜市小吃，點擊完成即可在專屬護照加蓋紀念鋼印。
+        </p>
+
+        <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-stone-800/80 px-4 py-1.5 text-xs font-extrabold text-amber-300">
+          <Award className="h-4 w-4 text-amber-400" />
+          <span>解鎖進度: {totalTastedCount} / {totalRecipesCount} 道小吃</span>
+        </div>
+      </div>
+
+      {/* 7-Country Passport Stamps Grid */}
+      <section className="mt-8">
+        <h2 className="text-lg font-extrabold text-stone-900 flex items-center gap-2 mb-4">
+          <span>🛂</span>
+          <span>7-Country Passport Stamps (七國街區紀念鋼印)</span>
+        </h2>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {COUNTRIES.map((c) => {
+            const all = recipesOf(c.code);
+            const done = (tasted[c.code] || []).filter((id) => all.some((r) => r.id === id)).length;
+            const isUnlocked = done > 0;
+            const pct = all.length ? Math.round((done / all.length) * 100) : 0;
+            const stampName = STAMP_NAMES[c.code] || `${c.name} Stamp`;
+
+            return (
+              <div
+                key={c.code}
+                className={`relative overflow-hidden rounded-3xl p-5 border transition-all ${
+                  isUnlocked
+                    ? 'border-amber-500/40 bg-gradient-to-b from-white to-amber-50/40 shadow-soft'
+                    : 'border-stone-200 bg-white/60 opacity-80'
+                }`}
+              >
+                {/* Stamp visual circle */}
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
+                      isUnlocked
+                        ? 'border-amber-600 bg-amber-50 text-amber-800 rotate-[-8deg] shadow-md'
+                        : 'border-dashed border-stone-300 bg-stone-50 text-stone-300'
+                    }`}
+                  >
+                    {isUnlocked ? (
+                      <div className="text-center font-serif text-[10px] font-black leading-none">
+                        <span className="text-xs">{c.flag}</span>
+                        <div className="mt-0.5 scale-75 uppercase">VISITED</div>
+                        <div className="text-[8px] text-amber-700">STAMP</div>
+                      </div>
+                    ) : (
+                      <Lock className="h-5 w-5 text-stone-300" />
+                    )}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <span className="font-extrabold text-sm text-stone-900 truncate">
+                        {c.flag} {countryName(c.code, language)}
+                      </span>
+                      <span className="text-[11px] font-black text-amber-700">
+                        {done}/{all.length}
+                      </span>
+                    </div>
+
+                    <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                      {stampName}
+                    </p>
+
+                    {/* Progress Bar */}
+                    <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-stone-100">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-600 transition-all duration-300"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Pocket List / Saved Favorites */}
+      <section className="mt-10">
+        <h2 className="flex items-center gap-2 text-lg font-extrabold text-stone-900 mb-4">
+          <Heart className="h-5 w-5 text-rose-500 fill-rose-500" />
+          <span>口袋收藏清單 (Saved Favorites): {favList.length} 道</span>
+        </h2>
+
+        {favList.length === 0 ? (
+          <div className="rounded-3xl border border-stone-200 bg-white p-8 text-center text-xs text-stone-500 shadow-2xs">
+            <Heart className="mx-auto h-8 w-8 text-stone-300 mb-2" />
+            <p className="font-bold text-stone-700 text-sm">尚無收藏的夜市小吃</p>
+            <p className="mt-1">瀏覽食谱時點擊愛心圖標，即可加入您的口袋清單。</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {favList.map((r) => {
+              const countryMeta = COUNTRIES.find((c) => c.code === r.country);
+              return (
+                <button
+                  key={`${r.country}-${r.id}`}
+                  onClick={() => {
+                    soundEffects.playClick();
+                    onSelectRecipe(r);
+                  }}
+                  className="flex items-center gap-3 rounded-2xl border border-stone-200/80 bg-white p-3 text-left shadow-2xs hover:border-amber-400/60 transition-all"
+                >
+                  <img
+                    src={r.heroImage}
+                    alt=""
+                    className="h-14 w-14 shrink-0 rounded-xl object-cover"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <span className="block truncate text-xs font-extrabold text-stone-900">
+                      {text(r.title, language)}
+                    </span>
+                    <span className="mt-0.5 block text-[11px] text-amber-700 font-semibold">
+                      {countryMeta?.flag} {countryMeta?.name} · {r.cookTimeMinutes} min
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </section>
     </div>
   );
 };
-
-
