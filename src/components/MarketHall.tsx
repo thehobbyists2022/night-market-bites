@@ -155,8 +155,6 @@ export const MarketHall: React.FC<MarketHallProps> = ({
             {COUNTRIES.filter((c) => recipesOf(c.code).length > 0).map((c) => {
               const recipes = recipesOf(c.code);
               const markets = getNightMarketsByCountry(c.code);
-              const cover = recipes[0]?.heroImage;
-              const dishes = recipes.slice(1, 4).map((r) => text(r.title, language)).filter(Boolean);
 
               return (
                 <div
@@ -170,40 +168,79 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                     }}
                     className="cursor-pointer"
                   >
-                    <div className="relative h-52 sm:h-60 w-full overflow-hidden">
-                      {cover && (
-                        <img
-                          src={cover}
-                          alt=""
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                      )}
-                      <div className="img-grad absolute inset-0" />
+                    {/* Header with Original App Icon & National Flag */}
+                    <div
+                      className="relative h-48 sm:h-52 w-full overflow-hidden flex items-center justify-center p-4 transition-all"
+                      style={{
+                        background: `linear-gradient(140deg, #0F172A 0%, #1E293B 55%, ${c.accent}2E 100%)`,
+                        borderBottom: `1px solid ${c.accent}33`,
+                      }}
+                    >
+                      {/* Ambient background glow matching country accent */}
+                      <div
+                        className="absolute inset-0 opacity-25 blur-xl pointer-events-none"
+                        style={{
+                          background: `radial-gradient(circle at center, ${c.accent} 0%, transparent 65%)`,
+                        }}
+                      />
 
-                      <div className="absolute left-3.5 top-3.5 flex items-center gap-2 rounded-full bg-stone-950/80 px-3.5 py-1.5 text-xs sm:text-sm font-black text-white backdrop-blur-md border border-white/15">
-                        <span>{c.flag}</span>
-                        <span>{c.name}</span>
+                      {/* Top Left: Country Flag + Name Badge */}
+                      <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-stone-900/85 px-3 py-1 text-xs font-black text-white backdrop-blur-md border border-white/15 shadow-sm">
+                        <span className="text-base">{c.flag}</span>
+                        <span>{countryName(c.code, language)}</span>
                       </div>
 
-                      <div className="absolute right-3.5 bottom-3.5 flex items-center gap-2">
-                        <span className="rounded-xl bg-amber-500 px-3 py-1 text-xs font-black text-stone-950 shadow-md">
+                      {/* Top Right: Original App Name */}
+                      <div className="absolute right-3 top-3 flex items-center rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-black text-stone-200 backdrop-blur-md border border-white/15">
+                        <span>{c.appName}</span>
+                      </div>
+
+                      {/* Center Stage: Authentic App Icon */}
+                      <div className="relative z-10 flex flex-col items-center justify-center">
+                        <img
+                          src={c.appIcon}
+                          alt={c.appName}
+                          className="h-24 w-24 sm:h-28 sm:w-28 rounded-2xl sm:rounded-3xl object-cover shadow-2xl border-2 border-white/25 transition-transform duration-300 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      </div>
+
+                      {/* Bottom Counts */}
+                      <div className="absolute right-3 bottom-2.5 flex items-center gap-1.5 z-10">
+                        <span className="rounded-xl bg-amber-500 px-2.5 py-1 text-xs font-black text-stone-950 shadow-md">
                           🏮 {markets.length} {ui.district.tabMarkets}
                         </span>
-                        <span className="rounded-xl bg-stone-900/90 text-stone-100 px-3 py-1 text-xs font-bold shadow-md backdrop-blur-md border border-white/10">
-                          🍢 {recipes.length}
+                        <span className="rounded-xl bg-stone-900/90 text-stone-100 px-2.5 py-1 text-xs font-black shadow-md backdrop-blur-md border border-white/10">
+                          🍢 {recipes.length} {ui.district.tabDishes}
                         </span>
                       </div>
                     </div>
 
                     <div className="p-5 sm:p-6">
-                      <p className="kicker text-amber-700 text-xs sm:text-sm">{c.district}</p>
+                      <div className="flex items-center justify-between">
+                        <p className="kicker text-amber-700 text-xs sm:text-sm font-extrabold">{c.district}</p>
+                        <span className="text-lg">{c.flag}</span>
+                      </div>
                       <h3 className="mt-1 text-xl sm:text-2xl font-black text-stone-900 leading-tight">
                         {countryName(c.code, language)}
                       </h3>
-                      <p className="mt-2 text-xs sm:text-sm leading-relaxed text-stone-600 line-clamp-1 font-medium">
-                        {dishes.join(' · ')}
-                      </p>
+
+                      {/* Multiple Signature Dishes Preview */}
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {recipes.slice(0, 3).map((r) => (
+                          <span
+                            key={r.id}
+                            className="rounded-lg bg-stone-100 px-2.5 py-1 text-xs font-bold text-stone-700 border border-stone-200/60"
+                          >
+                            {text(r.title, language)}
+                          </span>
+                        ))}
+                        {recipes.length > 3 && (
+                          <span className="rounded-lg bg-amber-50 px-2 py-1 text-xs font-black text-amber-800 border border-amber-200/60">
+                            +{recipes.length - 3}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
 

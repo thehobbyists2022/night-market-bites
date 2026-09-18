@@ -7,6 +7,8 @@ export interface CountryMeta {
   names: Partial<Record<Language, string>>;
   district: string;
   accent: string;
+  appIcon: string;
+  appName: string;
 }
 
 export const COUNTRIES: CountryMeta[] = [
@@ -19,6 +21,8 @@ export const COUNTRIES: CountryMeta[] = [
     },
     district: 'Shilin Night Market',
     accent: '#FFC24B',
+    appIcon: '/app-icons/taiwan.png',
+    appName: 'TaiwanBite',
   },
   {
     code: 'th',
@@ -29,6 +33,8 @@ export const COUNTRIES: CountryMeta[] = [
     },
     district: 'Yaowarat Road',
     accent: '#FF4D6D',
+    appIcon: '/app-icons/thailand.png',
+    appName: 'ThaiFood Master',
   },
   {
     code: 'jp',
@@ -39,6 +45,8 @@ export const COUNTRIES: CountryMeta[] = [
     },
     district: 'Dotonbori',
     accent: '#3DDC97',
+    appIcon: '/app-icons/japan.png',
+    appName: 'Japan Food Master',
   },
   {
     code: 'kr',
@@ -49,6 +57,8 @@ export const COUNTRIES: CountryMeta[] = [
     },
     district: 'Myeongdong Street',
     accent: '#FFC24B',
+    appIcon: '/app-icons/korea.png',
+    appName: 'Korean Food Master',
   },
   {
     code: 'my',
@@ -58,7 +68,9 @@ export const COUNTRIES: CountryMeta[] = [
       en: 'Malaysia', 'zh-TW': '馬來西亞', th: 'มาเลเซีย', ja: 'マレーシア', ko: '말레이시아', ms: 'Malaysia', fil: 'Malaysia', vi: 'Malaysia',
     },
     district: 'Jonker Street',
-    accent: '#FF4D6D',
+    accent: '#06D6A0',
+    appIcon: '/app-icons/malaysia.png',
+    appName: 'Malaysia Food Master',
   },
   {
     code: 'ph',
@@ -68,7 +80,9 @@ export const COUNTRIES: CountryMeta[] = [
       en: 'Philippines', 'zh-TW': '菲律賓', th: 'ฟิลิปปินส์', ja: 'フィリピン', ko: '필리핀', ms: 'Pilipinas', fil: 'Pilipinas', vi: 'Philippines',
     },
     district: 'Mercato Centrale',
-    accent: '#3DDC97',
+    accent: '#118AB2',
+    appIcon: '/app-icons/philippines.png',
+    appName: 'Filipino Food Master',
   },
   {
     code: 'vn',
@@ -78,7 +92,9 @@ export const COUNTRIES: CountryMeta[] = [
       en: 'Vietnam', 'zh-TW': '越南', th: 'เวียดนาม', ja: 'ベトナム', ko: '베트남', ms: 'Vietnam', fil: 'Vietnam', vi: 'Việt Nam',
     },
     district: 'Ben Thanh Market',
-    accent: '#FFC24B',
+    accent: '#EF476F',
+    appIcon: '/app-icons/vietnam.png',
+    appName: 'Viet Food Master',
   },
 ];
 

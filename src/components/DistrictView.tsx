@@ -63,13 +63,18 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
           border: `1px solid ${meta.accent}44`,
         }}
       >
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-6 relative z-10">
+          <div className="flex-1 min-w-[240px]">
+            <div className="flex flex-wrap items-center gap-2.5">
               <span className="text-3xl sm:text-4xl">{meta.flag}</span>
               <span className="rounded-full bg-white/20 px-3.5 py-1 text-xs sm:text-sm font-extrabold backdrop-blur-md">
                 {meta.name} Night Market District
               </span>
+              {meta.appName && (
+                <span className="rounded-full bg-amber-500/20 px-3 py-1 text-xs font-black text-amber-300 border border-amber-400/30 backdrop-blur-md">
+                  {meta.appName}
+                </span>
+              )}
             </div>
             <h1 className="mt-3 text-3xl font-black sm:text-5xl lg:text-6xl text-white tracking-tight">
               {meta.district}
@@ -78,6 +83,17 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
               {countryName(country, language)} · {markets.length} {ui.district.marketCount} · {recipes.length} {ui.district.districtDishes}
             </p>
           </div>
+
+          {/* Authentic App Icon */}
+          {meta.appIcon && (
+            <div className="shrink-0">
+              <img
+                src={meta.appIcon}
+                alt={meta.appName}
+                className="h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28 rounded-3xl border-2 border-white/20 shadow-2xl object-cover"
+              />
+            </div>
+          )}
         </div>
       </div>
 
