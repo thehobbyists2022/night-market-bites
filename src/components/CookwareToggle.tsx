@@ -48,18 +48,18 @@ export const CookwareToggle: React.FC<CookwareToggleProps> = ({
   };
 
   return (
-    <div className="mb-6 rounded-2xl border border-amber-500/20 bg-gradient-to-r from-amber-50/70 via-orange-50/40 to-stone-50 p-4 shadow-xs">
-      <div className="mb-2.5 flex items-center justify-between">
-        <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-900">
+    <div className="mb-6 rounded-3xl border border-amber-500/20 bg-gradient-to-r from-amber-50/80 via-orange-50/50 to-stone-50 p-5 shadow-xs">
+      <div className="mb-3 flex items-center justify-between">
+        <span className="flex items-center gap-2 text-xs sm:text-sm font-black uppercase tracking-wider text-amber-900">
           <span>🍳</span>
           <span>{ui.cookware.title}</span>
         </span>
-        <span className="rounded-full bg-amber-200/80 px-2.5 py-0.5 text-[10px] font-bold text-amber-900">
+        <span className="rounded-full bg-amber-200/90 px-3 py-1 text-xs font-black text-amber-950">
           {ui.cookware.subtitle}
         </span>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2.5">
         {supportedCookware.map((cw) => {
           const meta = COOKWARE_ICONS[cw] || { icon: Flame, color: 'text-amber-500' };
           const Icon = meta.icon;
@@ -70,13 +70,13 @@ export const CookwareToggle: React.FC<CookwareToggleProps> = ({
             <button
               key={cw}
               onClick={() => onSelectCookware(cw)}
-              className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold transition-all active:scale-95 ${
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all active:scale-95 ${
                 isSelected
                   ? 'bg-amber-600 text-white shadow-md shadow-amber-600/25 scale-[1.02]'
                   : 'border border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
               }`}
             >
-              <Icon className={`h-4 w-4 ${isSelected ? 'text-white' : meta.color}`} />
+              <Icon className={`h-4 w-4 sm:h-5 sm:w-5 ${isSelected ? 'text-white' : meta.color}`} />
               <span>{label}</span>
             </button>
           );

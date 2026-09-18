@@ -524,8 +524,8 @@ export const NightMarketExplorer: React.FC<NightMarketExplorerProps> = ({
         })}
       </div>
 
-      {/* Night Market Immersion Cards Feed */}
-      <div className="space-y-8">
+      {/* Night Market Immersion Cards Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {filteredMarkets.map((market) => {
           const marketNameStr = text(market.name, language);
           const cityNameStr = text(market.city, language);
@@ -536,182 +536,181 @@ export const NightMarketExplorer: React.FC<NightMarketExplorerProps> = ({
           return (
             <div
               key={market.id}
-              className="bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group"
+              className="bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between"
             >
-              {/* Hero Image & Headings */}
-              <div className="relative h-60 sm:h-80 w-full bg-stone-950 overflow-hidden shrink-0">
-                <img
-                  src={market.imageUrl}
-                  alt={marketNameStr}
-                  className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
+              <div>
+                {/* Hero Image & Headings */}
+                <div className="relative h-64 sm:h-76 w-full bg-stone-950 overflow-hidden shrink-0">
+                  <img
+                    src={market.imageUrl}
+                    alt={marketNameStr}
+                    className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
 
-                {/* Top Corner Badges */}
-                <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-950/80 text-amber-300 text-xs font-black backdrop-blur-md border border-amber-500/30">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>{cityNameStr}</span>
+                  {/* Top Corner Badges */}
+                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
+                    <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-950/80 text-amber-300 text-xs sm:text-sm font-black backdrop-blur-md border border-amber-500/30">
+                      <MapPin className="w-4 h-4" />
+                      <span>{cityNameStr}</span>
+                    </div>
+
+                    <span className="text-xs font-black uppercase px-3.5 py-1.5 rounded-full bg-stone-950/80 text-white backdrop-blur-md border border-white/20">
+                      {(market.region || '').toUpperCase()} · {meta.flag} {meta.name}
+                    </span>
                   </div>
 
-                  <span className="text-[11px] font-black uppercase px-3 py-1 rounded-full bg-stone-950/80 text-white backdrop-blur-md border border-white/20">
-                    {(market.region || '').toUpperCase()} · {meta.flag} {meta.name}
-                  </span>
+                  {/* Bottom Title inside Hero */}
+                  <div className="absolute bottom-5 left-5 right-5 text-white">
+                    <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                      {marketNameStr}
+                    </h3>
+                  </div>
                 </div>
 
-                {/* Bottom Title inside Hero */}
-                <div className="absolute bottom-5 left-5 right-5 text-white">
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight drop-shadow-md">
-                    {marketNameStr}
-                  </h3>
+                {/* Content Body */}
+                <div className="p-6 sm:p-7 space-y-6">
+                  {/* Cultural Story */}
+                  <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
+                    {descriptionStr}
+                  </p>
+
+                  {/* Transit & Opening Info */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm bg-stone-50 p-4 rounded-2xl border border-stone-100">
+                    {transitStr && (
+                      <div className="flex items-start gap-2.5 text-stone-700">
+                        <Train className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-extrabold text-stone-900 block">
+                            {ui.district.transitLabel}
+                          </span>
+                          <span className="text-stone-600 leading-snug">{transitStr}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {market.openingHours && (
+                      <div className="flex items-start gap-2.5 text-stone-700">
+                        <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-extrabold text-stone-900 block">
+                            {ui.district.openingHours}
+                          </span>
+                          <span className="text-stone-600 leading-snug">{text(market.openingHours, language)}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Foodie Fun Fact / Cultural Tip */}
+                  {funFactStr && (
+                    <div className="flex items-start gap-2.5 p-4 rounded-2xl bg-amber-50/90 border border-amber-200 text-xs sm:text-sm text-amber-950">
+                      <HelpCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-extrabold text-amber-900 block mb-0.5">
+                          💡 {ui.district.foodieFunFact}
+                        </span>
+                        <span className="text-stone-700 leading-relaxed">{funFactStr}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Local Slang Ordering Audio Bar */}
+                  {market.localSlangOrderPhrase && (
+                    <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-900 text-white border border-stone-800 shadow-sm">
+                      <div className="flex items-center gap-3 overflow-hidden pr-2">
+                        <span className="text-xl shrink-0">🗣️</span>
+                        <div className="truncate">
+                          <span className="text-xs text-amber-400 font-extrabold block uppercase tracking-wider">
+                            {ui.district.orderingSimulation}
+                          </span>
+                          <span className="text-sm sm:text-base text-stone-100 font-bold truncate block">
+                            &ldquo;{market.localSlangOrderPhrase}&rdquo;
+                          </span>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => handleSpeak(market.localSlangOrderPhrase!, market.id)}
+                        className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black shrink-0 transition-all active:scale-95 ${
+                          playingMarketId === market.id
+                            ? 'bg-amber-400 text-stone-950 scale-105 shadow-glow'
+                            : 'bg-white/15 hover:bg-white/25 text-white'
+                        }`}
+                      >
+                        <Volume2 className="w-4 h-4" />
+                        <span>
+                          {playingMarketId === market.id
+                            ? ui.district.playingAudio
+                            : ui.district.listenAudio}
+                        </span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Content Body */}
-              <div className="p-6 sm:p-8 space-y-6">
-                {/* Cultural Story */}
-                <p className="text-stone-700 text-sm sm:text-base leading-relaxed">
-                  {descriptionStr}
-                </p>
-
-                {/* Transit & Opening Info */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm bg-stone-50 p-4 rounded-2xl border border-stone-100">
-                  {transitStr && (
-                    <div className="flex items-start gap-2.5 text-stone-700">
-                      <Train className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <div>
-                        <span className="font-extrabold text-stone-900 block">
-                          {ui.district.transitLabel}
-                        </span>
-                        <span className="text-stone-600 leading-snug">{transitStr}</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {market.openingHours && (
-                    <div className="flex items-start gap-2.5 text-stone-700">
-                      <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                      <div>
-                        <span className="font-extrabold text-stone-900 block">
-                          {ui.district.openingHours}
-                        </span>
-                        <span className="text-stone-600 leading-snug">{text(market.openingHours, language)}</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Foodie Fun Fact / Cultural Tip */}
-                {funFactStr && (
-                  <div className="flex items-start gap-2.5 p-4 rounded-2xl bg-amber-50/90 border border-amber-200 text-xs sm:text-sm text-amber-950">
-                    <HelpCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-extrabold text-amber-900 block mb-0.5">
-                        💡 {ui.district.foodieFunFact}
-                      </span>
-                      <span className="text-stone-700 leading-relaxed">{funFactStr}</span>
-                    </div>
+              {/* Signature Dishes from this Market */}
+              {market.signatureDishes && market.signatureDishes.length > 0 && (
+                <div className="px-6 pb-6 sm:px-7 sm:pb-7">
+                  <div className="flex items-center gap-2 mb-3 border-t border-stone-100 pt-4">
+                    <Sparkles className="w-4 h-4 text-amber-600" />
+                    <h4 className="text-xs sm:text-sm font-black tracking-wider text-stone-600 uppercase">
+                      {ui.district.signatureDishesLabel}
+                    </h4>
                   </div>
-                )}
 
-                {/* Local Slang Ordering Audio Bar */}
-                {market.localSlangOrderPhrase && (
-                  <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-900 text-white border border-stone-800 shadow-sm">
-                    <div className="flex items-center gap-3 overflow-hidden pr-2">
-                      <span className="text-xl shrink-0">🗣️</span>
-                      <div className="truncate">
-                        <span className="text-[11px] text-amber-400 font-extrabold block uppercase tracking-wider">
-                          {ui.district.orderingSimulation}
-                        </span>
-                        <span className="text-xs sm:text-sm text-stone-200 font-semibold truncate block">
-                          &ldquo;{market.localSlangOrderPhrase}&rdquo;
-                        </span>
-                      </div>
-                    </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {market.signatureDishes.map((dishId) => {
+                      const recipe = findRecipeByIdOrSlug(dishId);
+                      if (!recipe) return null;
+                      const dishTitle = text(recipe.title, language);
+                      const dishSubtitle = text(recipe.subtitle, language);
 
-                    <button
-                      onClick={() => handleSpeak(market.localSlangOrderPhrase!, market.id)}
-                      className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-black shrink-0 transition-all active:scale-95 ${
-                        playingMarketId === market.id
-                          ? 'bg-amber-400 text-stone-950 scale-105 shadow-glow'
-                          : 'bg-white/15 hover:bg-white/25 text-white'
-                      }`}
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                      <span>
-                        {playingMarketId === market.id
-                          ? ui.district.playingAudio
-                          : ui.district.listenAudio}
-                      </span>
-                    </button>
-                  </div>
-                )}
-
-                {/* Signature Dishes from this Market */}
-                {market.signatureDishes && market.signatureDishes.length > 0 && (
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Sparkles className="w-4 h-4 text-amber-600" />
-                      <h4 className="text-xs font-black tracking-wider text-stone-500 uppercase">
-                        {ui.district.signatureDishesLabel}
-                      </h4>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {market.signatureDishes.map((dishId) => {
-                        const recipe = findRecipeByIdOrSlug(dishId);
-                        if (!recipe) return null;
-                        const dishTitle = text(recipe.title, language);
-                        const dishSubtitle = text(recipe.subtitle, language);
-
-                        return (
-                          <div
-                            key={dishId}
-                            onClick={() => {
-                              soundEffects.playClick();
-                              onSelectRecipe(recipe);
-                            }}
-                            className="flex items-center gap-3 p-3 rounded-2xl bg-stone-50 hover:bg-amber-50/80 border border-stone-200/80 hover:border-amber-300 transition-all cursor-pointer group/card"
-                          >
-                            <img
-                              src={recipe.heroImage}
-                              alt={dishTitle}
-                              className="w-14 h-14 rounded-xl object-cover shrink-0 group-hover/card:scale-105 transition-transform"
-                              loading="lazy"
-                            />
-                            <div className="flex-1 min-w-0">
-                              <h5 className="font-extrabold text-xs sm:text-sm text-stone-900 truncate group-hover/card:text-amber-800 transition-colors">
-                                {dishTitle}
-                              </h5>
-                              {dishSubtitle && (
-                                <p className="text-[11px] text-stone-500 truncate mt-0.5">
-                                  {dishSubtitle}
-                                </p>
+                      return (
+                        <div
+                          key={dishId}
+                          onClick={() => {
+                            soundEffects.playClick();
+                            onSelectRecipe(recipe);
+                          }}
+                          className="flex items-center gap-3 p-3 rounded-2xl bg-stone-50 hover:bg-amber-50/80 border border-stone-200/80 hover:border-amber-300 transition-all cursor-pointer group/card"
+                        >
+                          <img
+                            src={recipe.heroImage}
+                            alt={dishTitle}
+                            className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover shrink-0 group-hover/card:scale-105 transition-transform"
+                            loading="lazy"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <h5 className="font-black text-xs sm:text-sm text-stone-900 truncate group-hover/card:text-amber-800 transition-colors">
+                              {dishTitle}
+                            </h5>
+                            {dishSubtitle && (
+                              <p className="text-xs text-stone-500 truncate mt-0.5">
+                                {dishSubtitle}
+                              </p>
+                            )}
+                            <div className="flex items-center gap-2 mt-1 text-xs text-stone-500 font-bold">
+                              <span>{recipe.cookTimeMinutes} min</span>
+                              {recipe.caloriesPerServing && (
+                                <span className="flex items-center text-rose-500">
+                                  <Flame className="w-3 h-3 mr-0.5" />
+                                  {recipe.caloriesPerServing} kcal
+                                </span>
                               )}
-                              <div className="flex items-center gap-2 mt-1 text-[10px] text-stone-500 font-bold">
-                                <span>{recipe.cookTimeMinutes} min</span>
-                                {recipe.caloriesPerServing && (
-                                  <span className="flex items-center text-rose-500">
-                                    <Flame className="w-3 h-3 mr-0.5" />
-                                    {recipe.caloriesPerServing} kcal
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-1 text-xs font-bold text-amber-600 shrink-0 mr-1 group-hover/card:translate-x-1 transition-transform">
-                              <span className="hidden sm:inline text-[11px]">
-                                {ui.district.cookGuide}
-                              </span>
-                              <ArrowRight className="w-4 h-4" />
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
+                          <div className="flex items-center gap-1 text-xs font-bold text-amber-600 shrink-0 mr-1 group-hover/card:translate-x-1 transition-transform">
+                            <ArrowRight className="w-4 h-4" />
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           );
         })}
