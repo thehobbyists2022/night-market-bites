@@ -1,26 +1,38 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { categoriesOf, recipesOf, text } from '../lib/selectRecipe';
+import { getNightMarketsByCountry } from '../data/nightMarkets';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
-import type { CountryCode, CountryRecipe } from '../types/unified';
-import { ArrowLeft, Clock, Flame, Heart, Filter } from 'lucide-react';
+import type { CountryCode, CountryRecipe, NightMarketItem } from '../types/unified';
+import { ArrowLeft, Clock, Flame, Heart, Filter, Store, Utensils } from 'lucide-react';
 import { soundEffects } from '../utils/soundEffects';
 import { getUI } from '../i18n/uiStrings';
+import { NightMarketCard } from './NightMarketCard';
+import { NightMarketModal } from './NightMarketModal';
 
 interface DistrictViewProps {
   country: CountryCode;
   onBack: () => void;
   onSelectRecipe: (r: CountryRecipe) => void;
+  initialTab?: 'dishes' | 'markets';
 }
 
-export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onSelectRecipe }) => {
+export const DistrictView: React.FC<DistrictViewProps> = ({
+  country,
+  onBack,
+  onSelectRecipe,
+  initialTab = 'dishes',
+}) => {
   const { language } = useLanguage();
   const { favorites } = useUser();
   const meta = COUNTRIES.find((c) => c.code === country) || COUNTRIES[0];
   const recipes = recipesOf(country);
+  const markets = getNightMarketsByCountry(country);
   const cats = ['all', ...categoriesOf(country)];
   const [selectedCat, setSelectedCat] = useState('all');
+  const [activeTab, setActiveTab] = useState<'dishes' | 'markets'>(initialTab);
+  const [selectedMarket, setSelectedMarket] = useState<NightMarketItem | null>(null);
   const ui = getUI(language);
 
   const shownRecipes =
@@ -59,119 +71,188 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
               {meta.district}
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-stone-300">
-              {countryName(country, language)} · {recipes.length} {ui.district.districtDishes}
+              {countryName(country, language)} · {markets.length} {ui.district.marketCount} · {recipes.length} {ui.district.districtDishes}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Category Filter Bar */}
-      <div className="mt-6 flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-        <div className="flex items-center gap-1 text-xs font-bold text-stone-400 pl-1">
-          <Filter className="h-3.5 w-3.5" />
-          <span>{ui.district.categoryLabel}</span>
-        </div>
-        {cats.map((c) => {
-          const isSelected = selectedCat === c;
-          return (
-            <button
-              key={c}
-              onClick={() => {
-                soundEffects.playClick();
-                setSelectedCat(c);
-              }}
-              className={`shrink-0 rounded-xl px-4 py-2 text-xs font-bold capitalize transition-all ${
-                isSelected
-                  ? 'bg-amber-600 text-white shadow-sm scale-[1.02]'
-                  : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
-              }`}
-            >
-              {c === 'all' ? ui.district.allCategory : c}
-            </button>
-          );
-        })}
+      {/* Top Segmented Navigation Tab: Dishes vs Markets */}
+      <div className="mt-6 flex items-center gap-3 border-b border-stone-200 pb-3">
+        <button
+          onClick={() => {
+            soundEffects.playClick();
+            setActiveTab('dishes');
+          }}
+          className={`flex items-center gap-2 rounded-2xl px-5 py-2.5 text-xs sm:text-sm font-extrabold transition-all ${
+            activeTab === 'dishes'
+              ? 'bg-amber-600 text-white shadow-md scale-[1.02]'
+              : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
+          }`}
+        >
+          <Utensils className="h-4 w-4" />
+          <span>{ui.district.tabDishes} ({recipes.length})</span>
+        </button>
+
+        <button
+          onClick={() => {
+            soundEffects.playClick();
+            setActiveTab('markets');
+          }}
+          className={`flex items-center gap-2 rounded-2xl px-5 py-2.5 text-xs sm:text-sm font-extrabold transition-all ${
+            activeTab === 'markets'
+              ? 'bg-amber-600 text-white shadow-md scale-[1.02]'
+              : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
+          }`}
+        >
+          <Store className="h-4 w-4" />
+          <span>{ui.district.tabMarkets} ({markets.length})</span>
+        </button>
       </div>
 
-      {/* Recipe Cards Grid */}
-      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {shownRecipes.map((r) => {
-          const isFav = (favorites[country] || []).includes(r.id);
-          const title = text(r.title, language);
-          const subtitle = text(r.subtitle, language);
-          const native =
-            language !== 'en' && typeof r.culture?.nativeName === 'string'
-              ? r.culture.nativeName
-              : undefined;
+      {activeTab === 'dishes' ? (
+        <>
+          {/* Category Filter Bar */}
+          <div className="mt-6 flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+            <div className="flex items-center gap-1 text-xs font-bold text-stone-400 pl-1">
+              <Filter className="h-3.5 w-3.5" />
+              <span>{ui.district.categoryLabel}</span>
+            </div>
+            {cats.map((c) => {
+              const isSelected = selectedCat === c;
+              return (
+                <button
+                  key={c}
+                  onClick={() => {
+                    soundEffects.playClick();
+                    setSelectedCat(c);
+                  }}
+                  className={`shrink-0 rounded-xl px-4 py-2 text-xs font-bold capitalize transition-all ${
+                    isSelected
+                      ? 'bg-amber-600 text-white shadow-sm scale-[1.02]'
+                      : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
+                  }`}
+                >
+                  {c === 'all' ? ui.district.allCategory : c}
+                </button>
+              );
+            })}
+          </div>
 
-          return (
-            <button
-              key={r.id}
-              onClick={() => {
-                soundEffects.playClick();
-                onSelectRecipe(r);
-              }}
-              className="card-e card-e-hover group overflow-hidden text-left"
-            >
-              {/* Recipe Cover */}
-              <div className="relative h-44 w-full overflow-hidden">
-                <img
-                  src={r.heroImage}
-                  alt={title}
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="img-grad absolute inset-0" />
+          {/* Recipe Cards Grid */}
+          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {shownRecipes.map((r) => {
+              const isFav = (favorites[country] || []).includes(r.id);
+              const title = text(r.title, language);
+              const subtitle = text(r.subtitle, language);
+              const native =
+                language !== 'en' && typeof r.culture?.nativeName === 'string'
+                  ? r.culture.nativeName
+                  : undefined;
 
-                {/* Cook time badge */}
-                <span className="absolute right-3 bottom-3 flex items-center gap-1 rounded-xl bg-black/60 px-2.5 py-1 text-[10px] font-extrabold text-white backdrop-blur-md">
-                  <Clock className="h-3 w-3 text-amber-400" />
-                  {r.cookTimeMinutes} min
-                </span>
+              return (
+                <button
+                  key={r.id}
+                  onClick={() => {
+                    soundEffects.playClick();
+                    onSelectRecipe(r);
+                  }}
+                  className="card-e card-e-hover group overflow-hidden text-left"
+                >
+                  {/* Recipe Cover */}
+                  <div className="relative h-44 w-full overflow-hidden">
+                    <img
+                      src={r.heroImage}
+                      alt={title}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="img-grad absolute inset-0" />
 
-                {/* Favorite indicator */}
-                {isFav && (
-                  <span className="absolute top-3 right-3 rounded-full bg-rose-500/90 p-1.5 text-white shadow-sm">
-                    <Heart className="h-3.5 w-3.5 fill-current" />
-                  </span>
-                )}
-              </div>
-
-              {/* Recipe Details */}
-              <div className="p-4">
-                <h3 className="font-extrabold text-base text-stone-900 leading-snug line-clamp-1">
-                  {title}
-                </h3>
-
-                {native && (
-                  <p className="text-xs font-semibold text-amber-700 mt-0.5">
-                    {native}
-                  </p>
-                )}
-
-                {subtitle && (
-                  <p className="mt-1.5 text-xs text-stone-500 line-clamp-2 leading-relaxed">
-                    {subtitle}
-                  </p>
-                )}
-
-                <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-stone-100 pt-2.5">
-                  <span className="chip-e capitalize text-[10px] font-bold">
-                    {r.difficulty}
-                  </span>
-                  <span className="chip-e capitalize text-[10px] font-bold text-amber-800 bg-amber-50 border-amber-200/60">
-                    {r.category}
-                  </span>
-                  {r.caloriesPerServing && (
-                    <span className="chip-e text-[10px] text-stone-600">
-                      <Flame className="h-3 w-3 mr-0.5 text-rose-500" />
-                      {r.caloriesPerServing} kcal
+                    {/* Cook time badge */}
+                    <span className="absolute right-3 bottom-3 flex items-center gap-1 rounded-xl bg-black/60 px-2.5 py-1 text-[10px] font-extrabold text-white backdrop-blur-md">
+                      <Clock className="h-3 w-3 text-amber-400" />
+                      {r.cookTimeMinutes} min
                     </span>
-                  )}
-                </div>
-              </div>
-            </button>
-          );
-        })}
-      </div>
+
+                    {/* Favorite indicator */}
+                    {isFav && (
+                      <span className="absolute top-3 right-3 rounded-full bg-rose-500/90 p-1.5 text-white shadow-sm">
+                        <Heart className="h-3.5 w-3.5 fill-current" />
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Recipe Details */}
+                  <div className="p-4">
+                    <h3 className="font-extrabold text-base text-stone-900 leading-snug line-clamp-1">
+                      {title}
+                    </h3>
+
+                    {native && (
+                      <p className="text-xs font-semibold text-amber-700 mt-0.5">
+                        {native}
+                      </p>
+                    )}
+
+                    {subtitle && (
+                      <p className="mt-1.5 text-xs text-stone-500 line-clamp-2 leading-relaxed">
+                        {subtitle}
+                      </p>
+                    )}
+
+                    <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-stone-100 pt-2.5">
+                      <span className="chip-e capitalize text-[10px] font-bold">
+                        {r.difficulty}
+                      </span>
+                      <span className="chip-e capitalize text-[10px] font-bold text-amber-800 bg-amber-50 border-amber-200/60">
+                        {r.category}
+                      </span>
+                      {r.caloriesPerServing && (
+                        <span className="chip-e text-[10px] text-stone-600">
+                          <Flame className="h-3 w-3 mr-0.5 text-rose-500" />
+                          {r.caloriesPerServing} kcal
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        /* Night Markets Guides Grid */
+        <div className="mt-6">
+          <div className="mb-4">
+            <h2 className="text-xl font-black text-stone-900 flex items-center gap-2">
+              <span>🏮</span>
+              <span>{countryName(country, language)} {ui.district.tabMarkets}</span>
+            </h2>
+            <p className="text-xs text-stone-500 mt-1">
+              {markets.length} {ui.district.marketCount} · {ui.district.transitLabel} & {ui.district.openingHours}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {markets.map((market) => (
+              <NightMarketCard
+                key={market.id}
+                market={market}
+                onOpenModal={(m) => setSelectedMarket(m)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Night Market Detail Modal */}
+      {selectedMarket && (
+        <NightMarketModal
+          market={selectedMarket}
+          onClose={() => setSelectedMarket(null)}
+          onSelectRecipe={onSelectRecipe}
+        />
+      )}
     </div>
   );
 };

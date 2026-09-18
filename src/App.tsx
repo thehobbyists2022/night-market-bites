@@ -17,7 +17,7 @@ import { soundEffects } from './utils/soundEffects';
 
 type Screen =
   | { view: 'hall' }
-  | { view: 'district'; country: CountryCode }
+  | { view: 'district'; country: CountryCode; tab?: 'dishes' | 'markets' }
   | { view: 'recipe'; recipe: CountryRecipe }
   | { view: 'lab' }
   | { view: 'pantry' }
@@ -46,7 +46,7 @@ const Shell: React.FC = () => {
         <main>
           {screen.view === 'hall' && (
             <MarketHall
-              onSelectCountry={(country) => navigateTo({ view: 'district', country })}
+              onSelectCountry={(country, tab) => navigateTo({ view: 'district', country, tab })}
               onSelectRecipe={(recipe) => navigateTo({ view: 'recipe', recipe })}
               onOpenSurvivalModal={() => setShowSurvivalModal(true)}
             />
@@ -54,6 +54,7 @@ const Shell: React.FC = () => {
           {screen.view === 'district' && (
             <DistrictView
               country={screen.country}
+              initialTab={screen.tab}
               onBack={() => navigateTo({ view: 'hall' })}
               onSelectRecipe={(recipe) => navigateTo({ view: 'recipe', recipe })}
             />

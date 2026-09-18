@@ -26,6 +26,10 @@ export function recipesOf(country: CountryCode): CountryRecipe[] {
   return ALL_RECIPES.filter((r) => r.country === country);
 }
 
+export function findRecipeByIdOrSlug(idOrSlug: string): CountryRecipe | undefined {
+  return ALL_RECIPES.find((r) => r.id === idOrSlug || r.slug === idOrSlug);
+}
+
 export function categoriesOf(country: CountryCode): string[] {
   const set = new Set<string>();
   recipesOf(country).forEach((r) => set.add(r.category));

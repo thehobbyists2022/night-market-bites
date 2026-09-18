@@ -50,3 +50,23 @@ export interface CountryRecipe {
   steps: unknown[];
   [key: string]: unknown;
 }
+
+export interface NightMarketItem {
+  id: string;
+  country: CountryCode;
+  name: MultilingualText;
+  city: MultilingualText;
+  region?: string;
+  description: MultilingualText;
+  imageUrl: string;
+  signatureDishes: string[];
+  openingHours: string | MultilingualText;
+  transportInfo: string | MultilingualText;
+  mrtStation?: string | MultilingualText;
+  funFact?: string | MultilingualText;
+  etiquetteGuide?: string | MultilingualText;
+  localSlangOrderPhrase?: string;
+  localSlangRomaji?: string;
+  localSlangMeaning?: MultilingualText;
+  [key: string]: unknown;
+}

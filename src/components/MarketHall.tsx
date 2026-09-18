@@ -1,14 +1,17 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { recipesOf, text } from '../lib/selectRecipe';
+import { NIGHT_MARKETS, getNightMarketsByCountry } from '../data/nightMarkets';
 import { useLanguage } from '../context/LanguageContext';
-import type { CountryCode, CountryRecipe } from '../types/unified';
-import { Sparkles, Search, Store, ChevronRight } from 'lucide-react';
+import type { CountryCode, CountryRecipe, NightMarketItem } from '../types/unified';
+import { Sparkles, Search, Store } from 'lucide-react';
 import { soundEffects } from '../utils/soundEffects';
 import { getUI } from '../i18n/uiStrings';
+import { NightMarketCard } from './NightMarketCard';
+import { NightMarketModal } from './NightMarketModal';
 
 interface MarketHallProps {
-  onSelectCountry: (code: CountryCode) => void;
+  onSelectCountry: (code: CountryCode, tab?: 'dishes' | 'markets') => void;
   onSelectRecipe?: (recipe: CountryRecipe) => void;
   onOpenSurvivalModal?: () => void;
 }
@@ -20,6 +23,7 @@ export const MarketHall: React.FC<MarketHallProps> = ({
 }) => {
   const { language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedMarket, setSelectedMarket] = useState<NightMarketItem | null>(null);
   const ui = getUI(language);
 
   // Collect all recipes for search
@@ -152,58 +156,131 @@ export const MarketHall: React.FC<MarketHallProps> = ({
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {COUNTRIES.filter((c) => recipesOf(c.code).length > 0).map((c) => {
               const recipes = recipesOf(c.code);
+              const markets = getNightMarketsByCountry(c.code);
               const cover = recipes[0]?.heroImage;
               const dishes = recipes.slice(1, 4).map((r) => text(r.title, language)).filter(Boolean);
 
               return (
-                <button
+                <div
                   key={c.code}
-                  onClick={() => {
-                    soundEffects.playClick();
-                    onSelectCountry(c.code);
-                  }}
-                  className="card-e card-e-hover group overflow-hidden text-left"
+                  className="card-e card-e-hover group overflow-hidden text-left flex flex-col justify-between"
                 >
-                  <div className="relative h-48 w-full overflow-hidden">
-                    {cover && (
-                      <img
-                        src={cover}
-                        alt=""
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    )}
-                    <div className="img-grad absolute inset-0" />
+                  <div
+                    onClick={() => {
+                      soundEffects.playClick();
+                      onSelectCountry(c.code, 'dishes');
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <div className="relative h-48 w-full overflow-hidden">
+                      {cover && (
+                        <img
+                          src={cover}
+                          alt=""
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      )}
+                      <div className="img-grad absolute inset-0" />
 
-                    <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-stone-950/70 px-3 py-1 text-xs font-bold text-white backdrop-blur-md">
-                      <span>{c.flag}</span>
-                      <span>{c.name}</span>
+                      <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-stone-950/70 px-3 py-1 text-xs font-bold text-white backdrop-blur-md">
+                        <span>{c.flag}</span>
+                        <span>{c.name}</span>
+                      </div>
+
+                      <div className="absolute right-3 bottom-3 flex items-center gap-1.5">
+                        <span className="rounded-xl bg-amber-500 px-2.5 py-1 text-[11px] font-black text-stone-950 shadow-md">
+                          {recipes.length} {ui.marketHall.dishesClassic}
+                        </span>
+                      </div>
                     </div>
 
-                    <span className="absolute right-3 bottom-3 rounded-xl bg-amber-500 px-2.5 py-1 text-[11px] font-black text-stone-950 shadow-md">
-                      {recipes.length} {ui.marketHall.dishesClassic}
-                    </span>
-                  </div>
-
-                  <div className="p-5">
-                    <p className="kicker text-amber-700">{c.district}</p>
-                    <h3 className="mt-1 text-xl font-extrabold text-stone-900">
-                      {countryName(c.code, language)}
-                    </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-stone-500 line-clamp-1">
-                      {dishes.join(' · ')}
-                    </p>
-
-                    <div className="mt-4 flex items-center justify-between border-t border-stone-100 pt-3 text-xs font-bold text-amber-700">
-                      <span>{ui.marketHall.enterDistrict}</span>
-                      <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <div className="p-5">
+                      <p className="kicker text-amber-700">{c.district}</p>
+                      <h3 className="mt-1 text-xl font-extrabold text-stone-900">
+                        {countryName(c.code, language)}
+                      </h3>
+                      <p className="mt-2 text-xs leading-relaxed text-stone-500 line-clamp-1">
+                        {dishes.join(' · ')}
+                      </p>
                     </div>
                   </div>
-                </button>
+
+                  {/* Dual Action Footer: Enter Dishes vs Explore Night Markets */}
+                  <div className="grid grid-cols-2 border-t border-stone-100 bg-stone-50/70 divide-x divide-stone-100">
+                    <button
+                      onClick={() => {
+                        soundEffects.playClick();
+                        onSelectCountry(c.code, 'dishes');
+                      }}
+                      className="px-3 py-3 text-center text-xs font-extrabold text-stone-700 hover:bg-amber-50 hover:text-amber-800 transition-colors flex items-center justify-center gap-1"
+                    >
+                      <span>🍢</span>
+                      <span>{ui.district.tabDishes}</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        soundEffects.playClick();
+                        onSelectCountry(c.code, 'markets');
+                      }}
+                      className="px-3 py-3 text-center text-xs font-extrabold text-amber-700 hover:bg-amber-100/80 transition-colors flex items-center justify-center gap-1"
+                    >
+                      <span>🏮</span>
+                      <span>{markets.length} {ui.district.tabMarkets}</span>
+                    </button>
+                  </div>
+                </div>
               );
             })}
           </div>
+
+          {/* Spotlight: World Famous Night Markets of Asia */}
+          <section className="mt-12">
+            <div className="mb-4">
+              <h2 className="text-xl font-black text-stone-900 flex items-center gap-2">
+                <span>🏮</span>
+                <span>{ui.marketHall.spotlightTitle}</span>
+              </h2>
+              <p className="text-xs text-stone-500 mt-0.5">
+                {ui.marketHall.spotlightSubtitle}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                'shilin',
+                'yaowarat',
+                'osaka-dotonbori-shinsekai',
+                'gwangjang-market',
+                'jalan-alor',
+                'quiapo-market',
+                'hanoi-old-quarter',
+                'ningxia',
+                'jodd-fairs',
+              ]
+                .map((id) => NIGHT_MARKETS.find((m) => m.id === id))
+                .filter(Boolean)
+                .map((market) => (
+                  <NightMarketCard
+                    key={market!.id}
+                    market={market!}
+                    onOpenModal={(m) => setSelectedMarket(m)}
+                  />
+                ))}
+            </div>
+          </section>
         </section>
+      )}
+
+      {/* Night Market Detail Modal */}
+      {selectedMarket && (
+        <NightMarketModal
+          market={selectedMarket}
+          onClose={() => setSelectedMarket(null)}
+          onSelectRecipe={onSelectRecipe}
+        />
       )}
     </div>
   );
 };
+

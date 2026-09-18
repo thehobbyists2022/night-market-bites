@@ -1,4 +1,4 @@
-﻿import type { Language } from '../types/unified';
+import type { Language } from '../types/unified';
 
 export interface UIStrings {
   header: {
@@ -17,12 +17,35 @@ export interface UIStrings {
     districtsSubtitle: string;
     dishesClassic: string;
     enterDistrict: string;
+    spotlightTitle: string;
+    spotlightSubtitle: string;
   };
   district: {
     allMarkets: string;
     districtDishes: string;
     categoryLabel: string;
     allCategory: string;
+    tabDishes: string;
+    tabMarkets: string;
+    marketCount: string;
+    openingHours: string;
+    transitLabel: string;
+    proTipLabel: string;
+    orderPhraseLabel: string;
+    viewGuideBtn: string;
+    signatureDishesLabel: string;
+  };
+  nightMarketModal: {
+    badge: string;
+    hours: string;
+    transit: string;
+    proTip: string;
+    orderPhrase: string;
+    speakBtn: string;
+    speakingBtn: string;
+    signatureDishes: string;
+    viewRecipeBtn: string;
+    closeBtn: string;
   };
   recipeDetail: {
     backToMarket: string;
@@ -179,12 +202,35 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       districtsSubtitle: 'Select a district below to explore iconic night market stalls and authentic dishes.',
       dishesClassic: 'Iconic Dishes',
       enterDistrict: 'Enter District',
+      spotlightTitle: 'World Famous Night Markets',
+      spotlightSubtitle: 'Iconic street food hubs, yatai stalls, and bustling night bazaars across 7 Asian regions.',
     },
     district: {
       allMarkets: 'All Night Markets',
       districtDishes: 'dishes of authentic street food',
       categoryLabel: 'Category:',
       allCategory: 'All',
+      tabDishes: 'Street Food Recipes',
+      tabMarkets: 'Night Market Guides',
+      marketCount: 'iconic night markets',
+      openingHours: 'Opening Hours',
+      transitLabel: 'Transit & MRT',
+      proTipLabel: 'Insider Pro Tip',
+      orderPhraseLabel: 'Local Order Phrase',
+      viewGuideBtn: 'Explore Market Guide',
+      signatureDishesLabel: 'Must-Eat Dishes',
+    },
+    nightMarketModal: {
+      badge: 'Night Market & Food Street Guide',
+      hours: 'Opening Hours',
+      transit: 'Transportation & MRT',
+      proTip: 'Insider Secret & Pro Tip',
+      orderPhrase: 'Local Slang Order Phrase',
+      speakBtn: '🔊 Speak Native Pronunciation',
+      speakingBtn: 'Pronouncing...',
+      signatureDishes: 'Iconic Signature Dishes in this Market',
+      viewRecipeBtn: 'View Recipe',
+      closeBtn: 'Close Guide',
     },
     recipeDetail: {
       backToMarket: 'Back to Market',
@@ -341,12 +387,35 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       districtsSubtitle: '點擊進入各國專屬街區，探索當季必吃與道地風味。',
       dishesClassic: '道經典小吃',
       enterDistrict: '漫遊夜市街區',
+      spotlightTitle: '亞洲指標傳奇夜市',
+      spotlightSubtitle: '精選七國最具煙火氣的排檔、屋台、巴剎與夜市名勝街區。',
     },
     district: {
       allMarkets: '所有夜市街區',
       districtDishes: '道街頭正宗夜市料理',
       categoryLabel: '分類:',
       allCategory: '全部',
+      tabDishes: '道地街頭料理',
+      tabMarkets: '夜市街區導覽',
+      marketCount: '處指標名勝夜市',
+      openingHours: '營業時間',
+      transitLabel: '交通捷運指南',
+      proTipLabel: '老饕秘訣',
+      orderPhraseLabel: '在地點餐發音',
+      viewGuideBtn: '查看夜市指南',
+      signatureDishesLabel: '必吃招牌美食',
+    },
+    nightMarketModal: {
+      badge: '夜市與美食街區深度導覽',
+      hours: '營業時間',
+      transit: '交通與捷運抵達指南',
+      proTip: '內行老饕必備秘訣',
+      orderPhrase: '道地在地點餐發音',
+      speakBtn: '🔊 播放當地語音發音',
+      speakingBtn: '朗讀發音中...',
+      signatureDishes: '此夜市不可錯過的代表料理',
+      viewRecipeBtn: '查看料理食譜',
+      closeBtn: '關閉導覽',
     },
     recipeDetail: {
       backToMarket: '返回夜市',
@@ -504,12 +573,35 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       districtsSubtitle: '国別の屋台街を選んで、人気グルメと伝統の味を巡りましょう。',
       dishesClassic: '定番料理',
       enterDistrict: '屋台街を見る',
+      spotlightTitle: 'アジアの伝説的ナイトマーケット',
+      spotlightSubtitle: '活気あふれる屋台街、夜市、パサール・マラムの名所めぐり。',
     },
     district: {
       allMarkets: 'すべての夜市',
       districtDishes: '品の本格屋台グルメ',
       categoryLabel: 'カテゴリー:',
       allCategory: 'すべて',
+      tabDishes: '屋台料理レシピ',
+      tabMarkets: '夜市・屋台街ガイド',
+      marketCount: 'カ所の名物夜市',
+      openingHours: '営業時間',
+      transitLabel: 'アクセス・交通',
+      proTipLabel: 'ツウの豆知識',
+      orderPhraseLabel: '現地注文フレーズ',
+      viewGuideBtn: '夜市ガイドを見る',
+      signatureDishesLabel: '名物グルメ',
+    },
+    nightMarketModal: {
+      badge: '夜市・屋台街ガイド',
+      hours: '営業時間',
+      transit: 'アクセス・最寄駅',
+      proTip: '耳寄り豆知識＆コツ',
+      orderPhrase: '現地語での注文フレーズ',
+      speakBtn: '🔊 音声で発音を聞く',
+      speakingBtn: '再生中...',
+      signatureDishes: 'この夜市の名物ストリートフード',
+      viewRecipeBtn: 'レシピを見る',
+      closeBtn: '閉じる',
     },
     recipeDetail: {
       backToMarket: '戻る',
