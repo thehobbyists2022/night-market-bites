@@ -254,6 +254,73 @@ const PHRASE_DICTIONARY: Record<string, {
     }
   },
 
+  "肉羹湯，烏醋加多一點": {
+    meaning: {
+      en: "Pork thick soup, please add extra black vinegar!",
+      "zh-TW": "肉羹湯，烏醋加多一點！",
+      ja: "豚肉のとろみスープ（肉羹湯）、黒酢多めでお願いします！",
+      ko: "돼지고기 걸쭉한 스프 (로우겅탕), 흑초 넉넉히 넣어주세요!",
+      vi: "Canh thịt heo sốt đặc Đài Loan, cho thêm nhiều giấm đen nhé!",
+      th: "ซุปหมูเข้มข้นไต้หวัน ขอน้ำส้มสายชูดำเพิ่มหน่อยนะครับ!",
+      ms: "Sup daging pekat Taiwan, tambah cuka hitam lebih ya!",
+      fil: "Pork thick soup ng Taiwan, dagdagan ng black vinegar po!"
+    },
+    breakdown: {
+      en: "肉羹湯 (Silky pork thick soup with starch broth) · 烏醋 (Taiwanese black vinegar - adds sourness & depth) · 加多一點 (Add more / extra portion)",
+      "zh-TW": "肉羹湯（勾芡肉羹香滑湯底）· 烏醋（台式烏醋提酸解膩）· 加多一點（多加一些，讓味道更豐富）",
+      ja: "肉羹湯（片栗粉でとろみをつけた豚肉スープ）· 烏醋（台湾黒酢で風味をプラス）· 加多一點（追加多めに）",
+      ko: "肉羹湯 (전분으로 걸쭉하게 만든 돼지고기 스프) · 烏醋 (대만식 흑초로 산미 추가) · 加多一點 (더 많이 넣어주세요)",
+      vi: "肉羹湯 (Canh thịt heo sánh mịn với tinh bột) · 烏醋 (Giấm đen Đài Loan thêm vị chua thơm) · 加多一點 (Cho thêm nhiều hơn)",
+      th: "肉羹湯 (ซุปหมูเข้มข้นใส่แป้ง) · 烏醋 (น้ำส้มสายชูดำเพิ่มรสเปรี้ยว) · 加多一點 (ขอเพิ่มมากขึ้นหน่อย)",
+      ms: "肉羹湯 (Sup daging pekat bertepung) · 烏醋 (Cuka hitam Taiwan untuk rasa masam) · 加多一點 (Tambah lebih banyak)",
+      fil: "肉羹湯 (Malapot na sopas na baboy) · 烏醋 (Black vinegar para sa asim) · 加多一點 (Dagdag pa nang kaunti)"
+    }
+  },
+  "老闆，一碗肉羹湯，烏醋加多一點": {
+    meaning: {
+      en: "Boss, one bowl of pork thick soup, extra black vinegar please!",
+      "zh-TW": "老闆，一碗肉羹湯，烏醋加多一點！",
+      ja: "店主、肉羹湯を一杯、黒酢多めでお願いします！",
+      ko: "사장님, 로우겅탕 한 그릇, 흑초 넉넉히 주세요!",
+      vi: "Bác chủ, một tô canh thịt heo, thêm nhiều giấm đen nhé!",
+      th: "เถ้าแก่ ซุปหมูเข้มข้นหนึ่งชาม ขอน้ำส้มสายชูดำเพิ่มครับ!",
+      ms: "Tauke, satu mangkuk sup daging pekat, cuka hitam lebih ya!",
+      fil: "Boss, isang mangkok ng pork thick soup, dagdag black vinegar po!"
+    },
+    breakdown: {
+      en: "一碗 (One bowl) · 肉羹湯 (Silky pork thick soup) · 烏醋加多一點 (Extra Taiwanese black vinegar for a sour punch)",
+      "zh-TW": "一碗（一碗份量）· 肉羹湯（勾芡豬肉羹湯）· 烏醋加多一點（台式烏醋加量提味）",
+      ja: "一碗（一杯）· 肉羹湯（豚肉のとろみスープ）· 烏醋加多一點（台湾黒酢を多めに）",
+      ko: "一碗 (한 그릇) · 肉羹湯 (걸쭉한 돼지 스프) · 烏醋加多一點 (흑초 듬뿍)",
+      vi: "一碗 (Một tô) · 肉羹湯 (Canh thịt đặc sánh) · 烏醋加多一點 (Nhiều giấm đen chua)",
+      th: "一碗 (หนึ่งชาม) · 肉羹湯 (ซุปหมูข้น) · 烏醋加多一點 (น้ำส้มสายชูดำเพิ่มเยอะๆ)",
+      ms: "一碗 (Satu mangkuk) · 肉羹湯 (Sup daging pekat) · 烏醋加多一點 (Cuka hitam lebih banyak)",
+      fil: "一碗 (Isang mangkok) · 肉羹湯 (Malapot na sopas) · 烏醋加多一點 (Maraming black vinegar)"
+    }
+  },
+  "老闆，胡椒餅兩個、肉羹湯一碗，剛出爐的趁熱吃！": {
+    meaning: {
+      en: "Boss, two pepper buns and one bowl of pork thick soup — freshly baked, eat while hot!",
+      "zh-TW": "老闆，胡椒餅兩個、肉羹湯一碗，剛出爐的趁熱吃！",
+      ja: "店主、胡椒餅（ペッパーバンズ）を2個と肉羹湯を一杯、焼きたてのうちに熱々でどうぞ！",
+      ko: "사장님, 후추빵 두 개와 로우겅탕 한 그릇, 막 구워낸 거 뜨거울 때 먹을게요!",
+      vi: "Bác chủ, hai cái bánh tiêu và một tô canh thịt heo, vừa ra lò ăn khi còn nóng!",
+      th: "เถ้าแก่ ขนมปังพริกไทยสองชิ้นและซุปหมูเข้มข้นหนึ่งชาม เพิ่งออกจากเตาร้อนๆ เลยครับ!",
+      ms: "Tauke, dua ketul roti lada hitam dan satu mangkuk sup daging, baru keluar dari ketuhar, makan panas!",
+      fil: "Boss, dalawang pepper bun at isang mangkok ng pork thick soup, bagong luto pa, kainin habang mainit!"
+    },
+    breakdown: {
+      en: "胡椒餅兩個 (2 pepper buns, charcoal-baked with pork filling) · 肉羹湯一碗 (1 bowl of silky pork thick soup) · 剛出爐 (Fresh out of the oven) · 趁熱吃 (Eat while piping hot!)",
+      "zh-TW": "胡椒餅兩個（炭烤外酥內嫩豬肉胡椒餅）· 肉羹湯一碗（滑順勾芡肉羹）· 剛出爐（現烤起鍋）· 趁熱吃（最佳賞味溫度）",
+      ja: "胡椒餅兩個（炭火焼きペッパーバンズ2個）· 肉羹湯一碗（とろみ豚肉スープ）· 剛出爐（焼きたて）· 趁熱吃（熱々のうちに）",
+      ko: "胡椒餅兩個 (탄불에 구운 후추빵 2개) · 肉羹湯一碗 (걸쭉한 돼지 스프 한 그릇) · 剛出爐 (갓 구워낸) · 趁熱吃 (뜨거울 때 바로)",
+      vi: "胡椒餅兩個 (Bánh tiêu nướng than 2 cái) · 肉羹湯一碗 (Canh thịt sánh 1 tô) · 剛出爐 (Vừa ra lò) · 趁熱吃 (Ăn khi còn nóng hổi)",
+      th: "胡椒餅兩個 (ขนมปังพริกไทยเผาถ่าน 2 ชิ้น) · 肉羹湯一碗 (ซุปหมูข้น 1 ชาม) · 剛出爐 (เพิ่งออกเตา) · 趁熱吃 (กินตอนร้อนๆ)",
+      ms: "胡椒餅兩個 (Roti lada arang 2 biji) · 肉羹湯一碗 (Sup daging pekat) · 剛出爐 (Baru keluar ketuhar) · 趁熱吃 (Makan masa panas)",
+      fil: "胡椒餅兩個 (Dalawang pepper bun) · 肉羹湯一碗 (Pork thick soup) · 剛出爐 (Bagong luto) · 趁熱吃 (Kumain habang mainit)"
+    }
+  },
+
   // --- Thailand Night Markets & Recipes ---
   "เอาผัดไทยกุ้งสดหนึ่งจาน ไม่เผ็ดมากครับ (Ao Pad Thai Goong Sod Neung Jan, Mai Phet Mak Khrap)": {
     meaning: {
@@ -470,8 +537,14 @@ const ORDERING_KEYWORDS: Array<{
   { pattern: /無糖|不加糖|không đường/i, en: "No Added Sugar (0%)", "zh-TW": "不加額外果糖 / 無糖", ja: "砂糖追加なし", ko: "당도 0% (무설탕)", vi: "Không đường", th: "ไม่เพิ่มน้ำตาล", ms: "Tanpa gula", fil: "Walang dagdag na asukal" },
   { pattern: /蒜味|多蒜泥|bawang putih/i, en: "Extra Fresh Garlic", "zh-TW": "加蒜片 / 蒜泥多一點", ja: "生ニンニク追加", ko: "알싸한 생마늘/다진마늘 듬뿍", vi: "Nhiều tỏi tươi thơm nồng", th: "ใส่กระเทียมเยอะๆ", ms: "Lebih bawang putih", fil: "Maraming sariwang bawang" },
   { pattern: /泡菜多一點/i, en: "Extra Pickled Cabbage", "zh-TW": "酸甜台式高麗菜泡菜多一點", ja: "台湾甘酢ピクルス多め", ko: "대만식 양배추 피클 넉넉히", vi: "Nhiều bắp cải muối chua ngọt", th: "เพิ่มผักดองกะหล่ำปลี", ms: "Lebih jeruk kubis", fil: "Maraming pickled cabbage" },
-  { pattern: /不要切|不切/i, en: "Do Not Cut (Preserves Juiciness)", "zh-TW": "整片不剪切（鎖住飽滿肉汁）", ja: "切らずにそのまま（ジューシーさをキープ）", ko: "자르지 말고 통째로 (육즙 보존)", vi: "Để nguyên miếng không cắt (Giữ trọn nước thịt)", th: "ไม่ต้องหั่น (เพื่อความฉ่ำของเนื้อ)", ms: "Jangan potong (Kekalkan jus daging)", fil: "Huwag hiwain (Para manatiling makatas)" }
+  { pattern: /不要切|不切/i, en: "Do Not Cut (Preserves Juiciness)", "zh-TW": "整片不剪切（鎖住飽滿肉汁）", ja: "切らずにそのまま（ジューシーさをキープ）", ko: "자르지 말고 통째로 (육즙 보존)", vi: "Để nguyên miếng không cắt (Giữ trọn nước thịt)", th: "ไม่ต้องหั่น (เพื่อความฉ่ำของเนื้อ)", ms: "Jangan potong (Kekalkan jus daging)", fil: "Huwag hiwain (Para manatiling makatas)" },
+  { pattern: /烏醋|加醋/i, en: "Add Taiwanese Black Vinegar (Sour & Aromatic)", "zh-TW": "加烏醋（台式陳年烏醋，提鮮解膩增酸）", ja: "台湾黒酢追加（コクと酸味が引き立つ）", ko: "대만식 흑초 추가 (산미와 깊이를 더함)", vi: "Thêm giấm đen Đài Loan (Chua thơm dậy vị)", th: "เพิ่มน้ำส้มสายชูดำ (เปรี้ยวหอม)", ms: "Tambah cuka hitam Taiwan (Masam & wangi)", fil: "Dagdag black vinegar ng Taiwan (Maasim at mabango)" },
+  { pattern: /加多一點|多一點|多點|多加/i, en: "Extra / Add More Please", "zh-TW": "再多加一些（請幫我多給一點）", ja: "追加・多めにしてください", ko: "더 많이 넣어주세요", vi: "Cho thêm nhiều hơn một chút", th: "ขอเพิ่มมากหน่อยครับ", ms: "Tambah lebih banyak sikit", fil: "Dagdag pa nang kaunti" },
+  { pattern: /肉羹湯|肉羹/i, en: "Pork Thick Soup (Silky starch-thickened broth with pork)", "zh-TW": "肉羹湯（勾芡豬肉羹香滑湯底，台灣庶民小吃）", ja: "肉羹湯（片栗粉でとろみをつけた豚肉スープ）", ko: "로우겅탕 (전분 걸쭉한 돼지 스프)", vi: "Canh thịt heo sánh đặc kiểu Đài Loan", th: "ซุปหมูเข้มข้นสไตล์ไต้หวัน", ms: "Sup daging babi pekat bertepung gaya Taiwan", fil: "Malapot na sopas ng baboy estilo Taiwan" },
+  { pattern: /趁熱吃|趁熱/i, en: "Eat While Hot (Best enjoyed fresh out the wok!)", "zh-TW": "趁熱吃（剛起鍋最好吃！）", ja: "熱々のうちに召し上がれ！", ko: "뜨거울 때 바로 드세요!", vi: "Ăn khi còn nóng hổi!", th: "กินตอนร้อนๆ เลยนะ!", ms: "Makan masa panas lagi sedap!", fil: "Kumain habang mainit pa!" },
+  { pattern: /剛出爐|現烤/i, en: "Freshly Baked / Just Out of the Oven", "zh-TW": "剛出爐（現烤最香）", ja: "焼きたて（今焼き上がったところ）", ko: "방금 구워낸 것 (갓 구워서 뜨끈뜨끈)", vi: "Vừa mới ra lò (Nóng giòn thơm ngon nhất)", th: "เพิ่งออกจากเตา (กรอบหอมที่สุด)", ms: "Baru keluar daripada ketuhar (Paling rangup)", fil: "Bagong galing sa hurno (Pinaka-crispy at mainit)" }
 ];
+
 
 // Clean phrase of quotation marks and whitespace
 function cleanPhrase(p: string): string {
