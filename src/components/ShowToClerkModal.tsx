@@ -4,6 +4,7 @@ import { speak } from '../utils/speech';
 import { useLanguage } from '../context/LanguageContext';
 import { getUI } from '../i18n/uiStrings';
 import type { CountryCode, Language } from '../types/unified';
+import { getPhraseDetails } from '../utils/phraseTranslation';
 
 export interface ClerkModalData {
   type: 'ingredient' | 'dish';
@@ -195,6 +196,8 @@ export const ShowToClerkModal: React.FC<ShowToClerkModalProps> = ({ data, onClos
   if (!data) return null;
 
   const dietOptions = getDietaryOptions(data.country, language);
+  const phraseToExplain = data.orderPhrase || data.nativeTitle;
+  const phraseDetails = getPhraseDetails(phraseToExplain, language, data.country);
 
   const toggleDiet = (id: string) => {
     setSelectedDiet((prev) =>
@@ -289,6 +292,37 @@ export const ShowToClerkModal: React.FC<ShowToClerkModalProps> = ({ data, onClos
                   </span>
                 );
               })}
+            </div>
+          )}
+
+          {/* Full Slang Order Phrase if different from native title */}
+          {data.orderPhrase && data.orderPhrase !== data.nativeTitle && (
+            <p className="mt-3 text-sm sm:text-base font-bold text-amber-950/80 bg-amber-100/60 rounded-xl px-3 py-1.5 inline-block">
+              &ldquo;{data.orderPhrase}&rdquo;
+            </p>
+          )}
+
+          {/* Localized Meaning & Order Options Breakdown for Traveler */}
+          {phraseDetails && (
+            <div className="mt-4 rounded-2xl border border-amber-300/80 bg-white/95 p-3.5 text-left shadow-xs space-y-2">
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-900 block">
+                  💡 {ui.clerkModal.meaningLabel}
+                </span>
+                <span className="text-sm sm:text-base font-bold text-stone-900 block mt-0.5 leading-snug">
+                  {phraseDetails.meaning}
+                </span>
+              </div>
+              {phraseDetails.breakdown && (
+                <div className="pt-2 border-t border-amber-100/90">
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-900 block">
+                    🔍 {ui.clerkModal.breakdownLabel}
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-stone-700 block mt-0.5 leading-relaxed">
+                    {phraseDetails.breakdown}
+                  </span>
+                </div>
+              )}
             </div>
           )}
         </div>

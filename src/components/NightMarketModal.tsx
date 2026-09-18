@@ -6,6 +6,7 @@ import { text, findRecipeByIdOrSlug } from '../lib/selectRecipe';
 import { COUNTRIES, countryName } from '../config/countries';
 import { speak } from '../utils/speech';
 import { soundEffects } from '../utils/soundEffects';
+import { getPhraseDetails } from '../utils/phraseTranslation';
 import {
   X,
   Clock,
@@ -40,6 +41,9 @@ export const NightMarketModal: React.FC<NightMarketModalProps> = ({
   const transit = text(market.transportInfo, language);
   const funFact = text(market.funFact, language);
   const slangMeaning = text(market.localSlangMeaning, language);
+  const phraseDetails = market.localSlangOrderPhrase
+    ? getPhraseDetails(market.localSlangOrderPhrase, language, market.country as any)
+    : null;
 
   const handleSpeak = () => {
     if (!market.localSlangOrderPhrase) return;
@@ -171,6 +175,29 @@ export const NightMarketModal: React.FC<NightMarketModalProps> = ({
                       💡 {slangMeaning}
                     </div>
                   )}
+                  {/* Localized translation from phraseTranslation dictionary */}
+                  {phraseDetails && !slangMeaning && (
+                    <div className="mt-1.5 rounded-xl border border-amber-400/20 bg-black/25 p-2.5 space-y-1.5">
+                      <div>
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300 block">
+                          💡 {ui.nightMarketModal.orderPhrase} — Meaning
+                        </span>
+                        <span className="text-xs sm:text-sm font-semibold text-white/90 block mt-0.5">
+                          {phraseDetails.meaning}
+                        </span>
+                      </div>
+                      {phraseDetails.breakdown && (
+                        <div className="pt-1.5 border-t border-white/10">
+                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-300 block">
+                            🔍 Breakdown
+                          </span>
+                          <span className="text-xs font-medium text-amber-100/80 block mt-0.5 leading-relaxed">
+                            {phraseDetails.breakdown}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <button
@@ -188,6 +215,7 @@ export const NightMarketModal: React.FC<NightMarketModalProps> = ({
               </div>
             </div>
           )}
+
 
           {/* Pro Tip / Fun Fact */}
           {funFact && (

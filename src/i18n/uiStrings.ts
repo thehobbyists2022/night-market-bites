@@ -44,6 +44,8 @@ export interface UIStrings {
     listenAudio: string;
     playingAudio: string;
     cookGuide: string;
+    phraseMeaningLabel: string;
+    phraseBreakdownLabel: string;
   };
   nightMarketModal: {
     badge: string;
@@ -86,6 +88,8 @@ export interface UIStrings {
     causeLabel: string;
     solutionLabel: string;
     proTipsTitle: string;
+    phraseMeaningLabel: string;
+    phraseBreakdownLabel: string;
   };
   cookware: {
     title: string;
@@ -128,6 +132,8 @@ export interface UIStrings {
     dietaryCustom: string;
     speakNative: string;
     speaking: string;
+    meaningLabel: string;
+    breakdownLabel: string;
   };
   survivalModal: {
     badge: string;
@@ -239,6 +245,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       listenAudio: 'Listen Audio',
       playingAudio: 'Playing...',
       cookGuide: 'Cooking Guide',
+      phraseMeaningLabel: 'Meaning & Translation',
+      phraseBreakdownLabel: 'Custom Order Breakdown',
     },
     nightMarketModal: {
       badge: 'Night Market & Food Street Guide',
@@ -281,6 +289,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       causeLabel: 'Cause:',
       solutionLabel: 'Fix:',
       proTipsTitle: 'Chef Pro Tips',
+      phraseMeaningLabel: 'Meaning & Translation',
+      phraseBreakdownLabel: 'Custom Order Breakdown',
     },
     cookware: {
       title: 'Cooking Method',
@@ -323,6 +333,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       dietaryCustom: 'Dietary Customizations:',
       speakNative: '🔊 Speak Native Pronunciation',
       speaking: 'Speaking...',
+      meaningLabel: 'Meaning & Translation',
+      breakdownLabel: 'Order Options Breakdown',
     },
     survivalModal: {
       badge: 'Night Market Survival Cards',
@@ -434,6 +446,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       listenAudio: '聆聽發音',
       playingAudio: '播放中...',
       cookGuide: '料理食譜指南',
+      phraseMeaningLabel: '句意翻譯',
+      phraseBreakdownLabel: '客製點餐拆解',
     },
     nightMarketModal: {
       badge: '夜市與美食街區深度導覽',
@@ -476,6 +490,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       causeLabel: '原因分析:',
       solutionLabel: '解決秘訣:',
       proTipsTitle: '主廚秘笈',
+      phraseMeaningLabel: '句意翻譯',
+      phraseBreakdownLabel: '客製點餐拆解',
     },
     cookware: {
       title: '選擇烹飪模式',
@@ -518,6 +534,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       dietaryCustom: '點餐客製需求:',
       speakNative: '🔊 播放當地語音',
       speaking: '正在朗讀中...',
+      meaningLabel: '句意翻譯與解析',
+      breakdownLabel: '客製點餐細節',
     },
     survivalModal: {
       badge: '夜市生存急救卡',
@@ -630,6 +648,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       listenAudio: '音声を聴く',
       playingAudio: '再生中...',
       cookGuide: 'レシピを見る',
+      phraseMeaningLabel: 'フレーズの日本語訳',
+      phraseBreakdownLabel: '注文カスタマイズ解説',
     },
     nightMarketModal: {
       badge: '夜市・屋台街ガイド',
@@ -672,6 +692,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       causeLabel: '原因:',
       solutionLabel: '対策:',
       proTipsTitle: 'プロの裏ワザ',
+      phraseMeaningLabel: 'フレーズの日本語訳',
+      phraseBreakdownLabel: '注文カスタマイズ解説',
     },
     cookware: {
       title: '調理器具モード',
@@ -714,6 +736,8 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       dietaryCustom: 'お好み・注文カスタム:',
       speakNative: '🔊 現地語で発音する',
       speaking: '再生中...',
+      meaningLabel: 'フレーズの日本語訳',
+      breakdownLabel: '注文カスタマイズ解説',
     },
     survivalModal: {
       badge: '夜市サバイバルカード',

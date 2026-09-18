@@ -6,6 +6,7 @@ import { findRecipeByIdOrSlug, text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
 import { getUI } from '../i18n/uiStrings';
 import { soundEffects } from '../utils/soundEffects';
+import { getPhraseDetails } from '../utils/phraseTranslation';
 import {
   Compass,
   Train,
@@ -617,37 +618,67 @@ export const NightMarketExplorer: React.FC<NightMarketExplorerProps> = ({
                   )}
 
                   {/* Local Slang Ordering Audio Bar */}
-                  {market.localSlangOrderPhrase && (
-                    <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-900 text-white border border-stone-800 shadow-sm">
-                      <div className="flex items-center gap-3 overflow-hidden pr-2">
-                        <span className="text-xl shrink-0">🗣️</span>
-                        <div className="truncate">
-                          <span className="text-xs text-amber-400 font-extrabold block uppercase tracking-wider">
-                            {ui.district.orderingSimulation}
-                          </span>
-                          <span className="text-sm sm:text-base text-stone-100 font-bold truncate block">
-                            &ldquo;{market.localSlangOrderPhrase}&rdquo;
-                          </span>
-                        </div>
-                      </div>
+                  {market.localSlangOrderPhrase && (() => {
+                    const slangDetails = getPhraseDetails(market.localSlangOrderPhrase, language, market.country as any);
+                    return (
+                      <div className="rounded-2xl bg-stone-900 text-white border border-stone-800 shadow-sm overflow-hidden">
+                        {/* Phrase row */}
+                        <div className="flex items-center justify-between p-4">
+                          <div className="flex items-center gap-3 overflow-hidden pr-2">
+                            <span className="text-xl shrink-0">🗣️</span>
+                            <div className="truncate">
+                              <span className="text-xs text-amber-400 font-extrabold block uppercase tracking-wider">
+                                {ui.district.orderingSimulation}
+                              </span>
+                              <span className="text-sm sm:text-base text-stone-100 font-bold truncate block">
+                                &ldquo;{market.localSlangOrderPhrase}&rdquo;
+                              </span>
+                            </div>
+                          </div>
 
-                      <button
-                        onClick={() => handleSpeak(market.localSlangOrderPhrase!, market.id)}
-                        className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black shrink-0 transition-all active:scale-95 ${
-                          playingMarketId === market.id
-                            ? 'bg-amber-400 text-stone-950 scale-105 shadow-glow'
-                            : 'bg-white/15 hover:bg-white/25 text-white'
-                        }`}
-                      >
-                        <Volume2 className="w-4 h-4" />
-                        <span>
-                          {playingMarketId === market.id
-                            ? ui.district.playingAudio
-                            : ui.district.listenAudio}
-                        </span>
-                      </button>
-                    </div>
-                  )}
+                          <button
+                            onClick={() => handleSpeak(market.localSlangOrderPhrase!, market.id)}
+                            className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black shrink-0 transition-all active:scale-95 ${
+                              playingMarketId === market.id
+                                ? 'bg-amber-400 text-stone-950 scale-105 shadow-glow'
+                                : 'bg-white/15 hover:bg-white/25 text-white'
+                            }`}
+                          >
+                            <Volume2 className="w-4 h-4" />
+                            <span>
+                              {playingMarketId === market.id
+                                ? ui.district.playingAudio
+                                : ui.district.listenAudio}
+                            </span>
+                          </button>
+                        </div>
+
+                        {/* Localized translation + breakdown */}
+                        {slangDetails && (
+                          <div className="px-4 pb-4 space-y-1.5 border-t border-stone-700/60">
+                            <div className="pt-2">
+                              <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-400 block">
+                                💡 {ui.district.phraseMeaningLabel}
+                              </span>
+                              <span className="text-sm text-stone-200 font-semibold block mt-0.5">
+                                {slangDetails.meaning}
+                              </span>
+                            </div>
+                            {slangDetails.breakdown && (
+                              <div className="pt-1.5 border-t border-stone-700/40">
+                                <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-400 block">
+                                  🔍 {ui.district.phraseBreakdownLabel}
+                                </span>
+                                <span className="text-xs sm:text-sm text-stone-300/90 font-medium block mt-0.5 leading-relaxed">
+                                  {slangDetails.breakdown}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 

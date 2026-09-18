@@ -6,6 +6,7 @@ import { BookOpen, Volume2, MapPin, Sparkles, Store } from 'lucide-react';
 import { speak } from '../utils/speech';
 import type { CountryCode } from '../types/unified';
 import type { ClerkModalData } from './ShowToClerkModal';
+import { getPhraseDetails } from '../utils/phraseTranslation';
 
 interface NightMarketStoryProps {
   culture: any;
@@ -47,6 +48,8 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
     nativeName ||
     recipeTitle;
 
+  const phraseDetails = getPhraseDetails(orderPhrase, language, country);
+
   const handleSpeak = () => {
     setIsPlaying(true);
     speak(orderPhrase, country, {
@@ -78,8 +81,8 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
         </div>
 
         {/* Street Ordering Phrase Card */}
-        <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-1.5">
+        <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-md sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1.5 flex-1">
             <div className="flex items-center gap-1.5 text-xs font-black tracking-wider text-amber-300 uppercase">
               <Sparkles className="h-3.5 w-3.5" />
               <span>{ui.recipeDetail.orderingPhraseTitle}</span>
@@ -90,6 +93,30 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
             {phonetic && (
               <div className="font-mono text-sm sm:text-base text-amber-200/90 font-medium">
                 {phonetic}
+              </div>
+            )}
+
+            {/* Localized Meaning & Breakdown for foreign visitors */}
+            {phraseDetails && (
+              <div className="mt-2 rounded-xl border border-amber-400/20 bg-black/30 p-3 space-y-1.5 text-left">
+                <div>
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300 block">
+                    💡 {ui.recipeDetail.phraseMeaningLabel}
+                  </span>
+                  <span className="text-sm sm:text-base font-semibold text-white/90 block mt-0.5 leading-snug">
+                    {phraseDetails.meaning}
+                  </span>
+                </div>
+                {phraseDetails.breakdown && (
+                  <div className="pt-1.5 border-t border-white/10">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300 block">
+                      🔍 {ui.recipeDetail.phraseBreakdownLabel}
+                    </span>
+                    <span className="text-xs sm:text-sm font-medium text-amber-100/80 block mt-0.5 leading-relaxed">
+                      {phraseDetails.breakdown}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
           </div>
