@@ -34,6 +34,16 @@ export interface UIStrings {
     orderPhraseLabel: string;
     viewGuideBtn: string;
     signatureDishesLabel: string;
+    explorerSubtitle: string;
+    transitFeatureBadge: string;
+    audioFeatureBadge: string;
+    dishesFeatureBadge: string;
+    regionAll: string;
+    foodieFunFact: string;
+    orderingSimulation: string;
+    listenAudio: string;
+    playingAudio: string;
+    cookGuide: string;
   };
   nightMarketModal: {
     badge: string;
@@ -219,6 +229,16 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       orderPhraseLabel: 'Local Order Phrase',
       viewGuideBtn: 'Explore Market Guide',
       signatureDishesLabel: 'Must-Eat Dishes',
+      explorerSubtitle: 'Explore iconic stalls, secret foodie tips, transit station exits, and audio ordering slang across regions.',
+      transitFeatureBadge: '🚅 Transit & Station Guides',
+      audioFeatureBadge: '🔊 Native Audio Ordering',
+      dishesFeatureBadge: '🍽️ 1-Click Iconic Recipes',
+      regionAll: 'All Regions',
+      foodieFunFact: 'Foodie Insider Secret',
+      orderingSimulation: 'Local Ordering Slang',
+      listenAudio: 'Listen Audio',
+      playingAudio: 'Playing...',
+      cookGuide: 'Cooking Guide',
     },
     nightMarketModal: {
       badge: 'Night Market & Food Street Guide',
@@ -404,6 +424,16 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       orderPhraseLabel: '在地點餐發音',
       viewGuideBtn: '查看夜市指南',
       signatureDishesLabel: '必吃招牌美食',
+      explorerSubtitle: '探索各大區域指標名攤、老饕冷知識、捷運交通與道地點餐用語。',
+      transitFeatureBadge: '🚅 捷運與交通抵達指引',
+      audioFeatureBadge: '🔊 在地原音點餐用語',
+      dishesFeatureBadge: '🍽️ 指標料理一鍵直達食譜',
+      regionAll: '全區旗艦',
+      foodieFunFact: '老饕私房冷知識',
+      orderingSimulation: '在地原音點餐模擬',
+      listenAudio: '聆聽發音',
+      playingAudio: '播放中...',
+      cookGuide: '料理食譜指南',
     },
     nightMarketModal: {
       badge: '夜市與美食街區深度導覽',
@@ -590,6 +620,16 @@ export const UI_STRINGS: Record<Language, UIStrings> = {
       orderPhraseLabel: '現地注文フレーズ',
       viewGuideBtn: '夜市ガイドを見る',
       signatureDishesLabel: '名物グルメ',
+      explorerSubtitle: '各地域の名物屋台、食通の豆知識、アクセス情報、現地注文フレーズを網羅。',
+      transitFeatureBadge: '🚅 駅出口・アクセス情報',
+      audioFeatureBadge: '🔊 現地ネイティブ音声',
+      dishesFeatureBadge: '🍽️ 名物グルメ直結レシピ',
+      regionAll: '全域',
+      foodieFunFact: '食通の隠れた豆知識',
+      orderingSimulation: 'ローカル注文シミュレーション',
+      listenAudio: '音声を聴く',
+      playingAudio: '再生中...',
+      cookGuide: 'レシピを見る',
     },
     nightMarketModal: {
       badge: '夜市・屋台街ガイド',

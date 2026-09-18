@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { recipesOf, text } from '../lib/selectRecipe';
-import { NIGHT_MARKETS, getNightMarketsByCountry } from '../data/nightMarkets';
+import { getNightMarketsByCountry } from '../data/nightMarkets';
 import { useLanguage } from '../context/LanguageContext';
-import type { CountryCode, CountryRecipe, NightMarketItem } from '../types/unified';
+import type { CountryCode, CountryRecipe } from '../types/unified';
 import { Sparkles, Search, Store } from 'lucide-react';
 import { soundEffects } from '../utils/soundEffects';
 import { getUI } from '../i18n/uiStrings';
-import { NightMarketCard } from './NightMarketCard';
-import { NightMarketModal } from './NightMarketModal';
 
 interface MarketHallProps {
   onSelectCountry: (code: CountryCode, tab?: 'dishes' | 'markets') => void;
@@ -23,7 +21,6 @@ export const MarketHall: React.FC<MarketHallProps> = ({
 }) => {
   const { language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedMarket, setSelectedMarket] = useState<NightMarketItem | null>(null);
   const ui = getUI(language);
 
   // Collect all recipes for search
@@ -168,7 +165,7 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                   <div
                     onClick={() => {
                       soundEffects.playClick();
-                      onSelectCountry(c.code, 'dishes');
+                      onSelectCountry(c.code, 'markets');
                     }}
                     className="cursor-pointer"
                   >
@@ -182,14 +179,17 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                       )}
                       <div className="img-grad absolute inset-0" />
 
-                      <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-stone-950/70 px-3 py-1 text-xs font-bold text-white backdrop-blur-md">
+                      <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-stone-950/70 px-3 py-1 text-xs font-bold text-white backdrop-blur-md border border-white/15">
                         <span>{c.flag}</span>
                         <span>{c.name}</span>
                       </div>
 
                       <div className="absolute right-3 bottom-3 flex items-center gap-1.5">
                         <span className="rounded-xl bg-amber-500 px-2.5 py-1 text-[11px] font-black text-stone-950 shadow-md">
-                          {recipes.length} {ui.marketHall.dishesClassic}
+                          🏮 {markets.length} {ui.district.tabMarkets}
+                        </span>
+                        <span className="rounded-xl bg-stone-900/90 text-stone-100 px-2.5 py-1 text-[11px] font-bold shadow-md backdrop-blur-md border border-white/10">
+                          🍢 {recipes.length}
                         </span>
                       </div>
                     </div>
@@ -205,8 +205,19 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                     </div>
                   </div>
 
-                  {/* Dual Action Footer: Enter Dishes vs Explore Night Markets */}
+                  {/* Dual Action Footer: Explore Night Markets vs Cooking Dishes */}
                   <div className="grid grid-cols-2 border-t border-stone-100 bg-stone-50/70 divide-x divide-stone-100">
+                    <button
+                      onClick={() => {
+                        soundEffects.playClick();
+                        onSelectCountry(c.code, 'markets');
+                      }}
+                      className="px-3 py-3 text-center text-xs font-extrabold text-amber-800 hover:bg-amber-100/80 transition-colors flex items-center justify-center gap-1"
+                    >
+                      <span>🏮</span>
+                      <span>{markets.length} {ui.district.tabMarkets}</span>
+                    </button>
+
                     <button
                       onClick={() => {
                         soundEffects.playClick();
@@ -215,70 +226,14 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                       className="px-3 py-3 text-center text-xs font-extrabold text-stone-700 hover:bg-amber-50 hover:text-amber-800 transition-colors flex items-center justify-center gap-1"
                     >
                       <span>🍢</span>
-                      <span>{ui.district.tabDishes}</span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        soundEffects.playClick();
-                        onSelectCountry(c.code, 'markets');
-                      }}
-                      className="px-3 py-3 text-center text-xs font-extrabold text-amber-700 hover:bg-amber-100/80 transition-colors flex items-center justify-center gap-1"
-                    >
-                      <span>🏮</span>
-                      <span>{markets.length} {ui.district.tabMarkets}</span>
+                      <span>{recipes.length} {ui.district.tabDishes}</span>
                     </button>
                   </div>
                 </div>
               );
             })}
           </div>
-
-          {/* Spotlight: World Famous Night Markets of Asia */}
-          <section className="mt-12">
-            <div className="mb-4">
-              <h2 className="text-xl font-black text-stone-900 flex items-center gap-2">
-                <span>🏮</span>
-                <span>{ui.marketHall.spotlightTitle}</span>
-              </h2>
-              <p className="text-xs text-stone-500 mt-0.5">
-                {ui.marketHall.spotlightSubtitle}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                'shilin',
-                'yaowarat',
-                'osaka-dotonbori-shinsekai',
-                'gwangjang-market',
-                'jalan-alor',
-                'quiapo-market',
-                'hanoi-old-quarter',
-                'ningxia',
-                'jodd-fairs',
-              ]
-                .map((id) => NIGHT_MARKETS.find((m) => m.id === id))
-                .filter(Boolean)
-                .map((market) => (
-                  <NightMarketCard
-                    key={market!.id}
-                    market={market!}
-                    onOpenModal={(m) => setSelectedMarket(m)}
-                  />
-                ))}
-            </div>
-          </section>
         </section>
-      )}
-
-      {/* Night Market Detail Modal */}
-      {selectedMarket && (
-        <NightMarketModal
-          market={selectedMarket}
-          onClose={() => setSelectedMarket(null)}
-          onSelectRecipe={onSelectRecipe}
-        />
       )}
     </div>
   );

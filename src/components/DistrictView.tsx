@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { categoriesOf, recipesOf, text } from '../lib/selectRecipe';
 import { getNightMarketsByCountry } from '../data/nightMarkets';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
-import type { CountryCode, CountryRecipe, NightMarketItem } from '../types/unified';
+import type { CountryCode, CountryRecipe } from '../types/unified';
 import { ArrowLeft, Clock, Flame, Heart, Filter, Store, Utensils } from 'lucide-react';
 import { soundEffects } from '../utils/soundEffects';
 import { getUI } from '../i18n/uiStrings';
-import { NightMarketCard } from './NightMarketCard';
-import { NightMarketModal } from './NightMarketModal';
+import { NightMarketExplorer } from './NightMarketExplorer';
 
 interface DistrictViewProps {
   country: CountryCode;
@@ -22,7 +21,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
   country,
   onBack,
   onSelectRecipe,
-  initialTab = 'dishes',
+  initialTab = 'markets',
 }) => {
   const { language } = useLanguage();
   const { favorites } = useUser();
@@ -32,8 +31,13 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
   const cats = ['all', ...categoriesOf(country)];
   const [selectedCat, setSelectedCat] = useState('all');
   const [activeTab, setActiveTab] = useState<'dishes' | 'markets'>(initialTab);
-  const [selectedMarket, setSelectedMarket] = useState<NightMarketItem | null>(null);
   const ui = getUI(language);
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab, country]);
 
   const shownRecipes =
     selectedCat === 'all'
@@ -77,23 +81,8 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
         </div>
       </div>
 
-      {/* Top Segmented Navigation Tab: Dishes vs Markets */}
+      {/* Top Segmented Navigation Tab: Markets vs Dishes */}
       <div className="mt-6 flex items-center gap-3 border-b border-stone-200 pb-3">
-        <button
-          onClick={() => {
-            soundEffects.playClick();
-            setActiveTab('dishes');
-          }}
-          className={`flex items-center gap-2 rounded-2xl px-5 py-2.5 text-xs sm:text-sm font-extrabold transition-all ${
-            activeTab === 'dishes'
-              ? 'bg-amber-600 text-white shadow-md scale-[1.02]'
-              : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
-          }`}
-        >
-          <Utensils className="h-4 w-4" />
-          <span>{ui.district.tabDishes} ({recipes.length})</span>
-        </button>
-
         <button
           onClick={() => {
             soundEffects.playClick();
@@ -107,6 +96,21 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
         >
           <Store className="h-4 w-4" />
           <span>{ui.district.tabMarkets} ({markets.length})</span>
+        </button>
+
+        <button
+          onClick={() => {
+            soundEffects.playClick();
+            setActiveTab('dishes');
+          }}
+          className={`flex items-center gap-2 rounded-2xl px-5 py-2.5 text-xs sm:text-sm font-extrabold transition-all ${
+            activeTab === 'dishes'
+              ? 'bg-amber-600 text-white shadow-md scale-[1.02]'
+              : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
+          }`}
+        >
+          <Utensils className="h-4 w-4" />
+          <span>{ui.district.tabDishes} ({recipes.length})</span>
         </button>
       </div>
 
@@ -221,37 +225,13 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
           </div>
         </>
       ) : (
-        /* Night Markets Guides Grid */
+        /* Comprehensive Night Market Explorer */
         <div className="mt-6">
-          <div className="mb-4">
-            <h2 className="text-xl font-black text-stone-900 flex items-center gap-2">
-              <span>🏮</span>
-              <span>{countryName(country, language)} {ui.district.tabMarkets}</span>
-            </h2>
-            <p className="text-xs text-stone-500 mt-1">
-              {markets.length} {ui.district.marketCount} · {ui.district.transitLabel} & {ui.district.openingHours}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {markets.map((market) => (
-              <NightMarketCard
-                key={market.id}
-                market={market}
-                onOpenModal={(m) => setSelectedMarket(m)}
-              />
-            ))}
-          </div>
+          <NightMarketExplorer
+            country={country}
+            onSelectRecipe={onSelectRecipe}
+          />
         </div>
-      )}
-
-      {/* Night Market Detail Modal */}
-      {selectedMarket && (
-        <NightMarketModal
-          market={selectedMarket}
-          onClose={() => setSelectedMarket(null)}
-          onSelectRecipe={onSelectRecipe}
-        />
       )}
     </div>
   );
