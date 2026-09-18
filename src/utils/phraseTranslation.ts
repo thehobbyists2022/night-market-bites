@@ -254,9 +254,56 @@ const PHRASE_DICTIONARY: Record<string, {
     }
   },
 
+  "老闆，厚切雞排一份，不要切要梅子粉！": {
+    meaning: {
+      en: "Boss, one thick-cut chicken steak — don't cut it, and add plum powder seasoning!",
+      "zh-TW": "老闆，厚切雞排一份，不要切要梅子粉！",
+      ja: "店長、厚切りチキンステーキ（厚切雞排）一つ、切らずにそのまま、プラムパウダー（梅子粉）かけてください！",
+      ko: "사장님, 두꺼운 닭가슴살 스테이크 하나, 자르지 말고 매실 파우더 뿌려주세요!",
+      vi: "Bác chủ, một phần ức gà chiên dày, không cắt ra, rắc bột mận lên nhé!",
+      th: "เถ้าแก่ ไก่ทอดหนาหนึ่งชิ้น ไม่ต้องหั่น ขอโรยผงพลัมครับ!",
+      ms: "Tauke, satu bahagian ayam goreng tebal, jangan potong, tabur serbuk plum ya!",
+      fil: "Boss, isang thick-cut na chicken steak, huwag hiwain, budburan ng plum powder!"
+    },
+    breakdown: {
+      en: "厚切雞排 (Extra-thick crispy chicken steak - juicy & meaty inside) · 不要切 (Do NOT cut - keeps all the juices locked in!) · 要梅子粉 (Add plum powder - a sweet-sour Taiwanese seasoning dusted on top)",
+      "zh-TW": "厚切雞排（厚實多汁的炸雞排，肉質豐厚）· 不要切（整片保留肉汁，鎖住鮮嫩口感）· 要梅子粉（台式梅子粉撒在雞排表面，酸甜畫龍點睛）",
+      ja: "厚切雞排（ジューシーな厚切りフライドチキン）· 不要切（切らずに肉汁を閉じ込める）· 要梅子粉（梅子粉：甘酸っぱい台湾の梅パウダーをふりかける）",
+      ko: "厚切雞排 (두툼하고 육즙 풍부한 닭 스테이크) · 不要切 (자르지 않아야 육즙 보존) · 要梅子粉 (매실 파우더 뿌리기 - 달콤새콤한 대만식 토핑)",
+      vi: "厚切雞排 (Gà chiên dày, bên trong mọng nước) · 不要切 (Để nguyên miếng, giữ trọn nước thịt) · 要梅子粉 (Rắc bột mận - gia vị chua ngọt đặc trưng Đài Loan)",
+      th: "厚切雞排 (ไก่ทอดหนาฉ่ำมาก) · 不要切 (ไม่หั่น เพื่อเก็บน้ำในเนื้อ) · 要梅子粉 (โรยผงพลัม - รสหวานเปรี้ยวสไตล์ไต้หวัน)",
+      ms: "厚切雞排 (Ayam goreng tebal, berair di dalam) · 不要切 (Jangan potong supaya jus terkunci) · 要梅子粉 (Tabur serbuk plum manis-masam gaya Taiwan)",
+      fil: "厚切雞排 (Makapal na chicken steak, malambot at makatas) · 不要切 (Huwag hiwain para manatiling makatas) · 要梅子粉 (Budburan ng plum powder - matamis-maasim na toping)"
+    }
+  },
+  "老闆，雞排一份，不要切，要梅子粉": {
+    meaning: {
+      en: "Boss, one chicken steak — don't cut it, and add plum powder please!",
+      "zh-TW": "老闆，雞排一份，不要切，要梅子粉！",
+      ja: "店長、チキンステーキ一枚、切らずにそのままで、梅子粉かけてください！",
+      ko: "사장님, 닭 스테이크 하나, 자르지 말고, 매실 파우더 올려주세요!",
+      vi: "Bác chủ, một phần gà chiên, không cắt ra, rắc bột mận lên nhé!",
+      th: "เถ้าแก่ ไก่ทอดหนึ่งชิ้น ไม่ต้องหั่น ขอโรยผงพลัมด้วยครับ!",
+      ms: "Tauke, satu keping ayam goreng, jangan potong, tabur serbuk plum!",
+      fil: "Boss, isang piraso ng chicken steak, huwag hiwain, may plum powder po!"
+    },
+    breakdown: {
+      en: "雞排 (Taiwanese crispy chicken steak) · 不要切 (Do not cut - seals in the juiciness) · 要梅子粉 (Yes to plum powder - sweet-sour fruity seasoning dusted on top)",
+      "zh-TW": "雞排（台灣經典酥炸雞排）· 不要切（整片不切，保留最佳口感）· 要梅子粉（梅子粉撒面，酸甜下飯）",
+      ja: "雞排（台湾風フライドチキンステーキ）· 不要切（切らずにジューシーさをキープ）· 要梅子粉（梅子粉：酸っぱ甘い粉末スパイスをふりかける）",
+      ko: "雞排 (대만식 바삭 닭 스테이크) · 不要切 (자르지 않아 육즙 유지) · 要梅子粉 (매실 파우더 추가 - 새콤달콤한 과일향 토핑)",
+      vi: "雞排 (Gà chiên giòn kiểu Đài Loan) · 不要切 (Không cắt, giữ nguyên độ mọng nước) · 要梅子粉 (Bột mận - gia vị chua ngọt rắc lên)",
+      th: "雞排 (ไก่ทอดสไตล์ไต้หวัน) · 不要切 (ไม่หั่น รักษาความฉ่ำ) · 要梅子粉 (ผงพลัมหวานเปรี้ยว)",
+      ms: "雞排 (Ayam goreng rangup gaya Taiwan) · 不要切 (Jangan potong kekalkan jus) · 要梅子粉 (Serbuk plum masam-manis)",
+      fil: "雞排 (Crispy na Taiwanese chicken steak) · 不要切 (Huwag hiwain para makatas) · 要梅子粉 (Plum powder - matamis-maasim na pampalasa)"
+    }
+  },
+
+
   "肉羹湯，烏醋加多一點": {
     meaning: {
       en: "Pork thick soup, please add extra black vinegar!",
+
       "zh-TW": "肉羹湯，烏醋加多一點！",
       ja: "豚肉のとろみスープ（肉羹湯）、黒酢多めでお願いします！",
       ko: "돼지고기 걸쭉한 스프 (로우겅탕), 흑초 넉넉히 넣어주세요!",
@@ -542,7 +589,9 @@ const ORDERING_KEYWORDS: Array<{
   { pattern: /加多一點|多一點|多點|多加/i, en: "Extra / Add More Please", "zh-TW": "再多加一些（請幫我多給一點）", ja: "追加・多めにしてください", ko: "더 많이 넣어주세요", vi: "Cho thêm nhiều hơn một chút", th: "ขอเพิ่มมากหน่อยครับ", ms: "Tambah lebih banyak sikit", fil: "Dagdag pa nang kaunti" },
   { pattern: /肉羹湯|肉羹/i, en: "Pork Thick Soup (Silky starch-thickened broth with pork)", "zh-TW": "肉羹湯（勾芡豬肉羹香滑湯底，台灣庶民小吃）", ja: "肉羹湯（片栗粉でとろみをつけた豚肉スープ）", ko: "로우겅탕 (전분 걸쭉한 돼지 스프)", vi: "Canh thịt heo sánh đặc kiểu Đài Loan", th: "ซุปหมูเข้มข้นสไตล์ไต้หวัน", ms: "Sup daging babi pekat bertepung gaya Taiwan", fil: "Malapot na sopas ng baboy estilo Taiwan" },
   { pattern: /趁熱吃|趁熱/i, en: "Eat While Hot (Best enjoyed fresh out the wok!)", "zh-TW": "趁熱吃（剛起鍋最好吃！）", ja: "熱々のうちに召し上がれ！", ko: "뜨거울 때 바로 드세요!", vi: "Ăn khi còn nóng hổi!", th: "กินตอนร้อนๆ เลยนะ!", ms: "Makan masa panas lagi sedap!", fil: "Kumain habang mainit pa!" },
-  { pattern: /剛出爐|現烤/i, en: "Freshly Baked / Just Out of the Oven", "zh-TW": "剛出爐（現烤最香）", ja: "焼きたて（今焼き上がったところ）", ko: "방금 구워낸 것 (갓 구워서 뜨끈뜨끈)", vi: "Vừa mới ra lò (Nóng giòn thơm ngon nhất)", th: "เพิ่งออกจากเตา (กรอบหอมที่สุด)", ms: "Baru keluar daripada ketuhar (Paling rangup)", fil: "Bagong galing sa hurno (Pinaka-crispy at mainit)" }
+  { pattern: /剛出爐|現烤/i, en: "Freshly Baked / Just Out of the Oven", "zh-TW": "剛出爐（現烤最香）", ja: "焼きたて（今焼き上がったところ）", ko: "방금 구워낸 것 (갓 구워서 뜨끈뜨끈)", vi: "Vừa mới ra lò (Nóng giòn thơm ngon nhất)", th: "เพิ่งออกจากเตา (กรอบหอมที่สุด)", ms: "Baru keluar daripada ketuhar (Paling rangup)", fil: "Bagong galing sa hurno (Pinaka-crispy at mainit)" },
+  { pattern: /梅子粉|要梅子/i, en: "Add Plum Powder (Sweet-sour Taiwanese fruit seasoning dusted on top)", "zh-TW": "加梅子粉（台式酸甜梅粉撒在表面，開胃提味）", ja: "梅子粉追加（甘酸っぱい台湾梅パウダーをトッピング）", ko: "매실 파우더 추가 (달콤새콤한 대만식 과일 분말 토핑)", vi: "Thêm bột mận (Gia vị chua ngọt đặc trưng Đài Loan rắc lên trên)", th: "โรยผงพลัม (เครื่องปรุงผลไม้รสหวานเปรี้ยวสไตล์ไต้หวัน)", ms: "Tambah serbuk plum (Perisa buah masam-manis gaya Taiwan)", fil: "Dagdag plum powder (Matamis-maasim na fruit seasoning ng Taiwan)" },
+  { pattern: /厚切雞排|厚切/i, en: "Extra-Thick Cut Chicken Steak (Juicier and meatier than the standard cut)", "zh-TW": "厚切雞排（比一般版本更厚實、更多汁的炸雞排）", ja: "厚切りチキンステーキ（通常より厚く切られ、肉汁たっぷり）", ko: "두꺼운 두께로 자른 닭 스테이크 (일반보다 두툼하고 육즙이 풍부)", vi: "Gà chiên cắt dày đặc biệt (Dày hơn, nhiều thịt và mọng nước hơn bình thường)", th: "ไก่ทอดหั่นหนาพิเศษ (หนากว่า ฉ่ำกว่า เนื้อเยอะกว่าปกติ)", ms: "Ayam goreng potong tebal istimewa (Lebih tebal, lebih berair dari biasa)", fil: "Espesyal na makapal na chicken steak (Mas makapal at mas makatas kaysa karaniwan)" }
 ];
 
 
