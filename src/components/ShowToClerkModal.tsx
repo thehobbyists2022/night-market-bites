@@ -1,7 +1,9 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Volume2, X, Store, Check } from 'lucide-react';
 import { speak } from '../utils/speech';
-import type { CountryCode } from '../types/unified';
+import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
+import type { CountryCode, Language } from '../types/unified';
 
 export interface ClerkModalData {
   type: 'ingredient' | 'dish';
@@ -21,55 +23,178 @@ interface ShowToClerkModalProps {
   onClose: () => void;
 }
 
-const DIETARY_OPTIONS: Record<CountryCode, { id: string; label: string; phrase: string }[]> = {
-  tw: [
-    { id: 'no-spicy', label: '不辣', phrase: '不要辣' },
-    { id: 'mild-spicy', label: '微辣', phrase: '微辣就好' },
-    { id: 'no-cilantro', label: '不要香菜', phrase: '不要加香菜' },
-    { id: 'less-ice-sugar', label: '少冰微糖', phrase: '少冰微糖' },
-  ],
-  th: [
-    { id: 'no-spicy', label: '不辣', phrase: 'Mai Phet (ไม่เผ็ด)' },
-    { id: 'mild-spicy', label: '微辣', phrase: 'Phet Nit Noi (เผ็ดนิดหน่อย)' },
-    { id: 'no-cilantro', label: '不要香菜', phrase: 'Mai Sai Phak Chi (ไม่ใส่ผักชี)' },
-    { id: 'less-sweet', label: '少糖', phrase: 'Waan Noi (หวานน้อย)' },
-  ],
-  jp: [
-    { id: 'no-wasabi', label: 'さび抜き', phrase: 'わさび抜きでお願いします' },
-    { id: 'less-salt', label: '薄味', phrase: '薄味にしてください' },
-    { id: 'no-onion', label: 'ネギ抜き', phrase: 'ネギを抜いてください' },
-    { id: 'takeout', label: '持ち帰り', phrase: '持ち帰りでお願いします' },
-  ],
-  kr: [
-    { id: 'no-spicy', label: '안 맵게', phrase: '안 맵게 해주세요' },
-    { id: 'mild-spicy', label: '조금 맵게', phrase: '조금만 맵게 해주세요' },
-    { id: 'no-cilantro', label: '고수 빼기', phrase: '고수는 빼주세요' },
-    { id: 'takeout', label: '포장', phrase: '포장해 주세요' },
-  ],
-  my: [
-    { id: 'no-spicy', label: 'Tak Pedas', phrase: 'Minta tak pedas' },
-    { id: 'kurang-manis', label: 'Kurang Manis', phrase: 'Kurang manis' },
-    { id: 'bungkus', label: 'Bungkus', phrase: 'Bungkus ya' },
-  ],
-  ph: [
-    { id: 'not-spicy', label: 'Hindi Maanghang', phrase: 'Hindi maanghang po' },
-    { id: 'takeout', label: 'Takeout', phrase: 'Pabalot po' },
-  ],
-  vn: [
-    { id: 'no-spicy', label: 'Không cay', phrase: 'Không cho ớt / không cay' },
-    { id: 'no-herbs', label: 'Không rau thơm', phrase: 'Không cho rau thơm' },
-    { id: 'less-sweet', label: 'Ít đường', phrase: 'Cho ít đường' },
-    { id: 'takeout', label: 'Mang về', phrase: 'Cho tôi mang về' },
-  ],
-};
+interface DietOption {
+  id: string;
+  label: string;
+  phrase: string;
+}
+
+function getDietaryOptions(country: CountryCode, lang: Language): DietOption[] {
+  const isZh = lang === 'zh-TW';
+  const isJa = lang === 'ja';
+
+  if (isZh) {
+    switch (country) {
+      case 'tw':
+        return [
+          { id: 'no-spicy', label: '不辣', phrase: '不要辣' },
+          { id: 'mild-spicy', label: '微辣', phrase: '微辣就好' },
+          { id: 'no-cilantro', label: '不要香菜', phrase: '不要加香菜' },
+          { id: 'less-ice-sugar', label: '少冰微糖', phrase: '少冰微糖' },
+        ];
+      case 'th':
+        return [
+          { id: 'no-spicy', label: '不辣', phrase: 'Mai Phet (ไม่เผ็ด)' },
+          { id: 'mild-spicy', label: '微辣', phrase: 'Phet Nit Noi (เผ็ดนิดหน่อย)' },
+          { id: 'no-cilantro', label: '不要香菜', phrase: 'Mai Sai Phak Chi (ไม่ใส่ผักชี)' },
+          { id: 'less-sweet', label: '少糖', phrase: 'Waan Noi (หวานน้อย)' },
+        ];
+      case 'jp':
+        return [
+          { id: 'no-wasabi', label: '不加芥末', phrase: 'わさび抜きでお願いします' },
+          { id: 'less-salt', label: '薄鹽清淡', phrase: '薄味にしてください' },
+          { id: 'no-onion', label: '不要蔥花', phrase: 'ネギを抜いてください' },
+          { id: 'takeout', label: '外帶', phrase: '持ち帰りでお願いします' },
+        ];
+      case 'kr':
+        return [
+          { id: 'no-spicy', label: '不辣', phrase: '안 맵게 해주세요' },
+          { id: 'mild-spicy', label: '微辣', phrase: '조금만 맵게 해주세요' },
+          { id: 'no-cilantro', label: '不要香菜', phrase: '고수는 빼주세요' },
+          { id: 'takeout', label: '外帶', phrase: '포장해 주세요' },
+        ];
+      case 'my':
+        return [
+          { id: 'no-spicy', label: '不辣', phrase: 'Minta tak pedas' },
+          { id: 'kurang-manis', label: '少糖', phrase: 'Kurang manis' },
+          { id: 'bungkus', label: '外帶', phrase: 'Bungkus ya' },
+        ];
+      case 'ph':
+        return [
+          { id: 'not-spicy', label: '不辣', phrase: 'Hindi maanghang po' },
+          { id: 'takeout', label: '外帶', phrase: 'Pabalot po' },
+        ];
+      case 'vn':
+        return [
+          { id: 'no-spicy', label: '不辣', phrase: 'Không cho ớt / không cay' },
+          { id: 'no-herbs', label: '不要香菜香草', phrase: 'Không cho rau thơm' },
+          { id: 'less-sweet', label: '少糖', phrase: 'Cho ít đường' },
+          { id: 'takeout', label: '外帶', phrase: 'Cho tôi mang về' },
+        ];
+    }
+  }
+
+  if (isJa) {
+    switch (country) {
+      case 'tw':
+        return [
+          { id: 'no-spicy', label: '辛さなし', phrase: '不要辣' },
+          { id: 'mild-spicy', label: 'ピリ辛', phrase: '微辣就好' },
+          { id: 'no-cilantro', label: 'パクチー抜き', phrase: '不要加香菜' },
+          { id: 'less-ice-sugar', label: '氷少なめ微糖', phrase: '少冰微糖' },
+        ];
+      case 'th':
+        return [
+          { id: 'no-spicy', label: '辛さなし', phrase: 'Mai Phet (ไม่เผ็ด)' },
+          { id: 'mild-spicy', label: 'ピリ辛', phrase: 'Phet Nit Noi (เผ็ดนิดหน่อย)' },
+          { id: 'no-cilantro', label: 'パクチー抜き', phrase: 'Mai Sai Phak Chi (ไม่ใส่ผักชี)' },
+          { id: 'less-sweet', label: '甘さ控えめ', phrase: 'Waan Noi (หวานน้อย)' },
+        ];
+      case 'jp':
+        return [
+          { id: 'no-wasabi', label: 'さび抜き', phrase: 'わさび抜きでお願いします' },
+          { id: 'less-salt', label: '薄味', phrase: '薄味にしてください' },
+          { id: 'no-onion', label: 'ネギ抜き', phrase: 'ネギを抜いてください' },
+          { id: 'takeout', label: '持ち帰り', phrase: '持ち帰りでお願いします' },
+        ];
+      case 'kr':
+        return [
+          { id: 'no-spicy', label: '辛さなし', phrase: '안 맵게 해주세요' },
+          { id: 'mild-spicy', label: 'ピリ辛', phrase: '조금만 맵게 해주세요' },
+          { id: 'no-cilantro', label: 'パクチー抜き', phrase: '고수는 빼주세요' },
+          { id: 'takeout', label: '持ち帰り', phrase: '포장해 주세요' },
+        ];
+      case 'my':
+        return [
+          { id: 'no-spicy', label: '辛さなし', phrase: 'Minta tak pedas' },
+          { id: 'kurang-manis', label: '甘さ控えめ', phrase: 'Kurang manis' },
+          { id: 'bungkus', label: '持ち帰り', phrase: 'Bungkus ya' },
+        ];
+      case 'ph':
+        return [
+          { id: 'not-spicy', label: '辛さなし', phrase: 'Hindi maanghang po' },
+          { id: 'takeout', label: '持ち帰り', phrase: 'Pabalot po' },
+        ];
+      case 'vn':
+        return [
+          { id: 'no-spicy', label: '辛さなし', phrase: 'Không cho ớt / không cay' },
+          { id: 'no-herbs', label: '香草抜き', phrase: 'Không cho rau thơm' },
+          { id: 'less-sweet', label: '甘さ控えめ', phrase: 'Cho ít đường' },
+          { id: 'takeout', label: '持ち帰り', phrase: 'Cho tôi mang về' },
+        ];
+    }
+  }
+
+  // English & fallback
+  switch (country) {
+    case 'tw':
+      return [
+        { id: 'no-spicy', label: 'No Spicy', phrase: '不要辣' },
+        { id: 'mild-spicy', label: 'Mild Spicy', phrase: '微辣就好' },
+        { id: 'no-cilantro', label: 'No Cilantro', phrase: '不要加香菜' },
+        { id: 'less-ice-sugar', label: 'Less Ice & Sugar', phrase: '少冰微糖' },
+      ];
+    case 'th':
+      return [
+        { id: 'no-spicy', label: 'No Spicy', phrase: 'Mai Phet (ไม่เผ็ด)' },
+        { id: 'mild-spicy', label: 'Mild Spicy', phrase: 'Phet Nit Noi (เผ็ดนิดหน่อย)' },
+        { id: 'no-cilantro', label: 'No Cilantro', phrase: 'Mai Sai Phak Chi (ไม่ใส่ผักชี)' },
+        { id: 'less-sweet', label: 'Less Sweet', phrase: 'Waan Noi (หวานน้อย)' },
+      ];
+    case 'jp':
+      return [
+        { id: 'no-wasabi', label: 'No Wasabi', phrase: 'わさび抜きでお願いします' },
+        { id: 'less-salt', label: 'Less Salt', phrase: '薄味にしてください' },
+        { id: 'no-onion', label: 'No Scallions', phrase: 'ネギを抜いてください' },
+        { id: 'takeout', label: 'Takeout / To Go', phrase: '持ち帰りでお願いします' },
+      ];
+    case 'kr':
+      return [
+        { id: 'no-spicy', label: 'No Spicy', phrase: '안 맵게 해주세요' },
+        { id: 'mild-spicy', label: 'Mild Spicy', phrase: '조금만 맵게 해주세요' },
+        { id: 'no-cilantro', label: 'No Cilantro', phrase: '고수는 빼주세요' },
+        { id: 'takeout', label: 'Takeout / To Go', phrase: '포장해 주세요' },
+      ];
+    case 'my':
+      return [
+        { id: 'no-spicy', label: 'No Spicy', phrase: 'Minta tak pedas' },
+        { id: 'kurang-manis', label: 'Less Sweet', phrase: 'Kurang manis' },
+        { id: 'bungkus', label: 'Takeout / To Go', phrase: 'Bungkus ya' },
+      ];
+    case 'ph':
+      return [
+        { id: 'not-spicy', label: 'Not Spicy', phrase: 'Hindi maanghang po' },
+        { id: 'takeout', label: 'Takeout / To Go', phrase: 'Pabalot po' },
+      ];
+    case 'vn':
+      return [
+        { id: 'no-spicy', label: 'No Spicy', phrase: 'Không cho ớt / không cay' },
+        { id: 'no-herbs', label: 'No Herbs', phrase: 'Không cho rau thơm' },
+        { id: 'less-sweet', label: 'Less Sweet', phrase: 'Cho ít đường' },
+        { id: 'takeout', label: 'Takeout / To Go', phrase: 'Cho tôi mang về' },
+      ];
+  }
+}
 
 export const ShowToClerkModal: React.FC<ShowToClerkModalProps> = ({ data, onClose }) => {
+  const { language } = useLanguage();
+  const ui = getUI(language);
   const [selectedDiet, setSelectedDiet] = useState<string[]>([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   if (!data) return null;
 
-  const dietOptions = DIETARY_OPTIONS[data.country] || [];
+  const dietOptions = getDietaryOptions(data.country, language);
 
   const toggleDiet = (id: string) => {
     setSelectedDiet((prev) =>
@@ -125,7 +250,7 @@ export const ShowToClerkModal: React.FC<ShowToClerkModalProps> = ({ data, onClos
         <div className="mb-4 flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-bold text-amber-800">
             <Store className="h-3.5 w-3.5 text-amber-600" />
-            {data.type === 'ingredient' ? '🏪 亞超採購卡 (Show to Grocery Clerk)' : '🏮 夜市點餐卡 (Show to Street Vendor)'}
+            {data.type === 'ingredient' ? ui.clerkModal.groceryBadge : ui.clerkModal.stallBadge}
           </span>
         </div>
 
@@ -133,8 +258,8 @@ export const ShowToClerkModal: React.FC<ShowToClerkModalProps> = ({ data, onClos
         <div className="mb-5 rounded-2xl border-2 border-dashed border-amber-400/60 bg-gradient-to-b from-amber-50/90 to-orange-50/50 p-6 text-center">
           <p className="mb-2 text-xs font-bold text-amber-900/70">
             {data.type === 'ingredient'
-              ? '請向店員出示此卡片・Show this to store staff'
-              : '請向老闆出示此卡片・Show this to stall owner'}
+              ? ui.clerkModal.showStaffPrompt
+              : ui.clerkModal.showVendorPrompt}
           </p>
 
           {/* Huge Local Text */}
@@ -171,20 +296,20 @@ export const ShowToClerkModal: React.FC<ShowToClerkModalProps> = ({ data, onClos
         {/* English & Subtitle Details */}
         <div className="mb-5 space-y-2 rounded-xl bg-stone-50 p-3.5 text-xs">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-stone-400 uppercase tracking-wider">Dish / Item Name:</span>
+            <span className="font-bold text-stone-400 uppercase tracking-wider">{ui.clerkModal.itemName}</span>
             <span className="font-bold text-stone-800">{data.userLangTitle}</span>
           </div>
 
           {data.whereToBuy && (
             <div className="pt-2 border-t border-stone-200/60">
-              <span className="font-bold text-amber-800">🛒 哪裡可以買到 (Where to find): </span>
+              <span className="font-bold text-amber-800">🛒 {ui.clerkModal.whereToBuy} </span>
               <span className="text-stone-600">{data.whereToBuy}</span>
             </div>
           )}
 
           {data.substituteName && (
             <div className="pt-2 border-t border-stone-200/60">
-              <span className="font-bold text-emerald-800">🔄 替代方案 (Substitute): </span>
+              <span className="font-bold text-emerald-800">🔄 {ui.clerkModal.substitute} </span>
               <span className="text-stone-700 font-semibold">{data.substituteName}</span>
               {data.substituteExplanation && (
                 <p className="mt-0.5 text-stone-500 text-[11px] leading-relaxed">
@@ -199,7 +324,7 @@ export const ShowToClerkModal: React.FC<ShowToClerkModalProps> = ({ data, onClos
         {data.type === 'dish' && dietOptions.length > 0 && (
           <div className="mb-5">
             <p className="mb-2 text-[11px] font-bold text-stone-500 uppercase tracking-wider">
-              點餐客製需求・Dietary Customizations:
+              {ui.clerkModal.dietaryCustom}
             </p>
             <div className="flex flex-wrap gap-1.5">
               {dietOptions.map((opt) => {
@@ -228,7 +353,7 @@ export const ShowToClerkModal: React.FC<ShowToClerkModalProps> = ({ data, onClos
           className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-amber-500/25 transition-all hover:brightness-105 active:scale-98"
         >
           <Volume2 className={`h-4 w-4 ${isSpeaking ? 'animate-bounce text-white' : ''}`} />
-          <span>{isSpeaking ? '正在朗讀中 (Speaking...)' : '🔊 播放當地語音 (Speak Native Pronunciation)'}</span>
+          <span>{isSpeaking ? ui.clerkModal.speaking : ui.clerkModal.speakNative}</span>
         </button>
       </div>
     </div>

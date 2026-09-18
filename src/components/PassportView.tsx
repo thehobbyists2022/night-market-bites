@@ -2,6 +2,7 @@ import React from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { recipesOf, text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
 import { useUser } from '../context/UserContext';
 import type { CountryRecipe } from '../types/unified';
 import { Heart, Stamp, Lock, Award } from 'lucide-react';
@@ -12,18 +13,19 @@ interface PassportViewProps {
   onBack: () => void;
 }
 
-const STAMP_NAMES: Record<string, string> = {
-  tw: '士林・寧夏夜市之印',
-  th: 'Chatuchak 恰圖恰之印',
-  jp: '道頓堀・中洲屋台之印',
-  kr: '明洞・廣藏市場之印',
-  my: 'Jalan Alor 亞羅街之印',
-  ph: 'Quiapo 奎阿波之印',
-  vn: 'Bến Thành 濱城之印',
+const STAMP_NAMES: Record<string, Record<string, string>> = {
+  tw: { en: 'Shilin & Ningxia Night Market Stamp', 'zh-TW': '士林・寧夏夜市之印', ja: '士林・寧夏夜市の印' },
+  th: { en: 'Chatuchak & Yaowarat Stamp', 'zh-TW': 'Chatuchak 恰圖恰之印', ja: 'チャトゥチャック夜市の印' },
+  jp: { en: 'Dotonbori & Nakasu Yatai Stamp', 'zh-TW': '道頓堀・中洲屋台之印', ja: '道頓堀・中洲屋台の印' },
+  kr: { en: 'Myeongdong & Gwangjang Market Stamp', 'zh-TW': '明洞・廣藏市場之印', ja: '明洞・広蔵市場の印' },
+  my: { en: 'Jalan Alor Night Market Stamp', 'zh-TW': 'Jalan Alor 亞羅街之印', ja: 'アローストリートの印' },
+  ph: { en: 'Quiapo & Mercato Centrale Stamp', 'zh-TW': 'Quiapo 奎阿波之印', ja: 'キアポ・メルカートの印' },
+  vn: { en: 'Ben Thanh Market Stamp', 'zh-TW': 'Bến Thành 濱城之印', ja: 'ベンタイン市場の印' },
 };
 
 export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBack }) => {
   const { language } = useLanguage();
+  const ui = getUI(language);
   const { favorites, tasted } = useUser();
 
   const favList = COUNTRIES.flatMap((c) =>
@@ -44,7 +46,7 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
         onClick={onBack}
         className="mb-4 flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-xs font-bold text-stone-700 shadow-2xs hover:bg-stone-50"
       >
-        <span>← Back to Markets</span>
+        <span>← {ui.recipeDetail.backToMarket}</span>
       </button>
 
       {/* Passport Hero */}
@@ -53,15 +55,15 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
           <Stamp className="h-7 w-7" />
         </div>
         <h1 className="text-2xl font-black sm:text-3xl text-white">
-          亞洲夜市味蕾護照 (Taste Passport)
+          {ui.passport.title}
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-stone-300">
-          每探索或烹飪一道夜市小吃，點擊完成即可在專屬護照加蓋紀念鋼印。
+          {ui.passport.subtitle}
         </p>
 
         <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-stone-800/80 px-4 py-1.5 text-xs font-extrabold text-amber-300">
           <Award className="h-4 w-4 text-amber-400" />
-          <span>解鎖進度: {totalTastedCount} / {totalRecipesCount} 道小吃</span>
+          <span>{ui.passport.unlockedProgress} {totalTastedCount} / {totalRecipesCount} {ui.marketHall.dishesUnit}</span>
         </div>
       </div>
 
@@ -69,7 +71,7 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
       <section className="mt-8">
         <h2 className="text-lg font-extrabold text-stone-900 flex items-center gap-2 mb-4">
           <span>🛂</span>
-          <span>7-Country Passport Stamps (七國街區紀念鋼印)</span>
+          <span>{ui.passport.stampsSection}</span>
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -78,7 +80,7 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
             const done = (tasted[c.code] || []).filter((id) => all.some((r) => r.id === id)).length;
             const isUnlocked = done > 0;
             const pct = all.length ? Math.round((done / all.length) * 100) : 0;
-            const stampName = STAMP_NAMES[c.code] || `${c.name} Stamp`;
+            const stampName = STAMP_NAMES[c.code]?.[language] || STAMP_NAMES[c.code]?.en || `${countryName(c.code, language)} Stamp`;
 
             return (
               <div
@@ -142,14 +144,14 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
       <section className="mt-10">
         <h2 className="flex items-center gap-2 text-lg font-extrabold text-stone-900 mb-4">
           <Heart className="h-5 w-5 text-rose-500 fill-rose-500" />
-          <span>口袋收藏清單 (Saved Favorites): {favList.length} 道</span>
+          <span>{ui.passport.favoritesSection}: {favList.length}</span>
         </h2>
 
         {favList.length === 0 ? (
           <div className="rounded-3xl border border-stone-200 bg-white p-8 text-center text-xs text-stone-500 shadow-2xs">
             <Heart className="mx-auto h-8 w-8 text-stone-300 mb-2" />
-            <p className="font-bold text-stone-700 text-sm">尚無收藏的夜市小吃</p>
-            <p className="mt-1">瀏覽食谱時點擊愛心圖標，即可加入您的口袋清單。</p>
+            <p className="font-bold text-stone-700 text-sm">{ui.passport.emptyFavoritesTitle}</p>
+            <p className="mt-1">{ui.passport.emptyFavoritesSubtitle}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -174,7 +176,7 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
                       {text(r.title, language)}
                     </span>
                     <span className="mt-0.5 block text-[11px] text-amber-700 font-semibold">
-                      {countryMeta?.flag} {countryMeta?.name} · {r.cookTimeMinutes} min
+                      {countryMeta?.flag} {countryName(r.country, language)} · {r.cookTimeMinutes} min
                     </span>
                   </div>
                 </button>

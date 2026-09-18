@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
 import { ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
 
 interface TroubleshootingFAQProps {
@@ -13,6 +14,7 @@ export const TroubleshootingFAQ: React.FC<TroubleshootingFAQProps> = ({
   proTips = [],
 }) => {
   const { language } = useLanguage();
+  const ui = getUI(language);
   const [openItem, setOpenItem] = useState<number | null>(null);
 
   if (troubleshooting.length === 0 && proTips.length === 0) return null;
@@ -28,9 +30,9 @@ export const TroubleshootingFAQ: React.FC<TroubleshootingFAQProps> = ({
             </div>
             <div>
               <h3 className="text-base font-extrabold text-stone-900">
-                Troubleshooting (常見烹飪失敗與急救)
+                {ui.recipeDetail.troubleshootingTitle}
               </h3>
-              <p className="text-xs text-stone-500">Why did my dish fail and how to fix it</p>
+              <p className="text-xs text-stone-500">{ui.recipeDetail.troubleshootingSubtitle}</p>
             </div>
           </div>
 
@@ -51,13 +53,13 @@ export const TroubleshootingFAQ: React.FC<TroubleshootingFAQProps> = ({
                     <div className="mt-2.5 space-y-2 rounded-2xl bg-amber-50/60 p-3.5 text-xs animate-in fade-in duration-150">
                       {item.cause && (
                         <div>
-                          <span className="font-bold text-amber-900">🔍 原因分析 (Cause): </span>
+                          <span className="font-bold text-amber-900">🔍 {ui.recipeDetail.causeLabel} </span>
                           <span className="text-stone-700">{text(item.cause, language)}</span>
                         </div>
                       )}
                       {item.solution && (
                         <div className="pt-1.5 border-t border-amber-200/50">
-                          <span className="font-bold text-emerald-800">✅ 解決秘訣 (Fix): </span>
+                          <span className="font-bold text-emerald-800">✅ {ui.recipeDetail.solutionLabel} </span>
                           <span className="text-stone-700 font-semibold">{text(item.solution, language)}</span>
                         </div>
                       )}
@@ -76,7 +78,7 @@ export const TroubleshootingFAQ: React.FC<TroubleshootingFAQProps> = ({
           <div className="mb-3 flex items-center gap-2">
             <span className="text-lg">💡</span>
             <h3 className="text-base font-extrabold text-stone-900">
-              Chef Pro Tips (主廚秘笈)
+              {ui.recipeDetail.proTipsTitle}
             </h3>
           </div>
           <ul className="space-y-2 text-xs leading-relaxed text-stone-600">

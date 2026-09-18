@@ -1,10 +1,14 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Sparkles, ShoppingCart, ExternalLink } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
 import { soundEffects } from '../utils/soundEffects';
 
 type DrinkTab = 'boba' | 'cha-thai' | 'matcha';
 
 export const DrinkLabView: React.FC = () => {
+  const { language } = useLanguage();
+  const ui = getUI(language);
   const [activeTab, setActiveTab] = useState<DrinkTab>('boba');
 
   // Boba Lab States
@@ -27,19 +31,26 @@ export const DrinkLabView: React.FC = () => {
     soundEffects.playClick();
   };
 
+  const getSweetnessLabel = () => {
+    if (language === 'zh-TW') {
+      return sweetness === 0 ? '無糖' : sweetness <= 30 ? '微糖' : sweetness <= 70 ? '少糖' : '全糖';
+    }
+    return sweetness === 0 ? 'Sugar Free' : sweetness <= 30 ? 'Micro Sweet' : sweetness <= 70 ? 'Less Sweet' : 'Full Sweet';
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-4 pb-24 pt-4">
       {/* Top Banner */}
       <div className="mb-6 rounded-3xl border border-amber-500/20 bg-gradient-to-br from-stone-900 via-stone-950 to-amber-950/40 p-6 text-white shadow-xl">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/20 px-3 py-1 text-xs font-extrabold text-amber-300">
           <Sparkles className="h-3.5 w-3.5" />
-          <span>Interactive Street Food Lab</span>
+          <span>{ui.drinkLab.badge}</span>
         </div>
         <h1 className="mt-2 text-2xl font-extrabold sm:text-3xl">
-          亞洲街頭飲品工坊 (Street Drink Lab)
+          {ui.drinkLab.title}
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-stone-300">
-          Master the exact secret ratios of Taiwan Boba, Thai Iced Tea, and Japanese Matcha.
+          {ui.drinkLab.subtitle}
         </p>
 
         {/* Tab Selectors */}
@@ -56,7 +67,7 @@ export const DrinkLabView: React.FC = () => {
             }`}
           >
             <span>🇹🇼</span>
-            <span>波霸奶茶</span>
+            <span>{ui.drinkLab.tabBoba}</span>
           </button>
           <button
             onClick={() => {
@@ -70,7 +81,7 @@ export const DrinkLabView: React.FC = () => {
             }`}
           >
             <span>🇹🇭</span>
-            <span>泰式奶茶</span>
+            <span>{ui.drinkLab.tabThai}</span>
           </button>
           <button
             onClick={() => {
@@ -84,7 +95,7 @@ export const DrinkLabView: React.FC = () => {
             }`}
           >
             <span>🇯🇵</span>
-            <span>宇治抹茶</span>
+            <span>{ui.drinkLab.tabMatcha}</span>
           </button>
         </div>
       </div>
@@ -135,20 +146,20 @@ export const DrinkLabView: React.FC = () => {
               </div>
 
               <div className="mt-4 text-xs font-bold text-amber-300">
-                Taste Profile: {sweetness === 0 ? 'Sugar Free' : sweetness <= 30 ? '微糖 (Micro)' : sweetness <= 70 ? '少糖 (Standard)' : '全糖 (Taiwan Normal)'} · {iceLevel}% Ice
+                Taste Profile: {getSweetnessLabel()} ({sweetness}%) · {iceLevel}% Ice
               </div>
             </div>
 
             {/* Controls */}
             <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm space-y-5">
               <h3 className="text-base font-extrabold text-stone-900">
-                調配你的黃金比例 (Formula)
+                {ui.drinkLab.formulaTitle}
               </h3>
 
               {/* Tea Base */}
               <div>
                 <label className="text-xs font-bold text-stone-600 block mb-2">
-                  茶湯基底 (Tea Base):
+                  {ui.drinkLab.teaBase}
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {(['black', 'oolong', 'green'] as const).map((tb) => (
@@ -161,7 +172,7 @@ export const DrinkLabView: React.FC = () => {
                           : 'border border-stone-200 bg-stone-50 text-stone-700'
                       }`}
                     >
-                      {tb === 'black' ? '阿薩姆紅茶' : tb === 'oolong' ? '凍頂烏龍' : '茉莉綠茶'}
+                      {tb === 'black' ? ui.drinkLab.blackTea : tb === 'oolong' ? ui.drinkLab.oolongTea : ui.drinkLab.greenTea}
                     </button>
                   ))}
                 </div>
@@ -170,7 +181,7 @@ export const DrinkLabView: React.FC = () => {
               {/* Boba Amount Slider */}
               <div>
                 <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
-                  <span>珍珠份量 (Boba Pearls):</span>
+                  <span>{ui.drinkLab.bobaAmount}</span>
                   <span className="text-amber-600">{bobaAmount} g</span>
                 </div>
                 <input
@@ -186,7 +197,7 @@ export const DrinkLabView: React.FC = () => {
               {/* Sweetness Slider */}
               <div>
                 <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
-                  <span>黑糖甜度 (Sweetness):</span>
+                  <span>{ui.drinkLab.sweetness}</span>
                   <span className="text-amber-600">{sweetness}%</span>
                 </div>
                 <input
@@ -203,7 +214,7 @@ export const DrinkLabView: React.FC = () => {
               {/* Tiger Glaze Toggle */}
               <div className="flex items-center justify-between pt-2 border-t border-stone-100">
                 <span className="text-xs font-bold text-stone-800">
-                  黑糖琥珀虎紋掛杯 (Tiger Stripes Glaze)
+                  {ui.drinkLab.tigerGlaze}
                 </span>
                 <button
                   onClick={() => setTigerGlaze(!tigerGlaze)}
@@ -227,7 +238,7 @@ export const DrinkLabView: React.FC = () => {
                 className="mt-2 flex items-center justify-center gap-2 rounded-2xl bg-amber-500 py-3 text-xs font-extrabold text-stone-950 shadow-glow hover:bg-amber-400 transition-all"
               >
                 <ShoppingCart className="h-4 w-4" />
-                <span>🛒 在 Amazon 購買珍珠與茶包原料 (Buy on Amazon)</span>
+                <span>{ui.drinkLab.buyBobaAmazon}</span>
                 <ExternalLink className="h-3 w-3 opacity-70" />
               </a>
             </div>
@@ -248,7 +259,7 @@ export const DrinkLabView: React.FC = () => {
                   className="w-full bg-white/95 rounded-t-xl transition-all flex items-center justify-center text-[10px] font-bold text-stone-700"
                   style={{ height: `${evaporatedMilk * 1.5}px` }}
                 >
-                  淡奶 (Evaporated)
+                  {language === 'zh-TW' ? '淡奶' : 'Evaporated'}
                 </div>
                 <div
                   className="w-full bg-gradient-to-b from-orange-500 to-orange-700 transition-all flex items-center justify-center text-[10px] font-bold text-white"
@@ -260,7 +271,7 @@ export const DrinkLabView: React.FC = () => {
                   className="w-full bg-amber-100 transition-all flex items-center justify-center text-[10px] font-bold text-amber-950"
                   style={{ height: `${condensedMilk * 1.5}px` }}
                 >
-                  煉乳 (Condensed)
+                  {language === 'zh-TW' ? '煉乳' : 'Condensed'}
                 </div>
               </div>
               <p className="mt-4 text-xs font-bold text-orange-300">
@@ -270,12 +281,12 @@ export const DrinkLabView: React.FC = () => {
 
             <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm space-y-5">
               <h3 className="text-base font-extrabold text-stone-900">
-                曼谷街頭手標泰奶配方
+                {ui.drinkLab.thaiRecipeTitle}
               </h3>
 
               <div>
                 <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
-                  <span>泰國煉乳 (Sweetened Condensed Milk):</span>
+                  <span>{ui.drinkLab.condensedMilk}</span>
                   <span className="text-orange-600">{condensedMilk} ml</span>
                 </div>
                 <input
@@ -290,7 +301,7 @@ export const DrinkLabView: React.FC = () => {
 
               <div>
                 <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
-                  <span>三花淡奶 (Evaporated Milk Topping):</span>
+                  <span>{ui.drinkLab.evaporatedMilk}</span>
                   <span className="text-orange-600">{evaporatedMilk} ml</span>
                 </div>
                 <input
@@ -311,7 +322,7 @@ export const DrinkLabView: React.FC = () => {
                   className="flex items-center justify-center gap-2 rounded-2xl bg-orange-500 py-3 text-xs font-extrabold text-stone-950 shadow-glow hover:bg-orange-400 transition-all"
                 >
                   <ShoppingCart className="h-4 w-4" />
-                  <span>🛒 購買正宗手標泰茶 (ChaTraMue on Amazon)</span>
+                  <span>{ui.drinkLab.buyThaiAmazon}</span>
                   <ExternalLink className="h-3 w-3 opacity-70" />
                 </a>
               </div>
@@ -333,7 +344,7 @@ export const DrinkLabView: React.FC = () => {
                   className="w-full bg-emerald-600 rounded-t-xl transition-all flex items-center justify-center text-[10px] font-bold text-white"
                   style={{ height: `${matchaGrams * 20}px` }}
                 >
-                  抹茶濃縮液 ({matchaGrams}g)
+                  {language === 'zh-TW' ? '抹茶濃縮液' : 'Matcha Shot'} ({matchaGrams}g)
                 </div>
                 <div className="w-full bg-stone-100 h-28 transition-all flex items-center justify-center text-[10px] font-bold text-stone-700">
                   Steamed Milk
@@ -346,12 +357,12 @@ export const DrinkLabView: React.FC = () => {
 
             <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm space-y-5">
               <h3 className="text-base font-extrabold text-stone-900">
-                宇治抹茶拿鐵茶道參數
+                {ui.drinkLab.matchaRecipeTitle}
               </h3>
 
               <div>
                 <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
-                  <span>抹茶粉用量 (Ceremonial Matcha):</span>
+                  <span>{ui.drinkLab.matchaAmount}</span>
                   <span className="text-emerald-600">{matchaGrams} g</span>
                 </div>
                 <input
@@ -367,7 +378,7 @@ export const DrinkLabView: React.FC = () => {
 
               <div>
                 <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
-                  <span>沖泡水溫 (Water Temperature):</span>
+                  <span>{ui.drinkLab.waterTemp}</span>
                   <span className="text-emerald-600">{waterTemp} °C</span>
                 </div>
                 <input
@@ -388,7 +399,7 @@ export const DrinkLabView: React.FC = () => {
                   className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 py-3 text-xs font-extrabold text-white shadow-glow hover:bg-emerald-500 transition-all"
                 >
                   <ShoppingCart className="h-4 w-4" />
-                  <span>🛒 購買宇治抹茶粉與茶筅 (Matcha on Amazon)</span>
+                  <span>{ui.drinkLab.buyMatchaAmazon}</span>
                   <ExternalLink className="h-3 w-3 opacity-70" />
                 </a>
               </div>

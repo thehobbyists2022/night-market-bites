@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { categoriesOf, recipesOf, text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
@@ -6,6 +6,7 @@ import { useUser } from '../context/UserContext';
 import type { CountryCode, CountryRecipe } from '../types/unified';
 import { ArrowLeft, Clock, Flame, Heart, Filter } from 'lucide-react';
 import { soundEffects } from '../utils/soundEffects';
+import { getUI } from '../i18n/uiStrings';
 
 interface DistrictViewProps {
   country: CountryCode;
@@ -20,6 +21,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
   const recipes = recipesOf(country);
   const cats = ['all', ...categoriesOf(country)];
   const [selectedCat, setSelectedCat] = useState('all');
+  const ui = getUI(language);
 
   const shownRecipes =
     selectedCat === 'all'
@@ -34,7 +36,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
         className="flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-xs font-bold text-stone-700 shadow-2xs hover:bg-stone-50"
       >
         <ArrowLeft className="h-4 w-4" />
-        <span>All Night Markets</span>
+        <span>{ui.district.allMarkets}</span>
       </button>
 
       {/* District Header Banner */}
@@ -57,7 +59,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
               {meta.district}
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-stone-300">
-              {countryName(country, language)} · {recipes.length} 道街頭正宗夜市料理
+              {countryName(country, language)} · {recipes.length} {ui.district.districtDishes}
             </p>
           </div>
         </div>
@@ -67,7 +69,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
       <div className="mt-6 flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
         <div className="flex items-center gap-1 text-xs font-bold text-stone-400 pl-1">
           <Filter className="h-3.5 w-3.5" />
-          <span>分類:</span>
+          <span>{ui.district.categoryLabel}</span>
         </div>
         {cats.map((c) => {
           const isSelected = selectedCat === c;
@@ -84,7 +86,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
                   : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
               }`}
             >
-              {c === 'all' ? '全部 (All)' : c}
+              {c === 'all' ? ui.district.allCategory : c}
             </button>
           );
         })}
@@ -97,10 +99,8 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
           const title = text(r.title, language);
           const subtitle = text(r.subtitle, language);
           const native =
-            typeof r.culture?.nativeName === 'string'
+            language !== 'en' && typeof r.culture?.nativeName === 'string'
               ? r.culture.nativeName
-              : typeof r.culture?.chineseName === 'string'
-              ? r.culture.chineseName
               : undefined;
 
           return (
@@ -143,7 +143,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({ country, onBack, onS
 
                 {native && (
                   <p className="text-xs font-semibold text-amber-700 mt-0.5">
-                    {String(native)}
+                    {native}
                   </p>
                 )}
 

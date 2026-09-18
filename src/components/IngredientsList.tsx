@@ -1,6 +1,7 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
 import { Sparkles, ShoppingCart, Store, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 import type { CountryCode } from '../types/unified';
 import type { ClerkModalData } from './ShowToClerkModal';
@@ -23,6 +24,7 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
   onOpenClerkModal,
 }) => {
   const { language } = useLanguage();
+  const ui = getUI(language);
   const [expandedSubId, setExpandedSubId] = useState<string | null>(null);
 
   const calculateAmount = (baseAmount: number | undefined) => {
@@ -79,7 +81,7 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
                     {item.isKeyFlavor && (
                       <span className="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2 py-0.5 text-[10px] font-extrabold text-amber-800">
                         <Sparkles className="h-2.5 w-2.5" />
-                        Key Flavor
+                        {ui.recipeDetail.keyFlavor}
                       </span>
                     )}
                   </div>
@@ -112,11 +114,11 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
                   title="Search authentic ingredients on Amazon Prime"
                 >
                   <ShoppingCart className="h-3 w-3 text-amber-700" />
-                  <span>Buy on Amazon</span>
+                  <span>{ui.recipeDetail.buyOnAmazon}</span>
                   <ExternalLink className="h-2.5 w-2.5 opacity-60" />
                 </a>
 
-                {/* Show to Clerk Button (文字卡) */}
+                {/* Show to Clerk Button (Flashcard) */}
                 <button
                   onClick={() =>
                     onOpenClerkModal({
@@ -139,7 +141,7 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
                   className="inline-flex items-center gap-1 rounded-lg border border-stone-200 bg-stone-50 px-2.5 py-1 text-[11px] font-bold text-stone-700 transition-colors hover:bg-stone-100"
                 >
                   <Store className="h-3 w-3 text-stone-500" />
-                  <span>問店員卡 (Clerk Card)</span>
+                  <span>{ui.recipeDetail.clerkCardBtn}</span>
                 </button>
 
                 {/* Substitute Accordion Trigger */}
@@ -152,7 +154,7 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
                         : 'border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
                     }`}
                   >
-                    <span>替代方案 (Substitute)</span>
+                    <span>{ui.recipeDetail.substituteBtn}</span>
                     {isSubExpanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
                   </button>
                 )}
@@ -167,7 +169,7 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
                     </span>
                     {item.substitute.ratio && (
                       <span className="rounded-md bg-emerald-200/80 px-2 py-0.5 text-[10px] font-extrabold text-emerald-950">
-                        Ratio {item.substitute.ratio}
+                        {ui.recipeDetail.substituteRatio} {item.substitute.ratio}
                       </span>
                     )}
                   </div>

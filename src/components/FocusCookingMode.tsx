@@ -6,6 +6,7 @@ import { soundEffects, TimerSoundStyle } from '../utils/soundEffects';
 import { speak, stopSpeaking } from '../utils/speech';
 import { requestWakeLock, releaseWakeLock } from '../utils/wakeLock';
 import { text } from '../lib/selectRecipe';
+import { getUI } from '../i18n/uiStrings';
 import {
   X,
   ChevronLeft,
@@ -38,6 +39,7 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
   onExit,
 }) => {
   const { language } = useLanguage();
+  const ui = getUI(language);
   const { markTasted } = useUser();
 
   const steps = (recipe.steps as any[]) || [];
@@ -193,7 +195,7 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
           <div>
             <h2 className="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
               <Flame className="h-3.5 w-3.5" />
-              Focus Cooking Mode
+              {ui.focusMode.title}
             </h2>
             <p className="text-sm font-bold text-white truncate max-w-[200px] sm:max-w-xs">
               {text(recipe.title, language)}
@@ -209,7 +211,7 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
             className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${
               isMuted ? 'bg-red-500/20 text-red-400' : 'bg-stone-800 text-stone-300'
             }`}
-            title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
+            title={isMuted ? ui.focusMode.unmute : ui.focusMode.mute}
           >
             {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </button>
@@ -222,10 +224,10 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
                 ? 'bg-amber-500 text-stone-950 shadow-glow animate-pulse'
                 : 'bg-stone-800 text-stone-200 hover:bg-stone-700'
             }`}
-            title="Read step aloud"
+            title={ui.focusMode.voice}
           >
             <Radio className="h-3.5 w-3.5" />
-            <span>{isSpeaking ? 'Reading' : 'Voice'}</span>
+            <span>{isSpeaking ? ui.focusMode.reading : ui.focusMode.voice}</span>
           </button>
         </div>
       </header>
@@ -247,18 +249,16 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
               <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-amber-500/20 text-amber-400 border border-amber-400/30 shadow-glow">
                 <Award className="h-10 w-10 animate-bounce" />
               </div>
-              <h3 className="text-2xl font-extrabold text-white">Dishes Mastered!</h3>
+              <h3 className="text-2xl font-extrabold text-white">{ui.focusMode.masteredTitle}</h3>
               <p className="mt-2 text-sm text-stone-300 leading-relaxed">
-                You have completed all {totalSteps} steps for{' '}
-                <span className="font-bold text-amber-400">{text(recipe.title, language)}</span>.
-                A taste passport stamp has been recorded!
+                {ui.focusMode.masteredDesc}
               </p>
               <div className="mt-6 flex flex-col gap-3">
                 <button
                   onClick={onExit}
                   className="rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 py-3.5 text-sm font-bold text-stone-950 shadow-glow"
                 >
-                  Return to Recipe
+                  {ui.focusMode.returnRecipe}
                 </button>
               </div>
             </div>
@@ -268,10 +268,10 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
               {/* Step indicator */}
               <div className="flex items-center justify-between text-xs">
                 <span className="font-extrabold text-amber-400 uppercase tracking-wider">
-                  Step {currentStepIndex + 1} of {totalSteps}
+                  {ui.recipeDetail.stepPrefix} {currentStepIndex + 1} / {totalSteps}
                 </span>
                 <span className="rounded-full bg-stone-800/80 px-2.5 py-1 text-stone-300">
-                  🍽️ {servings} Servings ({cookware})
+                  🍽️ {servings} {ui.recipeDetail.servings} ({cookware})
                 </span>
               </div>
 
@@ -316,7 +316,7 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
                 <div className="rounded-3xl border border-amber-500/30 bg-stone-900/95 p-5 text-center shadow-lg">
                   <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-stone-400 uppercase tracking-wider mb-1">
                     <Clock className="h-3.5 w-3.5 text-amber-400" />
-                    Step Timer
+                    {ui.focusMode.stepTimer}
                   </div>
 
                   <div className="font-mono text-5xl font-black tracking-tight text-white my-2">
@@ -327,12 +327,12 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
                   {isAlarmRinging && (
                     <div className="my-2 inline-flex items-center gap-2 rounded-full bg-red-500/30 border border-red-500 px-4 py-1 text-xs font-bold text-red-200 animate-bounce">
                       <Bell className="h-3.5 w-3.5 text-red-400" />
-                      Timer Complete!
+                      {ui.focusMode.timerComplete}
                       <button
                         onClick={handleStopAlarm}
                         className="ml-2 rounded-md bg-red-600 px-2 py-0.5 text-[11px] text-white"
                       >
-                        Stop Alarm
+                        {ui.focusMode.stopAlarm}
                       </button>
                     </div>
                   )}
@@ -348,7 +348,7 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
                       }`}
                     >
                       {timerRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                      <span>{timerRunning ? 'Pause' : 'Start Timer'}</span>
+                      <span>{timerRunning ? ui.focusMode.pauseTimer : ui.focusMode.startTimer}</span>
                     </button>
 
                     <button
@@ -358,7 +358,7 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
                         handleStopAlarm();
                       }}
                       className="flex h-11 w-11 items-center justify-center rounded-2xl bg-stone-800 text-stone-400 hover:bg-stone-700"
-                      title="Reset Timer"
+                      title={ui.focusMode.resetTimer}
                     >
                       <RotateCcw className="h-4 w-4" />
                     </button>
@@ -383,14 +383,14 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
             }`}
           >
             <ChevronLeft className="h-4 w-4" />
-            Previous
+            {ui.focusMode.prevStep}
           </button>
 
           <button
             onClick={handleNext}
             className="flex items-center gap-1.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-3 text-xs font-bold text-stone-950 shadow-glow transition-all active:scale-95"
           >
-            <span>{currentStepIndex === totalSteps - 1 ? 'Finish & Master' : 'Next Step'}</span>
+            <span>{currentStepIndex === totalSteps - 1 ? ui.focusMode.finishMaster : ui.focusMode.nextStep}</span>
             <ChevronRight className="h-4 w-4" />
           </button>
         </footer>

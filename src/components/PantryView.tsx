@@ -1,8 +1,9 @@
-﻿import React, { useState } from 'react';
-import { COUNTRIES } from '../config/countries';
+import React, { useState } from 'react';
+import { COUNTRIES, countryName } from '../config/countries';
 import { text } from '../lib/selectRecipe';
 import { PANTRY } from '../data/pantry';
 import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
 import type { CountryCode } from '../types/unified';
 import { ShoppingBasket, ShoppingCart, ExternalLink, ArrowLeft } from 'lucide-react';
 import { soundEffects } from '../utils/soundEffects';
@@ -14,6 +15,7 @@ interface PantryViewProps {
 
 export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }) => {
   const { language } = useLanguage();
+  const ui = getUI(language);
   const [country, setCountry] = useState<CountryCode>(initialCountry || 'tw');
   const meta = COUNTRIES.find((c) => c.code === country) || COUNTRIES[0];
   const items = PANTRY[country] || [];
@@ -25,20 +27,20 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
         className="flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-xs font-bold text-stone-700 shadow-2xs hover:bg-stone-50"
       >
         <ArrowLeft className="h-4 w-4" />
-        <span>Back to Markets</span>
+        <span>{ui.recipeDetail.backToMarket}</span>
       </button>
 
       {/* Header Banner */}
       <div className="mt-4 rounded-3xl border border-amber-500/20 bg-gradient-to-br from-stone-900 via-stone-950 to-amber-950/40 p-6 sm:p-8 text-white shadow-xl">
         <div className="flex items-center gap-2 text-xs font-extrabold text-amber-400 uppercase tracking-wider">
           <ShoppingBasket className="h-4 w-4" />
-          <span>Asian Street Food Pantry & Spice Market</span>
+          <span>{ui.pantry.badge}</span>
         </div>
         <h1 className="mt-2 text-3xl font-black text-white">
-          {meta.flag} {meta.name} 必備調料百寶箱
+          {meta.flag} {countryName(country, language)} {ui.pantry.pantryTitleSuffix}
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-stone-300">
-          Curated authentic ingredients, sauces, and cookware ready to order on Amazon Prime.
+          {ui.pantry.subtitle}
         </p>
 
         {/* Country Pills */}
@@ -57,7 +59,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
               }`}
             >
               <span>{c.flag}</span>
-              <span>{c.name}</span>
+              <span>{countryName(c.code, language)}</span>
             </button>
           ))}
         </div>
@@ -67,7 +69,8 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
       <div className="mt-4 rounded-2xl border border-amber-200/80 bg-amber-50/80 p-3 text-xs text-amber-950 leading-relaxed shadow-2xs flex items-center gap-2">
         <span className="text-base">🛒</span>
         <span>
-          <span className="font-extrabold">Amazon Associates Disclosure:</span> As an Amazon Associate, Night Market Bites earns from qualifying purchases at no additional cost to you. Physical ingredients & cookware are sourced via Amazon Prime.
+          <span className="font-extrabold">Amazon Associates Disclosure: </span>
+          {ui.pantry.amazonDisclosure}
         </span>
       </div>
 
@@ -111,13 +114,13 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
 
                   {it.substituteTip && (
                     <div className="mt-2.5 rounded-xl bg-emerald-50 p-2.5 text-[11px] text-emerald-900 border border-emerald-200">
-                      🔄 <span className="font-bold">Substitute:</span> {String(it.substituteTip)}
+                      🔄 <span className="font-bold">{ui.pantry.substitute} </span>{String(it.substituteTip)}
                     </div>
                   )}
 
                   {Array.isArray(it.recommendedBrands) && it.recommendedBrands.length > 0 && (
                     <p className="mt-2 text-[11px] text-stone-500">
-                      <span className="font-bold text-stone-700">Recommended Brands: </span>
+                      <span className="font-bold text-stone-700">{ui.pantry.recommendedBrands} </span>
                       {it.recommendedBrands.join(', ')}
                     </p>
                   )}
@@ -133,7 +136,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
                   className="flex items-center justify-center gap-2 rounded-2xl bg-amber-500 hover:bg-amber-400 py-2.5 text-xs font-extrabold text-stone-950 shadow-glow transition-all active:scale-95"
                 >
                   <ShoppingCart className="h-4 w-4" />
-                  <span>Buy on Amazon Prime</span>
+                  <span>{ui.pantry.buyAmazonPrime}</span>
                   <ExternalLink className="h-3 w-3 opacity-70" />
                 </a>
               </div>

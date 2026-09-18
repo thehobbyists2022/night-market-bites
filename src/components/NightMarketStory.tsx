@@ -1,6 +1,7 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { text } from '../lib/selectRecipe';
 import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
 import { BookOpen, Volume2, MapPin, Sparkles, Store } from 'lucide-react';
 import { speak } from '../utils/speech';
 import type { CountryCode } from '../types/unified';
@@ -20,6 +21,7 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
   onOpenClerkModal,
 }) => {
   const { language } = useLanguage();
+  const ui = getUI(language);
   const [isPlaying, setIsPlaying] = useState(false);
 
   if (!culture) return null;
@@ -67,8 +69,10 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
           </div>
           <div>
             <h3 className="flex items-center gap-2 text-base font-extrabold text-white">
-              <span>Night Market Origins</span>
-              <span className="text-xs font-normal text-amber-400">・夜市文化與起源</span>
+              <span>{ui.recipeDetail.originsTitle}</span>
+              {language === 'zh-TW' && (
+                <span className="text-xs font-normal text-amber-400">・{ui.recipeDetail.originsSubtitle}</span>
+              )}
             </h3>
           </div>
         </div>
@@ -78,7 +82,7 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-[11px] font-extrabold tracking-wider text-amber-300 uppercase">
               <Sparkles className="h-3 w-3" />
-              <span>Street Food Ordering Phrase (點餐短語)</span>
+              <span>{ui.recipeDetail.orderingPhraseTitle}</span>
             </div>
             <div className="text-xl font-extrabold tracking-wide text-white">
               {orderPhrase}
@@ -97,7 +101,7 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
               className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-3.5 py-2 text-xs font-bold text-stone-950 shadow-md shadow-amber-500/25 transition-all hover:bg-amber-400 active:scale-95"
             >
               <Volume2 className={`h-4 w-4 ${isPlaying ? 'animate-bounce' : ''}`} />
-              <span>{isPlaying ? 'Speaking...' : '發音 (Listen)'}</span>
+              <span>{isPlaying ? ui.recipeDetail.speaking : ui.recipeDetail.listenPronunciation}</span>
             </button>
 
             {/* Show Stall Card */}
@@ -115,7 +119,7 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
               className="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-white/20"
             >
               <Store className="h-4 w-4 text-amber-300" />
-              <span>攤販文字卡</span>
+              <span>{ui.recipeDetail.stallFlashcard}</span>
             </button>
           </div>
         </div>
@@ -132,7 +136,7 @@ export const NightMarketStory: React.FC<NightMarketStoryProps> = ({
           <div className="flex flex-wrap items-center gap-2 border-t border-white/10 pt-3 text-xs">
             <span className="flex items-center gap-1 font-bold text-amber-400">
               <MapPin className="h-3.5 w-3.5" />
-              <span>Famous Stalls (著名夜市):</span>
+              <span>{ui.recipeDetail.famousMarkets}</span>
             </span>
             {culture.famousNightMarkets.map((nm: any, idx: number) => (
               <span

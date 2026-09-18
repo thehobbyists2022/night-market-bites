@@ -1,5 +1,6 @@
-﻿import React, { useState } from 'react';
-import { LanguageProvider } from './context/LanguageContext';
+import React, { useState } from 'react';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { getUI } from './i18n/uiStrings';
 import { UserProvider } from './context/UserContext';
 import { HeaderBar } from './components/HeaderBar';
 import { MarketHall } from './components/MarketHall';
@@ -23,6 +24,8 @@ type Screen =
   | { view: 'passport' };
 
 const Shell: React.FC = () => {
+  const { language } = useLanguage();
+  const ui = getUI(language);
   const [screen, setScreen] = useState<Screen>({ view: 'hall' });
   const [showSurvivalModal, setShowSurvivalModal] = useState<boolean>(false);
 
@@ -94,7 +97,7 @@ const Shell: React.FC = () => {
             }`}
           >
             <Compass className="h-5 w-5" />
-            <span>Markets</span>
+            <span>{ui.nav.markets}</span>
           </button>
 
           {/* 2. Drink Lab */}
@@ -107,7 +110,7 @@ const Shell: React.FC = () => {
             }`}
           >
             <Sparkles className="h-5 w-5" />
-            <span>Drink Lab</span>
+            <span>{ui.nav.drinkLab}</span>
           </button>
 
           {/* 3. Pantry & Amazon */}
@@ -120,7 +123,7 @@ const Shell: React.FC = () => {
             }`}
           >
             <ShoppingBasket className="h-5 w-5" />
-            <span>Pantry</span>
+            <span>{ui.nav.pantry}</span>
           </button>
 
           {/* 4. Passport */}
@@ -133,7 +136,7 @@ const Shell: React.FC = () => {
             }`}
           >
             <Ticket className="h-5 w-5" />
-            <span>Passport</span>
+            <span>{ui.nav.passport}</span>
           </button>
         </div>
       </nav>

@@ -19,6 +19,7 @@ import { TroubleshootingFAQ } from './TroubleshootingFAQ';
 import { FocusCookingMode } from './FocusCookingMode';
 import { ShowToClerkModal, ClerkModalData } from './ShowToClerkModal';
 import { soundEffects } from '../utils/soundEffects';
+import { getUI } from '../i18n/uiStrings';
 
 interface RecipeDetailViewProps {
   recipe: CountryRecipe;
@@ -28,6 +29,7 @@ interface RecipeDetailViewProps {
 export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBack }) => {
   const { language } = useLanguage();
   const { favorites, toggleFavorite, markTasted } = useUser();
+  const ui = getUI(language);
 
   const [units, setUnits] = useState<'metric' | 'US'>('metric');
   const [servings, setServings] = useState<number>(recipe.defaultServings || 2);
@@ -60,7 +62,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
           className="flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-xs font-bold text-stone-700 shadow-2xs hover:bg-stone-50"
         >
           <ArrowLeft className="h-4 w-4" />
-          <span>Back to Market</span>
+          <span>{ui.recipeDetail.backToMarket}</span>
         </button>
 
         <button
@@ -75,7 +77,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
           }`}
         >
           <Heart className={`h-4 w-4 ${isFav ? 'fill-rose-500 text-rose-500' : ''}`} />
-          <span>{isFav ? 'Saved' : 'Save'}</span>
+          <span>{isFav ? ui.recipeDetail.saved : ui.recipeDetail.save}</span>
         </button>
       </div>
 
@@ -142,7 +144,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
               className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-2.5 text-xs font-extrabold text-stone-950 shadow-glow transition-all hover:scale-105 active:scale-95"
             >
               <Play className="h-3.5 w-3.5 fill-current" />
-              <span>開始沉浸式烹飪 (Cook Mode)</span>
+              <span>{ui.recipeDetail.startCookMode}</span>
             </button>
           </div>
 
@@ -169,7 +171,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-extrabold text-stone-900 flex items-center gap-2">
             <span>🥢</span>
-            <span>Ingredients (食材清單)</span>
+            <span>{ui.recipeDetail.ingredientsTitle}</span>
           </h2>
 
           <div className="flex items-center gap-2">
@@ -222,13 +224,13 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-extrabold text-stone-900 flex items-center gap-2">
             <span>🍳</span>
-            <span>Master Steps (分步料理指南)</span>
+            <span>{ui.recipeDetail.masterStepsTitle}</span>
           </h2>
           <button
             onClick={() => setIsFocusMode(true)}
             className="text-xs font-bold text-amber-600 hover:text-amber-700"
           >
-            Open Fullscreen →
+            {ui.recipeDetail.openFullscreen}
           </button>
         </div>
 
@@ -249,7 +251,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-600">
-                      Step {s.stepNumber}
+                      {ui.recipeDetail.stepPrefix} {s.stepNumber}
                     </span>
                     <h3 className="mt-0.5 text-base font-extrabold text-stone-900">
                       {text(s.title, language)}
@@ -278,7 +280,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
 
                 {s.crucialTips && (
                   <div className="mt-3 rounded-2xl bg-amber-50/80 p-3 text-xs text-amber-900 border border-amber-200/60">
-                    💡 <span className="font-bold">Tips:</span> {text(s.crucialTips as any, language)}
+                    💡 <span className="font-bold">{ui.recipeDetail.tipsPrefix}</span> {text(s.crucialTips as any, language)}
                   </div>
                 )}
               </div>

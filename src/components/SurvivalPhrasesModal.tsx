@@ -1,8 +1,10 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { X, Volume2, Store } from 'lucide-react';
 import { speak } from '../utils/speech';
+import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
 import type { CountryCode } from '../types/unified';
-import { COUNTRIES } from '../config/countries';
+import { COUNTRIES, countryName } from '../config/countries';
 
 interface SurvivalPhrase {
   id: string;
@@ -10,6 +12,15 @@ interface SurvivalPhrase {
   en: string;
   translations: Record<CountryCode, { text: string; phonetic: string }>;
 }
+
+const PHRASE_TITLES: Record<string, Record<string, string>> = {
+  'no-cilantro': { en: 'No Cilantro / Coriander', 'zh-TW': '不要香菜', ja: 'パクチー抜き' },
+  'not-spicy': { en: 'Not Spicy / Mild', 'zh-TW': '不辣 / 微辣', ja: '辛さなし / ピリ辛' },
+  'less-ice-sugar': { en: 'Less Ice & Less Sweet', 'zh-TW': '少冰微糖', ja: '氷少なめ甘さ控えめ' },
+  'takeout': { en: 'Takeout / To Go', 'zh-TW': '外帶打包', ja: '持ち帰り' },
+  'vegetarian': { en: 'Vegetarian (No Meat)', 'zh-TW': '素食 (無肉無海鮮)', ja: 'ベジタリアン（肉なし）' },
+  'delicious': { en: 'Super Delicious!', 'zh-TW': '超好吃！謝謝！', ja: 'とても美味しい！' },
+};
 
 const SURVIVAL_PHRASES: SurvivalPhrase[] = [
   {
@@ -103,6 +114,8 @@ interface SurvivalPhrasesModalProps {
 }
 
 export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onClose }) => {
+  const { language } = useLanguage();
+  const ui = getUI(language);
   const [selectedCountry, setSelectedCountry] = useState<CountryCode>('tw');
   const [activePhrase, setActivePhrase] = useState<SurvivalPhrase>(SURVIVAL_PHRASES[0]);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -135,10 +148,10 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
         <div className="mb-4">
           <div className="flex items-center gap-1.5 text-xs font-bold text-amber-700 uppercase tracking-wider">
             <Store className="h-4 w-4" />
-            <span>Night Market Survival Cards</span>
+            <span>{ui.survivalModal.badge}</span>
           </div>
           <h2 className="text-xl font-extrabold text-stone-900">
-            夜市點餐避坑與生存急救卡
+            {ui.survivalModal.title}
           </h2>
         </div>
 
@@ -155,7 +168,7 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
               }`}
             >
               <span>{c.flag}</span>
-              <span>{c.name}</span>
+              <span>{countryName(c.code, language)}</span>
             </button>
           ))}
         </div>
@@ -163,7 +176,7 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
         {/* Big Flashcard Display */}
         <div className="rounded-2xl border-2 border-dashed border-amber-400/80 bg-gradient-to-b from-amber-50 to-orange-50/40 p-6 text-center shadow-inner mb-4">
           <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-amber-900/60">
-            {countryInfo.flag} {countryInfo.district}・Show this screen to the vendor
+            {countryInfo.flag} {countryInfo.district}・{ui.survivalModal.showVendorPrompt}
           </p>
 
           <div className="text-4xl mb-2">{activePhrase.icon}</div>
@@ -177,7 +190,7 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
           </p>
 
           <p className="mt-3 text-xs text-stone-500 font-medium">
-            English: {activePhrase.en}
+            {language === 'zh-TW' ? '英文/意涵: ' : 'Meaning: '}{activePhrase.en}
           </p>
         </div>
 
@@ -187,17 +200,18 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
           className="mb-4 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 py-3 text-sm font-bold text-white shadow-glow transition-all active:scale-98"
         >
           <Volume2 className={`h-4 w-4 ${isSpeaking ? 'animate-bounce' : ''}`} />
-          <span>{isSpeaking ? '朗讀中 (Speaking...)' : '🔊 播放當地語音 (Speak Phrase)'}</span>
+          <span>{isSpeaking ? ui.survivalModal.speakingBtn : ui.survivalModal.speakBtn}</span>
         </button>
 
         {/* Phrase Selection Chips */}
         <div className="overflow-y-auto flex-1 pr-1 space-y-1.5">
           <p className="text-[11px] font-bold text-stone-400 uppercase tracking-wider mb-2">
-            選擇急救卡片 (Select Card):
+            {ui.survivalModal.selectCardTitle}
           </p>
           <div className="grid grid-cols-2 gap-2">
             {SURVIVAL_PHRASES.map((phrase) => {
               const isSelected = activePhrase.id === phrase.id;
+              const chipLabel = PHRASE_TITLES[phrase.id]?.[language] || phrase.en;
               return (
                 <button
                   key={phrase.id}
@@ -209,7 +223,7 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
                   }`}
                 >
                   <span className="text-lg">{phrase.icon}</span>
-                  <span className="truncate">{phrase.en}</span>
+                  <span className="truncate">{chipLabel}</span>
                 </button>
               );
             })}

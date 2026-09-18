@@ -1,5 +1,7 @@
-﻿import React from 'react';
+import React from 'react';
 import { Users, Minus, Plus } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { getUI } from '../i18n/uiStrings';
 
 interface ServingsScalerProps {
   servings: number;
@@ -12,11 +14,14 @@ export const ServingsScaler: React.FC<ServingsScalerProps> = ({
   baseServings,
   onChangeServings,
 }) => {
+  const { language } = useLanguage();
+  const ui = getUI(language);
+
   return (
     <div className="flex items-center gap-2 rounded-xl border border-stone-200 bg-white p-1 shadow-2xs">
       <div className="flex items-center gap-1.5 px-2 text-xs font-bold text-stone-600">
         <Users className="h-3.5 w-3.5 text-amber-600" />
-        <span>{servings} Servings</span>
+        <span>{servings} {ui.recipeDetail.servings}</span>
       </div>
 
       <div className="flex items-center gap-1">
@@ -38,7 +43,7 @@ export const ServingsScaler: React.FC<ServingsScalerProps> = ({
           }`}
           title="Reset to default servings"
         >
-          Default
+          {ui.recipeDetail.defaultServings}
         </button>
 
         <button

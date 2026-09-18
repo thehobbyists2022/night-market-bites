@@ -2,6 +2,7 @@
 import { UI_LANGUAGES, useLanguage } from '../context/LanguageContext';
 import { Languages, Store, Flame } from 'lucide-react';
 import { soundEffects } from '../utils/soundEffects';
+import { getUI } from '../i18n/uiStrings';
 
 interface HeaderBarProps {
   onBackHome: () => void;
@@ -11,6 +12,7 @@ interface HeaderBarProps {
 export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome, onOpenSurvivalModal }) => {
   const { language, setLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
+  const ui = getUI(language);
 
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200/80 bg-white/90 backdrop-blur-md safe-top">
@@ -31,7 +33,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome, onOpenSurvival
               Night Market Bites
             </span>
             <span className="block text-[10px] font-bold text-amber-700 tracking-wider">
-              7-Country Asian Street Food
+              {ui.header.brandSubtitle}
             </span>
           </div>
         </button>
@@ -45,11 +47,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome, onOpenSurvival
                 soundEffects.playClick();
                 onOpenSurvivalModal();
               }}
-              className="flex items-center gap-1 rounded-xl bg-amber-50 border border-amber-300 px-2.5 py-1.5 text-xs font-bold text-amber-900 shadow-2xs hover:bg-amber-100 transition-colors"
-              title="Night Market Emergency Phrases"
+              className="flex items-center gap-1.5 rounded-xl bg-amber-50 border border-amber-300 px-3 py-1.5 text-xs font-bold text-amber-900 shadow-2xs hover:bg-amber-100 transition-colors"
+              title={ui.header.survivalBtn}
             >
               <Store className="h-3.5 w-3.5 text-amber-600" />
-              <span className="hidden sm:inline">急救卡</span>
+              <span className="hidden sm:inline">{ui.header.survivalBtn}</span>
             </button>
           )}
 

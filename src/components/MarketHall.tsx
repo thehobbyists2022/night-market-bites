@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import type { CountryCode, CountryRecipe } from '../types/unified';
 import { Sparkles, Search, Store, ChevronRight } from 'lucide-react';
 import { soundEffects } from '../utils/soundEffects';
+import { getUI } from '../i18n/uiStrings';
 
 interface MarketHallProps {
   onSelectCountry: (code: CountryCode) => void;
@@ -19,6 +20,7 @@ export const MarketHall: React.FC<MarketHallProps> = ({
 }) => {
   const { language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
+  const ui = getUI(language);
 
   // Collect all recipes for search
   const allRecipes = COUNTRIES.flatMap((c) => recipesOf(c.code));
@@ -41,14 +43,14 @@ export const MarketHall: React.FC<MarketHallProps> = ({
         <div className="relative z-10">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-500/20 px-3 py-1 text-xs font-extrabold text-amber-300">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>7 Asian Night Markets · 130+ Authentic Street Dishes</span>
+            <span>{ui.marketHall.heroBadge}</span>
           </div>
 
           <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl text-white">
             Night Market Bites
           </h1>
           <p className="mt-2 max-w-2xl text-xs sm:text-sm leading-relaxed text-stone-300">
-            亞洲頂級街頭美食與夜市文化手冊：手把手料理教學、大字店員溝通卡、Amazon 原料直購與離線語音發音。
+            {ui.marketHall.heroSubtitle}
           </p>
 
           {/* Search Bar */}
@@ -59,7 +61,7 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="搜尋 130+ 道夜市小吃 (Search dishes, e.g. 鹽酥雞, Pad Thai, 抹茶)..."
+                placeholder={ui.marketHall.searchPlaceholder}
                 className="w-full rounded-2xl border border-white/20 bg-white/10 pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder-stone-400 backdrop-blur-md focus:border-amber-400 focus:outline-none focus:ring-1 focus:ring-amber-400"
               />
             </div>
@@ -74,7 +76,7 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                 className="flex items-center justify-center gap-2 rounded-2xl bg-amber-500 hover:bg-amber-400 px-5 py-3 text-xs font-extrabold text-stone-950 shadow-glow transition-all active:scale-95"
               >
                 <Store className="h-4 w-4" />
-                <span>🚨 夜市點餐急救卡 (Survival Cards)</span>
+                <span>{ui.marketHall.survivalCardsBtn}</span>
               </button>
             )}
           </div>
@@ -86,13 +88,13 @@ export const MarketHall: React.FC<MarketHallProps> = ({
         <section className="mt-8">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-extrabold text-stone-900">
-              搜尋結果 (Search Results): {searchResults.length} 道小吃
+              {ui.marketHall.searchResultsTitle}: {searchResults.length} {ui.marketHall.dishesUnit}
             </h2>
             <button
               onClick={() => setSearchQuery('')}
               className="text-xs font-bold text-amber-600"
             >
-              清除搜尋 (Clear)
+              {ui.marketHall.clearSearch}
             </button>
           </div>
 
@@ -139,10 +141,10 @@ export const MarketHall: React.FC<MarketHallProps> = ({
             <div>
               <h2 className="text-xl font-black text-stone-900 flex items-center gap-2">
                 <span>🏮</span>
-                <span>Seven Night Market Districts (七大夜市街區)</span>
+                <span>{ui.marketHall.districtsTitle}</span>
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                點擊進入各國專屬街區，探索當季必吃與道地風味
+                {ui.marketHall.districtsSubtitle}
               </p>
             </div>
           </div>
@@ -178,7 +180,7 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                     </div>
 
                     <span className="absolute right-3 bottom-3 rounded-xl bg-amber-500 px-2.5 py-1 text-[11px] font-black text-stone-950 shadow-md">
-                      {recipes.length} 道經典
+                      {recipes.length} {ui.marketHall.dishesClassic}
                     </span>
                   </div>
 
@@ -192,7 +194,7 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                     </p>
 
                     <div className="mt-4 flex items-center justify-between border-t border-stone-100 pt-3 text-xs font-bold text-amber-700">
-                      <span>漫遊夜市街區 (Enter District)</span>
+                      <span>{ui.marketHall.enterDistrict}</span>
                       <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </div>
                   </div>
