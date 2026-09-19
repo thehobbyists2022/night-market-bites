@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { COUNTRIES, countryName } from '../config/countries';
 import { text } from '../lib/selectRecipe';
-import { PANTRY } from '../data/pantry';
+import { PANTRY, AMAZON_TAGS } from '../data/pantry';
 import { useLanguage } from '../context/LanguageContext';
 import { getUI } from '../i18n/uiStrings';
 import type { CountryCode } from '../types/unified';
@@ -79,9 +79,11 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
         {items.map((it: any, i: number) => {
           const title = text(it.name, language);
           const desc = text(it.description, language);
+          const tag = AMAZON_TAGS[country] || 'nightmarketbites-20';
           const amazonSearchUrl =
             it.amazonUrl ||
-            `https://www.amazon.com/s?k=${encodeURIComponent(it.name?.en || it.nativeName || title)}&tag=nightmarketbites-20`;
+            (it.retailerLinks && it.retailerLinks[0]?.url) ||
+            `https://www.amazon.com/s?k=${encodeURIComponent(it.amazonKeyword || it.name?.en || it.nativeName || title)}&tag=${tag}`;
 
           return (
             <div
