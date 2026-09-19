@@ -281,6 +281,13 @@ export const FocusCookingMode: React.FC<FocusCookingModeProps> = ({
                   {stepTitle}
                 </h3>
 
+                {cookwareVariation && cookware !== 'traditional' && (
+                  <div className="mt-3 flex items-center gap-2 rounded-xl bg-amber-500/20 border border-amber-400/40 px-3.5 py-2 text-xs sm:text-sm font-bold text-amber-300">
+                    <Sparkles className="h-4 w-4 text-amber-400 shrink-0 animate-pulse" />
+                    <span>{cookwareVariation.tempAndSetting || `${cookware} Mode Active`}</span>
+                  </div>
+                )}
+
                 <p className="mt-4 text-base leading-relaxed text-stone-200 sm:text-lg">
                   {rawInstruction}
                 </p>

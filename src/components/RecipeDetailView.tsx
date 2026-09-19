@@ -10,6 +10,7 @@ import {
   Flame,
   Heart,
   Play,
+  Sparkles,
 } from 'lucide-react';
 import { CookwareToggle } from './CookwareToggle';
 import { ServingsScaler } from './ServingsScaler';
@@ -237,16 +238,30 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
                   ? text(cookwareVariation.instructionOverride, language)
                   : text(s.instruction, language);
 
+                const isAdapted = Boolean(cookwareVariation && selectedCookware !== 'traditional');
+
                 return (
                   <div
                     key={s.stepNumber}
-                    className="rounded-3xl border border-stone-200/80 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+                    className={`rounded-3xl border p-6 shadow-sm hover:shadow-md transition-all ${
+                      isAdapted
+                        ? 'border-amber-400 bg-gradient-to-b from-amber-50/50 via-white to-white ring-2 ring-amber-400/25'
+                        : 'border-stone-200/80 bg-white'
+                    }`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-600">
-                          {ui.recipeDetail.stepPrefix} {s.stepNumber}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-600">
+                            {ui.recipeDetail.stepPrefix} {s.stepNumber}
+                          </span>
+                          {isAdapted && (
+                            <span className="inline-flex items-center gap-1 rounded-md bg-amber-600 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
+                              <Sparkles className="h-3 w-3" />
+                              Adapted
+                            </span>
+                          )}
+                        </div>
                         <h3 className="mt-1 text-lg sm:text-xl font-black text-stone-900">
                           {text(s.title, language)}
                         </h3>
@@ -259,6 +274,13 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
                         </span>
                       )}
                     </div>
+
+                    {isAdapted && cookwareVariation?.tempAndSetting && (
+                      <div className="mt-3.5 flex items-center gap-2 rounded-xl bg-amber-500/15 border border-amber-500/30 px-3.5 py-2 text-xs sm:text-sm font-black text-amber-950">
+                        <Sparkles className="h-4 w-4 text-amber-600 shrink-0 animate-pulse" />
+                        <span>{cookwareVariation.tempAndSetting}</span>
+                      </div>
+                    )}
 
                     <p className="mt-4 text-base sm:text-lg leading-relaxed text-stone-800 font-normal">
                       {instruction}

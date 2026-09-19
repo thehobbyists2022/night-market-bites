@@ -91,7 +91,19 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
               <div>
                 {it.image && (
                   <div className="h-40 w-full overflow-hidden bg-stone-100">
-                    <img src={it.image} alt={title} className="h-full w-full object-cover" />
+                    <img
+                      src={it.image}
+                      alt={title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.style.display = 'none';
+                        if (target.parentElement) {
+                          target.parentElement.style.display = 'none';
+                        }
+                      }}
+                    />
                   </div>
                 )}
                 <div className="p-4">
