@@ -134,11 +134,11 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-3xl border-2 border-amber-400 bg-white p-6 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-lg rounded-3xl border-2 border-amber-400/40 bg-slate-900 p-6 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col text-white">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-stone-100 text-stone-600 hover:bg-stone-200"
+          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-stone-300 hover:bg-slate-700"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
@@ -146,11 +146,11 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
 
         {/* Header */}
         <div className="mb-4">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-amber-700 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400 uppercase tracking-wider">
             <Store className="h-4 w-4" />
             <span>{ui.survivalModal.badge}</span>
           </div>
-          <h2 className="text-xl font-extrabold text-stone-900">
+          <h2 className="text-xl font-extrabold text-white">
             {ui.survivalModal.title}
           </h2>
         </div>
@@ -163,8 +163,8 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
               onClick={() => setSelectedCountry(c.code)}
               className={`flex items-center gap-1 shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold transition-all ${
                 selectedCountry === c.code
-                  ? 'bg-amber-600 text-white shadow-sm'
-                  : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                  ? 'bg-amber-500 text-slate-950 font-black shadow-sm'
+                  : 'bg-slate-800 text-stone-300 hover:bg-slate-700'
               }`}
             >
               <span>{c.flag}</span>
@@ -174,22 +174,22 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
         </div>
 
         {/* Big Flashcard Display */}
-        <div className="rounded-2xl border-2 border-dashed border-amber-400/80 bg-gradient-to-b from-amber-50 to-orange-50/40 p-6 text-center shadow-inner mb-4">
-          <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-amber-900/60">
+        <div className="rounded-2xl border-2 border-dashed border-amber-400/60 bg-gradient-to-b from-amber-950/40 to-slate-950/70 p-6 text-center shadow-inner mb-4">
+          <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-amber-300">
             {countryInfo.flag} {countryInfo.district}・{ui.survivalModal.showVendorPrompt}
           </p>
 
           <div className="text-4xl mb-2">{activePhrase.icon}</div>
 
-          <h3 className="text-3xl sm:text-4xl font-extrabold tracking-wide text-stone-900 mb-2">
+          <h3 className="text-3xl sm:text-4xl font-extrabold tracking-wide text-white mb-2">
             {currentTrans.text}
           </h3>
 
-          <p className="inline-block rounded-full bg-white/90 px-3.5 py-1 font-mono text-xs font-bold text-amber-800 shadow-2xs">
+          <p className="inline-block rounded-full bg-slate-800/90 border border-white/10 px-3.5 py-1 font-mono text-xs font-bold text-amber-300 shadow-2xs">
             {currentTrans.phonetic}
           </p>
 
-          <p className="mt-3 text-xs text-stone-500 font-medium">
+          <p className="mt-3 text-xs text-stone-400 font-medium">
             {language === 'zh-TW' ? '英文/意涵: ' : 'Meaning: '}{activePhrase.en}
           </p>
         </div>
@@ -197,7 +197,7 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
         {/* Speak Button */}
         <button
           onClick={handleSpeak}
-          className="mb-4 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 py-3 text-sm font-bold text-white shadow-glow transition-all active:scale-98"
+          className="mb-4 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 py-3 text-sm font-bold text-slate-950 shadow-glow transition-all active:scale-98"
         >
           <Volume2 className={`h-4 w-4 ${isSpeaking ? 'animate-bounce' : ''}`} />
           <span>{isSpeaking ? ui.survivalModal.speakingBtn : ui.survivalModal.speakBtn}</span>
@@ -218,8 +218,8 @@ export const SurvivalPhrasesModal: React.FC<SurvivalPhrasesModalProps> = ({ onCl
                   onClick={() => setActivePhrase(phrase)}
                   className={`flex items-center gap-2 rounded-xl p-2.5 text-left text-xs font-bold transition-all ${
                     isSelected
-                      ? 'border-2 border-amber-500 bg-amber-50 text-amber-950 shadow-2xs'
-                      : 'border border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
+                      ? 'border-2 border-amber-400 bg-amber-500/20 text-amber-200 shadow-2xs'
+                      : 'border border-white/10 bg-slate-800/80 text-stone-200 hover:bg-slate-800'
                   }`}
                 >
                   <span className="text-lg">{phrase.icon}</span>

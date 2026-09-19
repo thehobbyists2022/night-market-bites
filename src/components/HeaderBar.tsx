@@ -15,7 +15,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome, onOpenSurvival
   const ui = getUI(language);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-stone-200/80 bg-white/90 backdrop-blur-md safe-top">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-md safe-top">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         {/* Brand Logo & Name */}
         <button
@@ -29,10 +29,10 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome, onOpenSurvival
             <Flame className="h-5 w-5 fill-current" />
           </div>
           <div>
-            <span className="block font-black text-base sm:text-lg tracking-tight text-stone-900 leading-tight">
+            <span className="block font-black text-base sm:text-lg tracking-tight text-white leading-tight">
               Night Market Bites
             </span>
-            <span className="block text-xs font-bold text-amber-700 tracking-wider">
+            <span className="block text-xs font-bold text-amber-400 tracking-wider">
               {ui.header.brandSubtitle}
             </span>
           </div>
@@ -47,10 +47,10 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome, onOpenSurvival
                 soundEffects.playClick();
                 onOpenSurvivalModal();
               }}
-              className="flex items-center gap-2 rounded-xl bg-amber-50 border border-amber-300 px-3.5 py-2 text-xs sm:text-sm font-bold text-amber-900 shadow-2xs hover:bg-amber-100 transition-colors"
+              className="flex items-center gap-2 rounded-xl bg-amber-500/15 border border-amber-400/30 px-3.5 py-2 text-xs sm:text-sm font-bold text-amber-300 shadow-2xs hover:bg-amber-500/25 transition-colors"
               title={ui.header.survivalBtn}
             >
-              <Store className="h-4 w-4 text-amber-600" />
+              <Store className="h-4 w-4 text-amber-400" />
               <span className="hidden sm:inline">{ui.header.survivalBtn}</span>
             </button>
           )}
@@ -62,14 +62,14 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome, onOpenSurvival
                 soundEffects.playClick();
                 setOpen(!open);
               }}
-              className="flex items-center gap-2 rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-xs sm:text-sm font-bold text-stone-700 hover:bg-stone-100 transition-colors"
+              className="flex items-center gap-2 rounded-xl border border-white/15 bg-slate-900/90 px-3 py-2 text-xs sm:text-sm font-bold text-stone-200 hover:bg-slate-800 transition-colors"
             >
-              <Languages className="h-4 w-4 text-amber-600" />
+              <Languages className="h-4 w-4 text-amber-400" />
               <span className="text-sm sm:text-base">{UI_LANGUAGES.find((l) => l.code === language)?.flag}</span>
             </button>
 
             {open && (
-              <div className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-xl animate-in fade-in duration-150">
+              <div className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-2xl border border-white/15 bg-slate-900/95 shadow-2xl backdrop-blur-xl animate-in fade-in duration-150">
                 <div className="p-1.5">
                   {UI_LANGUAGES.map((l) => (
                     <button
@@ -81,8 +81,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onBackHome, onOpenSurvival
                       }}
                       className={`flex w-full items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-left text-xs sm:text-sm font-semibold transition-colors ${
                         language === l.code
-                          ? 'bg-amber-50 font-bold text-amber-800'
-                          : 'text-stone-700 hover:bg-stone-50'
+                          ? 'bg-amber-500/20 font-bold text-amber-300'
+                          : 'text-stone-300 hover:bg-white/10'
                       }`}
                     >
                       <span className="text-lg">{l.flag}</span>

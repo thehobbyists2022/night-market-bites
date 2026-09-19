@@ -9,8 +9,8 @@ body,
 }
 
 body {
-  background-color: #FAF8F5;
-  color: #1C1917;
+  background: linear-gradient(180deg, #090D16 0%, #0F172A 35%, #151F32 70%, #0B0E17 100%) fixed;
+  color: #F8FAFC;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
@@ -26,22 +26,22 @@ body {
 
 @layer components {
   .card-e {
-    @apply rounded-3xl border border-stone-200/80 bg-white shadow-soft transition-all duration-300;
+    @apply rounded-3xl border border-white/10 bg-slate-900/85 text-white shadow-2xl transition-all duration-300 backdrop-blur-md;
   }
   .card-e-hover {
-    @apply hover:border-amber-400/60 hover:shadow-xl hover:-translate-y-1 active:translate-y-0;
+    @apply hover:border-amber-400/50 hover:shadow-2xl hover:shadow-amber-500/10 hover:-translate-y-1 active:translate-y-0;
   }
   .kicker {
-    @apply text-[11px] font-bold uppercase tracking-wider text-warm-muted;
+    @apply text-[11px] font-bold uppercase tracking-wider text-amber-400;
   }
   .chip-e {
-    @apply inline-flex items-center rounded-lg border border-warm-border bg-warm-bg px-2.5 py-1 text-[11px] font-semibold text-warm-ink;
+    @apply inline-flex items-center rounded-lg border border-white/10 bg-slate-800/80 px-2.5 py-1 text-[11px] font-semibold text-stone-200;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-warm-gold to-warm-accent px-5 py-3 text-sm font-bold text-white shadow-glow transition-all active:scale-95;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-3 text-sm font-bold text-white shadow-glow transition-all active:scale-95;
   }
   .btn-dark {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-night-900 px-4 py-2.5 text-xs font-bold text-white shadow-soft transition-all hover:bg-night-850 active:scale-95;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-800 border border-white/10 px-4 py-2.5 text-xs font-bold text-white shadow-soft transition-all hover:bg-slate-700 active:scale-95;
   }
   .img-grad {
     background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.4) 70%, rgba(11, 15, 25, 0.85) 100%);

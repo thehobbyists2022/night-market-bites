@@ -47,13 +47,13 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
   return (
     <div
       className="min-h-screen pb-24 pt-6 transition-colors duration-300 -mt-6"
-      style={{ backgroundColor: meta.theme.pageBg }}
+      style={{ background: meta.theme.pageBg }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6">
         {/* Back button */}
         <button
           onClick={onBack}
-          className="flex items-center gap-2 rounded-xl border border-stone-200/80 bg-white/90 px-4 py-2.5 text-xs sm:text-sm font-bold text-stone-700 shadow-2xs hover:bg-white transition-colors backdrop-blur-md"
+          className="flex items-center gap-2 rounded-xl border border-white/15 bg-slate-900/90 px-4 py-2.5 text-xs sm:text-sm font-bold text-stone-200 shadow-2xs hover:bg-slate-800 transition-colors backdrop-blur-md"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>{ui.district.allMarkets}</span>
@@ -112,7 +112,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
         </div>
 
         {/* Top Segmented Navigation Tab: Markets vs Dishes */}
-        <div className="mt-8 flex items-center gap-3 border-b border-stone-200/80 pb-4">
+        <div className="mt-8 flex items-center gap-3 border-b border-white/10 pb-4">
           <button
             onClick={() => {
               soundEffects.playClick();
@@ -121,7 +121,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
             className={`flex items-center gap-2.5 rounded-2xl px-6 py-3.5 text-xs sm:text-sm lg:text-base font-extrabold transition-all ${
               activeTab === 'markets'
                 ? 'text-white shadow-lg scale-[1.02]'
-                : 'border border-stone-200 bg-white/80 text-stone-700 hover:bg-white'
+                : 'border border-white/15 bg-slate-900/80 text-stone-300 hover:bg-slate-800'
             }`}
             style={activeTab === 'markets' ? { backgroundColor: meta.theme.primary } : undefined}
           >
@@ -137,7 +137,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
             className={`flex items-center gap-2.5 rounded-2xl px-6 py-3.5 text-xs sm:text-sm lg:text-base font-extrabold transition-all ${
               activeTab === 'dishes'
                 ? 'text-white shadow-lg scale-[1.02]'
-                : 'border border-stone-200 bg-white/80 text-stone-700 hover:bg-white'
+                : 'border border-white/15 bg-slate-900/80 text-stone-300 hover:bg-slate-800'
             }`}
             style={activeTab === 'dishes' ? { backgroundColor: meta.theme.primary } : undefined}
           >
@@ -150,7 +150,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
           <>
             {/* Category Filter Bar */}
             <div className="mt-6 flex items-center gap-2.5 overflow-x-auto pb-2 no-scrollbar">
-              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-stone-500 pl-1 shrink-0">
+              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-stone-400 pl-1 shrink-0">
                 <Filter className="h-4 w-4" />
                 <span>{ui.district.categoryLabel}</span>
               </div>
@@ -166,7 +166,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
                     className={`shrink-0 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold capitalize transition-all ${
                       isSelected
                         ? 'text-white shadow-sm scale-[1.02]'
-                        : 'border border-stone-200 bg-white/80 text-stone-700 hover:bg-white'
+                        : 'border border-white/15 bg-slate-900/80 text-stone-300 hover:bg-slate-800'
                     }`}
                     style={isSelected ? { backgroundColor: meta.theme.primary } : undefined}
                   >
@@ -222,31 +222,31 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
 
                   {/* Recipe Details */}
                   <div className="p-5">
-                    <h3 className="font-black text-base sm:text-lg text-stone-900 leading-snug line-clamp-1">
+                    <h3 className="font-black text-base sm:text-lg text-white leading-snug line-clamp-1">
                       {title}
                     </h3>
 
                     {native && (
-                      <p className="text-xs sm:text-sm font-bold text-amber-700 mt-1">
+                      <p className="text-xs sm:text-sm font-bold text-amber-400 mt-1">
                         {native}
                       </p>
                     )}
 
                     {subtitle && (
-                      <p className="mt-1.5 text-xs sm:text-sm text-stone-600 line-clamp-2 leading-relaxed">
+                      <p className="mt-1.5 text-xs sm:text-sm text-stone-300 line-clamp-2 leading-relaxed">
                         {subtitle}
                       </p>
                     )}
 
-                    <div className="mt-3.5 flex flex-wrap items-center gap-2 border-t border-stone-100 pt-3">
+                    <div className="mt-3.5 flex flex-wrap items-center gap-2 border-t border-white/10 pt-3">
                       <span className="chip-e capitalize text-xs font-bold px-2.5 py-1">
                         {r.difficulty}
                       </span>
-                      <span className="chip-e capitalize text-xs font-bold text-amber-800 bg-amber-50 border-amber-200/60 px-2.5 py-1">
+                      <span className="chip-e capitalize text-xs font-bold text-amber-300 bg-amber-500/15 border-amber-400/30 px-2.5 py-1">
                         {r.category}
                       </span>
                       {r.caloriesPerServing && (
-                        <span className="chip-e text-xs text-stone-600 px-2.5 py-1">
+                        <span className="chip-e text-xs text-stone-300 px-2.5 py-1">
                           <Flame className="h-3.5 w-3.5 mr-1 text-rose-500 inline" />
                           {r.caloriesPerServing} kcal
                         </span>

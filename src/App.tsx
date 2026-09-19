@@ -36,7 +36,12 @@ const Shell: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-warm-bg text-warm-ink flex flex-col justify-between">
+    <div
+      className="min-h-screen text-stone-100 flex flex-col justify-between"
+      style={{
+        background: 'linear-gradient(180deg, #090D16 0%, #0F172A 35%, #151F32 70%, #0B0E17 100%)',
+      }}
+    >
       <div>
         <HeaderBar
           onBackHome={() => navigateTo({ view: 'hall' })}
@@ -86,15 +91,15 @@ const Shell: React.FC = () => {
       )}
 
       {/* Bottom Sticky Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-stone-200/80 bg-white/95 backdrop-blur-lg safe-bottom">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-slate-950/90 backdrop-blur-xl safe-bottom">
         <div className="mx-auto grid max-w-md grid-cols-4 items-center px-2">
           {/* 1. Markets */}
           <button
             onClick={() => navigateTo({ view: 'hall' })}
             className={`flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-extrabold transition-colors ${
               screen.view === 'hall' || screen.view === 'district' || screen.view === 'recipe'
-                ? 'text-amber-600 scale-105'
-                : 'text-stone-400 hover:text-stone-600'
+                ? 'text-amber-400 scale-105'
+                : 'text-stone-400 hover:text-stone-200'
             }`}
           >
             <Compass className="h-5 w-5" />
@@ -106,8 +111,8 @@ const Shell: React.FC = () => {
             onClick={() => navigateTo({ view: 'lab' })}
             className={`flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-extrabold transition-colors ${
               screen.view === 'lab'
-                ? 'text-amber-600 scale-105'
-                : 'text-stone-400 hover:text-stone-600'
+                ? 'text-amber-400 scale-105'
+                : 'text-stone-400 hover:text-stone-200'
             }`}
           >
             <Sparkles className="h-5 w-5" />
@@ -119,8 +124,8 @@ const Shell: React.FC = () => {
             onClick={() => navigateTo({ view: 'pantry' })}
             className={`flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-extrabold transition-colors ${
               screen.view === 'pantry'
-                ? 'text-amber-600 scale-105'
-                : 'text-stone-400 hover:text-stone-600'
+                ? 'text-amber-400 scale-105'
+                : 'text-stone-400 hover:text-stone-200'
             }`}
           >
             <ShoppingBasket className="h-5 w-5" />
@@ -132,8 +137,8 @@ const Shell: React.FC = () => {
             onClick={() => navigateTo({ view: 'passport' })}
             className={`flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-extrabold transition-colors ${
               screen.view === 'passport'
-                ? 'text-amber-600 scale-105'
-                : 'text-stone-400 hover:text-stone-600'
+                ? 'text-amber-400 scale-105'
+                : 'text-stone-400 hover:text-stone-200'
             }`}
           >
             <Ticket className="h-5 w-5" />

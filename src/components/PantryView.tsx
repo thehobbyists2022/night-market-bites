@@ -24,7 +24,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
     <div className="mx-auto max-w-5xl px-4 pb-24 pt-4">
       <button
         onClick={onBack}
-        className="flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-xs font-bold text-stone-700 shadow-2xs hover:bg-stone-50"
+        className="flex items-center gap-1.5 rounded-xl border border-white/15 bg-slate-900/90 px-3.5 py-2 text-xs font-bold text-stone-200 shadow-2xs hover:bg-slate-800 transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         <span>{ui.recipeDetail.backToMarket}</span>
@@ -66,7 +66,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
       </div>
 
       {/* Amazon Disclosure Alert */}
-      <div className="mt-4 rounded-2xl border border-amber-200/80 bg-amber-50/80 p-3 text-xs text-amber-950 leading-relaxed shadow-2xs flex items-center gap-2">
+      <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-950/40 p-3 text-xs text-amber-200 leading-relaxed shadow-2xs flex items-center gap-2">
         <span className="text-base">🛒</span>
         <span>
           <span className="font-extrabold">Amazon Associates Disclosure: </span>
@@ -90,7 +90,7 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
             >
               <div>
                 {it.image && (
-                  <div className="h-40 w-full overflow-hidden bg-stone-100">
+                  <div className="h-40 w-full overflow-hidden bg-slate-800">
                     <img
                       src={it.image}
                       alt={title}
@@ -108,31 +108,31 @@ export const PantryView: React.FC<PantryViewProps> = ({ initialCountry, onBack }
                 )}
                 <div className="p-4">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-base font-extrabold text-stone-900">{title}</h3>
-                    <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-800 uppercase tracking-wider">
+                    <h3 className="text-base font-extrabold text-white">{title}</h3>
+                    <span className="rounded-full bg-amber-500/20 border border-amber-400/30 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-300 uppercase tracking-wider">
                       {it.category}
                     </span>
                   </div>
 
                   {it.nativeName && (
-                    <p className="mt-0.5 text-xs font-bold text-amber-700">{it.nativeName}</p>
+                    <p className="mt-0.5 text-xs font-bold text-amber-400">{it.nativeName}</p>
                   )}
 
                   {desc && (
-                    <p className="mt-2 text-xs leading-relaxed text-stone-600 line-clamp-3">
+                    <p className="mt-2 text-xs leading-relaxed text-stone-300 line-clamp-3">
                       {desc}
                     </p>
                   )}
 
                   {it.substituteTip && (
-                    <div className="mt-2.5 rounded-xl bg-emerald-50 p-2.5 text-[11px] text-emerald-900 border border-emerald-200">
+                    <div className="mt-2.5 rounded-xl bg-emerald-950/40 p-2.5 text-[11px] text-emerald-200 border border-emerald-500/30">
                       🔄 <span className="font-bold">{ui.pantry.substitute} </span>{String(it.substituteTip)}
                     </div>
                   )}
 
                   {Array.isArray(it.recommendedBrands) && it.recommendedBrands.length > 0 && (
-                    <p className="mt-2 text-[11px] text-stone-500">
-                      <span className="font-bold text-stone-700">{ui.pantry.recommendedBrands} </span>
+                    <p className="mt-2 text-[11px] text-stone-400">
+                      <span className="font-bold text-stone-300">{ui.pantry.recommendedBrands} </span>
                       {it.recommendedBrands.join(', ')}
                     </p>
                   )}

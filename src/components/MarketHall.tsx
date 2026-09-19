@@ -123,11 +123,11 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                       {countryMeta?.flag} {countryMeta?.name}
                     </span>
                   </div>
-                  <div className="p-5">
-                    <h3 className="font-black text-base sm:text-lg text-stone-900 leading-snug">
+                  <div className="p-5 bg-slate-900/90">
+                    <h3 className="font-black text-base sm:text-lg text-white leading-snug">
                       {text(recipe.title, language)}
                     </h3>
-                    <p className="mt-1.5 text-xs sm:text-sm text-stone-600 line-clamp-2 leading-relaxed">
+                    <p className="mt-1.5 text-xs sm:text-sm text-stone-300 line-clamp-2 leading-relaxed">
                       {text(recipe.subtitle, language)}
                     </p>
                   </div>
@@ -141,11 +141,11 @@ export const MarketHall: React.FC<MarketHallProps> = ({
         <section className="mt-10">
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-stone-900 flex items-center gap-2.5">
+              <h2 className="text-2xl sm:text-3xl font-black text-white flex items-center gap-2.5">
                 <span>🏮</span>
                 <span>{ui.marketHall.districtsTitle}</span>
               </h2>
-              <p className="text-sm sm:text-base text-stone-600 mt-1">
+              <p className="text-sm sm:text-base text-stone-400 mt-1">
                 {ui.marketHall.districtsSubtitle}
               </p>
             </div>
@@ -216,17 +216,17 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                       </div>
                     </div>
 
-                    <div className="p-5 sm:p-6 bg-white">
+                    <div className="p-5 sm:p-6 bg-slate-900/90">
                       <div className="flex items-center justify-between">
                         <p
                           className="kicker text-xs sm:text-sm font-extrabold tracking-wide"
-                          style={{ color: c.theme.primary }}
+                          style={{ color: c.theme.secondary }}
                         >
                           {c.district}
                         </p>
                         <span className="text-lg">{c.flag}</span>
                       </div>
-                      <h3 className="mt-1 text-xl sm:text-2xl font-black text-stone-900 leading-tight">
+                      <h3 className="mt-1 text-xl sm:text-2xl font-black text-white leading-tight">
                         {countryName(c.code, language)}
                       </h3>
 
@@ -237,9 +237,9 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                             key={r.id}
                             className="rounded-lg px-2.5 py-1 text-xs font-bold border transition-colors"
                             style={{
-                              backgroundColor: `${c.theme.primary}0D`,
-                              color: c.theme.primary,
-                              borderColor: `${c.theme.primary}25`,
+                              backgroundColor: `${c.theme.primary}26`,
+                              color: '#F8FAFC',
+                              borderColor: `${c.theme.primary}55`,
                             }}
                           >
                             {text(r.title, language)}
@@ -249,9 +249,9 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                           <span
                             className="rounded-lg px-2 py-1 text-xs font-black border"
                             style={{
-                              backgroundColor: `${c.theme.secondary}15`,
-                              color: c.theme.primary,
-                              borderColor: `${c.theme.secondary}35`,
+                              backgroundColor: `${c.theme.secondary}2a`,
+                              color: '#F8FAFC',
+                              borderColor: `${c.theme.secondary}55`,
                             }}
                           >
                             +{recipes.length - 3}
@@ -262,13 +262,13 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                   </div>
 
                   {/* Dual Action Footer: Explore Night Markets vs Cooking Dishes */}
-                  <div className="grid grid-cols-2 border-t border-stone-100 bg-stone-50/70 divide-x divide-stone-100">
+                  <div className="grid grid-cols-2 border-t border-white/10 bg-slate-950/70 divide-x divide-white/10">
                     <button
                       onClick={() => {
                         soundEffects.playClick();
                         onSelectCountry(c.code, 'markets');
                       }}
-                      className="px-3 py-3.5 text-center text-xs sm:text-sm font-extrabold text-amber-800 hover:bg-amber-100/80 transition-colors flex items-center justify-center gap-1.5"
+                      className="px-3 py-3.5 text-center text-xs sm:text-sm font-extrabold text-amber-400 hover:bg-white/5 transition-colors flex items-center justify-center gap-1.5"
                     >
                       <span>🏮</span>
                       <span>{markets.length} {ui.district.tabMarkets}</span>
@@ -279,7 +279,7 @@ export const MarketHall: React.FC<MarketHallProps> = ({
                         soundEffects.playClick();
                         onSelectCountry(c.code, 'dishes');
                       }}
-                      className="px-3 py-3.5 text-center text-xs sm:text-sm font-extrabold text-stone-700 hover:bg-amber-50 hover:text-amber-800 transition-colors flex items-center justify-center gap-1.5"
+                      className="px-3 py-3.5 text-center text-xs sm:text-sm font-extrabold text-stone-300 hover:bg-white/5 hover:text-amber-300 transition-colors flex items-center justify-center gap-1.5"
                     >
                       <span>🍢</span>
                       <span>{recipes.length} {ui.district.tabDishes}</span>

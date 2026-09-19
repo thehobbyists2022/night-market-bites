@@ -151,14 +151,14 @@ export const DrinkLabView: React.FC = () => {
             </div>
 
             {/* Controls */}
-            <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm space-y-5">
-              <h3 className="text-base font-extrabold text-stone-900">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/90 p-6 shadow-xl space-y-5 text-white">
+              <h3 className="text-base font-extrabold text-white">
                 {ui.drinkLab.formulaTitle}
               </h3>
 
               {/* Tea Base */}
               <div>
-                <label className="text-xs font-bold text-stone-600 block mb-2">
+                <label className="text-xs font-bold text-stone-300 block mb-2">
                   {ui.drinkLab.teaBase}
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -169,7 +169,7 @@ export const DrinkLabView: React.FC = () => {
                       className={`py-2 px-3 rounded-xl text-xs font-bold capitalize transition-all ${
                         teaBase === tb
                           ? 'bg-amber-600 text-white shadow-sm'
-                          : 'border border-stone-200 bg-stone-50 text-stone-700'
+                          : 'border border-white/15 bg-slate-800 text-stone-300 hover:bg-slate-700'
                       }`}
                     >
                       {tb === 'black' ? ui.drinkLab.blackTea : tb === 'oolong' ? ui.drinkLab.oolongTea : ui.drinkLab.greenTea}
@@ -279,15 +279,15 @@ export const DrinkLabView: React.FC = () => {
               </p>
             </div>
 
-            <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm space-y-5">
-              <h3 className="text-base font-extrabold text-stone-900">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/90 p-6 shadow-xl space-y-5 text-white">
+              <h3 className="text-base font-extrabold text-white">
                 {ui.drinkLab.thaiRecipeTitle}
               </h3>
 
               <div>
-                <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
+                <div className="flex justify-between text-xs font-bold text-stone-300 mb-1">
                   <span>{ui.drinkLab.condensedMilk}</span>
-                  <span className="text-orange-600">{condensedMilk} ml</span>
+                  <span className="text-orange-400">{condensedMilk} ml</span>
                 </div>
                 <input
                   type="range"
@@ -295,14 +295,14 @@ export const DrinkLabView: React.FC = () => {
                   max="60"
                   value={condensedMilk}
                   onChange={(e) => handleSliderChange(setCondensedMilk, Number(e.target.value))}
-                  className="w-full accent-orange-600"
+                  className="w-full accent-orange-500"
                 />
               </div>
 
               <div>
-                <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
+                <div className="flex justify-between text-xs font-bold text-stone-300 mb-1">
                   <span>{ui.drinkLab.evaporatedMilk}</span>
-                  <span className="text-orange-600">{evaporatedMilk} ml</span>
+                  <span className="text-orange-400">{evaporatedMilk} ml</span>
                 </div>
                 <input
                   type="range"
@@ -310,11 +310,11 @@ export const DrinkLabView: React.FC = () => {
                   max="50"
                   value={evaporatedMilk}
                   onChange={(e) => handleSliderChange(setEvaporatedMilk, Number(e.target.value))}
-                  className="w-full accent-orange-600"
+                  className="w-full accent-orange-500"
                 />
               </div>
 
-              <div className="pt-2 border-t border-stone-100">
+              <div className="pt-2 border-t border-white/10">
                 <a
                   href="https://www.amazon.com/s?k=chatramue+thai+tea+mix&tag=nightmarketbites-20"
                   target="_blank"
@@ -355,15 +355,15 @@ export const DrinkLabView: React.FC = () => {
               </p>
             </div>
 
-            <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-sm space-y-5">
-              <h3 className="text-base font-extrabold text-stone-900">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/90 p-6 shadow-xl space-y-5 text-white">
+              <h3 className="text-base font-extrabold text-white">
                 {ui.drinkLab.matchaRecipeTitle}
               </h3>
 
               <div>
-                <div className="flex justify-between text-xs font-bold text-stone-700 mb-1">
+                <div className="flex justify-between text-xs font-bold text-stone-300 mb-1">
                   <span>{ui.drinkLab.matchaAmount}</span>
-                  <span className="text-emerald-600">{matchaGrams} g</span>
+                  <span className="text-emerald-400">{matchaGrams} g</span>
                 </div>
                 <input
                   type="range"

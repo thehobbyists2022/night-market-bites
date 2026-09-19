@@ -57,14 +57,14 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
   return (
     <div
       className="min-h-screen pb-24 pt-4 transition-colors duration-300 -mt-6"
-      style={{ backgroundColor: meta.theme.pageBg }}
+      style={{ background: meta.theme.pageBg }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
         {/* Back button & top bar */}
         <div className="my-4 flex items-center justify-between">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 rounded-2xl border border-stone-200 bg-white px-4 py-2.5 text-sm sm:text-base font-bold text-stone-700 shadow-2xs hover:bg-stone-50 transition-colors"
+          className="flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-900/90 px-4 py-2.5 text-sm sm:text-base font-bold text-stone-200 shadow-2xs hover:bg-slate-800 transition-colors"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>{ui.recipeDetail.backToMarket}</span>
@@ -77,8 +77,8 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
           }}
           className={`flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-sm sm:text-base font-bold transition-all ${
             isFav
-              ? 'border-rose-300 bg-rose-50 text-rose-600 shadow-sm'
-              : 'border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
+              ? 'border-rose-400/50 bg-rose-500/20 text-rose-300 shadow-sm'
+              : 'border-white/15 bg-slate-900/90 text-stone-300 hover:bg-slate-800'
           }`}
         >
           <Heart className={`h-5 w-5 ${isFav ? 'fill-rose-500 text-rose-500' : ''}`} />
@@ -87,7 +87,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
       </div>
 
       {/* Hero Banner Card */}
-      <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-soft">
+      <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-900/90 shadow-2xl">
         <div className="relative h-72 sm:h-96 lg:h-[420px] w-full overflow-hidden">
           <img
             src={recipe.heroImage}
@@ -123,19 +123,19 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
 
         {/* Quick Stats & CTA Bar */}
         <div className="p-6 sm:p-7">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-stone-100 pb-5">
-            <div className="flex flex-wrap items-center gap-2.5 text-xs sm:text-sm font-bold text-stone-600">
-              <span className="flex items-center gap-1.5 rounded-2xl bg-amber-50 px-4 py-2 text-amber-900 border border-amber-200/60 font-black">
-                <Clock className="h-4 w-4 text-amber-600" />
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
+            <div className="flex flex-wrap items-center gap-2.5 text-xs sm:text-sm font-bold text-stone-300">
+              <span className="flex items-center gap-1.5 rounded-2xl bg-amber-500/15 px-4 py-2 text-amber-300 border border-amber-400/30 font-black">
+                <Clock className="h-4 w-4 text-amber-400" />
                 {(recipe.prepTimeMinutes || 0) + recipe.cookTimeMinutes} min
               </span>
 
-              <span className="flex items-center gap-1.5 rounded-2xl bg-stone-100 px-4 py-2 text-stone-800 font-black">
+              <span className="flex items-center gap-1.5 rounded-2xl bg-slate-800 border border-white/10 px-4 py-2 text-stone-200 font-black">
                 <Flame className="h-4 w-4 text-rose-500" />
                 {recipe.caloriesPerServing || 450} kcal
               </span>
 
-              <span className="rounded-2xl bg-stone-100 px-4 py-2 capitalize text-stone-700 font-black">
+              <span className="rounded-2xl bg-slate-800 border border-white/10 px-4 py-2 capitalize text-stone-300 font-black">
                 {recipe.difficulty}
               </span>
             </div>
@@ -155,7 +155,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
 
           {/* Tagline */}
           {recipe.tagline && (
-            <p className="mt-4 text-sm sm:text-base italic text-stone-600 font-medium">
+            <p className="mt-4 text-sm sm:text-base italic text-stone-400 font-medium">
               "{text(recipe.tagline, language)}"
             </p>
           )}
@@ -174,9 +174,9 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
           />
 
           {/* Ingredients Section */}
-          <section className="rounded-3xl border border-stone-200/80 bg-white p-6 shadow-sm">
+          <section className="rounded-3xl border border-white/10 bg-slate-900/90 p-6 shadow-xl">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-xl font-black text-stone-900 flex items-center gap-2">
+              <h2 className="text-xl font-black text-white flex items-center gap-2">
                 <span>🥢</span>
                 <span>{ui.recipeDetail.ingredientsTitle}</span>
               </h2>
@@ -190,13 +190,13 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
                 />
 
                 {/* Units Toggle */}
-                <div className="flex rounded-xl border border-stone-200 bg-stone-100 p-0.5 text-xs font-bold">
+                <div className="flex rounded-xl border border-white/15 bg-slate-800 p-0.5 text-xs font-bold">
                   {(['metric', 'US'] as const).map((u) => (
                     <button
                       key={u}
                       onClick={() => setUnits(u)}
                       className={`rounded-lg px-3 py-1 transition-colors ${
-                        units === u ? 'bg-white text-stone-900 shadow-2xs font-extrabold' : 'text-stone-500'
+                        units === u ? 'bg-slate-700 text-white shadow-2xs font-extrabold' : 'text-stone-400'
                       }`}
                     >
                       {u === 'metric' ? 'g/ml' : 'oz'}
@@ -221,13 +221,13 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
         <div className="mt-8 lg:mt-0 lg:col-span-7 space-y-6">
           <section>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl sm:text-2xl font-black text-stone-900 flex items-center gap-2">
+              <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
                 <span>🍳</span>
                 <span>{ui.recipeDetail.masterStepsTitle}</span>
               </h2>
               <button
                 onClick={() => setIsFocusMode(true)}
-                className="text-sm sm:text-base font-bold text-amber-600 hover:text-amber-700 underline underline-offset-4"
+                className="text-sm sm:text-base font-bold text-amber-400 hover:text-amber-300 underline underline-offset-4"
               >
                 {ui.recipeDetail.openFullscreen}
               </button>
@@ -247,16 +247,16 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
                 return (
                   <div
                     key={s.stepNumber}
-                    className={`rounded-3xl border p-6 shadow-sm hover:shadow-md transition-all ${
+                    className={`rounded-3xl border p-6 shadow-md hover:shadow-xl transition-all ${
                       isAdapted
-                        ? 'border-amber-400 bg-gradient-to-b from-amber-50/50 via-white to-white ring-2 ring-amber-400/25'
-                        : 'border-stone-200/80 bg-white'
+                        ? 'border-amber-500/50 bg-slate-900/95 ring-1 ring-amber-400/30'
+                        : 'border-white/10 bg-slate-900/90'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-600">
+                          <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400">
                             {ui.recipeDetail.stepPrefix} {s.stepNumber}
                           </span>
                           {isAdapted && (
@@ -266,27 +266,27 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
                             </span>
                           )}
                         </div>
-                        <h3 className="mt-1 text-lg sm:text-xl font-black text-stone-900">
+                        <h3 className="mt-1 text-lg sm:text-xl font-black text-white">
                           {text(s.title, language)}
                         </h3>
                       </div>
 
                       {s.durationSeconds && (
-                        <span className="whitespace-nowrap rounded-full bg-amber-50 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-amber-800 border border-amber-200">
-                          <Clock className="mr-1.5 inline h-4 w-4 text-amber-600" />
+                        <span className="whitespace-nowrap rounded-full bg-amber-500/15 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-amber-300 border border-amber-400/30">
+                          <Clock className="mr-1.5 inline h-4 w-4 text-amber-400" />
                           {Math.round(s.durationSeconds / 6) / 10} min
                         </span>
                       )}
                     </div>
 
                     {isAdapted && cookwareVariation?.tempAndSetting && (
-                      <div className="mt-3.5 flex items-center gap-2 rounded-xl bg-amber-500/15 border border-amber-500/30 px-3.5 py-2 text-xs sm:text-sm font-black text-amber-950">
-                        <Sparkles className="h-4 w-4 text-amber-600 shrink-0 animate-pulse" />
+                      <div className="mt-3.5 flex items-center gap-2 rounded-xl bg-amber-500/20 border border-amber-500/30 px-3.5 py-2 text-xs sm:text-sm font-black text-amber-200">
+                        <Sparkles className="h-4 w-4 text-amber-400 shrink-0 animate-pulse" />
                         <span>{cookwareVariation.tempAndSetting}</span>
                       </div>
                     )}
 
-                    <p className="mt-4 text-base sm:text-lg leading-relaxed text-stone-800 font-normal">
+                    <p className="mt-4 text-base sm:text-lg leading-relaxed text-stone-200 font-normal">
                       {instruction}
                     </p>
 
@@ -294,12 +294,12 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
                       <img
                         src={s.image}
                         alt=""
-                        className="mt-4 h-56 sm:h-72 w-full rounded-2xl object-cover border border-stone-100"
+                        className="mt-4 h-56 sm:h-72 w-full rounded-2xl object-cover border border-white/10"
                       />
                     )}
 
                     {s.crucialTips && (
-                      <div className="mt-4 rounded-2xl bg-amber-50/90 p-4 text-sm sm:text-base text-amber-950 border border-amber-200/70 font-medium">
+                      <div className="mt-4 rounded-2xl bg-amber-950/40 p-4 text-sm sm:text-base text-amber-200 border border-amber-500/30 font-medium">
                         💡 <span className="font-bold">{ui.recipeDetail.tipsPrefix}</span> {text(s.crucialTips as any, language)}
                       </div>
                     )}

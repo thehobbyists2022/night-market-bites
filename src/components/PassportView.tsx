@@ -44,7 +44,7 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
     <div className="mx-auto max-w-5xl px-4 pb-24 pt-4">
       <button
         onClick={onBack}
-        className="mb-4 flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3.5 py-2 text-xs font-bold text-stone-700 shadow-2xs hover:bg-stone-50"
+        className="mb-4 flex items-center gap-1.5 rounded-xl border border-white/15 bg-slate-900/90 px-3.5 py-2 text-xs font-bold text-stone-200 shadow-2xs hover:bg-slate-800 transition-colors"
       >
         <span>← {ui.recipeDetail.backToMarket}</span>
       </button>
@@ -69,7 +69,7 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
 
       {/* 7-Country Passport Stamps Grid */}
       <section className="mt-8">
-        <h2 className="text-lg font-extrabold text-stone-900 flex items-center gap-2 mb-4">
+        <h2 className="text-lg font-extrabold text-white flex items-center gap-2 mb-4">
           <span>🛂</span>
           <span>{ui.passport.stampsSection}</span>
         </h2>
@@ -87,8 +87,8 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
                 key={c.code}
                 className={`relative overflow-hidden rounded-3xl p-5 border transition-all ${
                   isUnlocked
-                    ? 'border-amber-500/40 bg-gradient-to-b from-white to-amber-50/40 shadow-soft'
-                    : 'border-stone-200 bg-white/60 opacity-80'
+                    ? 'border-amber-500/40 bg-gradient-to-b from-slate-900 to-amber-950/30 shadow-xl text-white'
+                    : 'border-white/10 bg-slate-900/60 opacity-60 text-stone-400'
                 }`}
               >
                 {/* Stamp visual circle */}
@@ -96,37 +96,37 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
                   <div
                     className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
                       isUnlocked
-                        ? 'border-amber-600 bg-amber-50 text-amber-800 rotate-[-8deg] shadow-md'
-                        : 'border-dashed border-stone-300 bg-stone-50 text-stone-300'
+                        ? 'border-amber-400 bg-amber-500/20 text-amber-300 rotate-[-8deg] shadow-md'
+                        : 'border-dashed border-slate-700 bg-slate-800 text-stone-500'
                     }`}
                   >
                     {isUnlocked ? (
                       <div className="text-center font-serif text-[10px] font-black leading-none">
                         <span className="text-xs">{c.flag}</span>
                         <div className="mt-0.5 scale-75 uppercase">VISITED</div>
-                        <div className="text-[8px] text-amber-700">STAMP</div>
+                        <div className="text-[8px] text-amber-400">STAMP</div>
                       </div>
                     ) : (
-                      <Lock className="h-5 w-5 text-stone-300" />
+                      <Lock className="h-5 w-5 text-stone-500" />
                     )}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-sm text-stone-900 truncate">
+                      <span className="font-extrabold text-sm text-white truncate">
                         {c.flag} {countryName(c.code, language)}
                       </span>
-                      <span className="text-[11px] font-black text-amber-700">
+                      <span className="text-[11px] font-black text-amber-400">
                         {done}/{all.length}
                       </span>
                     </div>
 
-                    <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                    <p className="text-[11px] text-stone-400 truncate mt-0.5">
                       {stampName}
                     </p>
 
                     {/* Progress Bar */}
-                    <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-stone-100">
+                    <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-800">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-600 transition-all duration-300"
                         style={{ width: `${pct}%` }}
@@ -142,15 +142,15 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
 
       {/* Pocket List / Saved Favorites */}
       <section className="mt-10">
-        <h2 className="flex items-center gap-2 text-lg font-extrabold text-stone-900 mb-4">
+        <h2 className="flex items-center gap-2 text-lg font-extrabold text-white mb-4">
           <Heart className="h-5 w-5 text-rose-500 fill-rose-500" />
           <span>{ui.passport.favoritesSection}: {favList.length}</span>
         </h2>
 
         {favList.length === 0 ? (
-          <div className="rounded-3xl border border-stone-200 bg-white p-8 text-center text-xs text-stone-500 shadow-2xs">
-            <Heart className="mx-auto h-8 w-8 text-stone-300 mb-2" />
-            <p className="font-bold text-stone-700 text-sm">{ui.passport.emptyFavoritesTitle}</p>
+          <div className="rounded-3xl border border-white/10 bg-slate-900/80 p-8 text-center text-xs text-stone-400 shadow-2xs">
+            <Heart className="mx-auto h-8 w-8 text-stone-500 mb-2" />
+            <p className="font-bold text-stone-200 text-sm">{ui.passport.emptyFavoritesTitle}</p>
             <p className="mt-1">{ui.passport.emptyFavoritesSubtitle}</p>
           </div>
         ) : (
@@ -164,7 +164,7 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
                     soundEffects.playClick();
                     onSelectRecipe(r);
                   }}
-                  className="flex items-center gap-3 rounded-2xl border border-stone-200/80 bg-white p-3 text-left shadow-2xs hover:border-amber-400/60 transition-all"
+                  className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/90 p-3 text-left shadow-2xs hover:border-amber-400/50 transition-all"
                 >
                   <img
                     src={r.heroImage}
@@ -172,10 +172,10 @@ export const PassportView: React.FC<PassportViewProps> = ({ onSelectRecipe, onBa
                     className="h-14 w-14 shrink-0 rounded-xl object-cover"
                   />
                   <div className="min-w-0 flex-1">
-                    <span className="block truncate text-xs font-extrabold text-stone-900">
+                    <span className="block truncate text-xs font-extrabold text-white">
                       {text(r.title, language)}
                     </span>
-                    <span className="mt-0.5 block text-[11px] text-amber-700 font-semibold">
+                    <span className="mt-0.5 block text-[11px] text-amber-400 font-semibold">
                       {countryMeta?.flag} {countryName(r.country, language)} · {r.cookTimeMinutes} min
                     </span>
                   </div>
