@@ -55,9 +55,13 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
   }, [recipe.country, recipe.id, markTasted]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-24 pt-4">
-      {/* Back button & top bar */}
-      <div className="my-4 flex items-center justify-between">
+    <div
+      className="min-h-screen pb-24 pt-4 transition-colors duration-300 -mt-6"
+      style={{ backgroundColor: meta.theme.pageBg }}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
+        {/* Back button & top bar */}
+        <div className="my-4 flex items-center justify-between">
         <button
           onClick={onBack}
           className="flex items-center gap-2 rounded-2xl border border-stone-200 bg-white px-4 py-2.5 text-sm sm:text-base font-bold text-stone-700 shadow-2xs hover:bg-stone-50 transition-colors"
@@ -350,6 +354,7 @@ export const RecipeDetailView: React.FC<RecipeDetailViewProps> = ({ recipe, onBa
           onClose={() => setClerkModalData(null)}
         />
       )}
+      </div>
     </div>
   );
 };

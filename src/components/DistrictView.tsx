@@ -45,119 +45,136 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
       : recipes.filter((r) => r.category === selectedCat);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-24 pt-6">
-      {/* Back button */}
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-xs sm:text-sm font-bold text-stone-700 shadow-2xs hover:bg-stone-50 transition-colors"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        <span>{ui.district.allMarkets}</span>
-      </button>
+    <div
+      className="min-h-screen pb-24 pt-6 transition-colors duration-300 -mt-6"
+      style={{ backgroundColor: meta.theme.pageBg }}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6">
+        {/* Back button */}
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 rounded-xl border border-stone-200/80 bg-white/90 px-4 py-2.5 text-xs sm:text-sm font-bold text-stone-700 shadow-2xs hover:bg-white transition-colors backdrop-blur-md"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>{ui.district.allMarkets}</span>
+        </button>
 
-      {/* District Header Banner */}
-      <div
-        className="mt-5 overflow-hidden rounded-3xl p-7 sm:p-10 lg:p-12 text-white shadow-xl relative"
-        style={{
-          background: `linear-gradient(135deg, #0B0F19 0%, #161F33 60%, ${meta.accent}33 100%)`,
-          border: `1px solid ${meta.accent}44`,
-        }}
-      >
-        <div className="flex flex-wrap items-center justify-between gap-6 relative z-10">
-          <div className="flex-1 min-w-[240px]">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="text-3xl sm:text-4xl">{meta.flag}</span>
-              <span className="rounded-full bg-white/20 px-3.5 py-1 text-xs sm:text-sm font-extrabold backdrop-blur-md">
-                {meta.name} Night Market District
-              </span>
-              {meta.appName && (
-                <span className="rounded-full bg-amber-500/20 px-3 py-1 text-xs font-black text-amber-300 border border-amber-400/30 backdrop-blur-md">
-                  {meta.appName}
+        {/* District Header Banner */}
+        <div
+          className="mt-5 overflow-hidden rounded-3xl p-7 sm:p-10 lg:p-12 text-white shadow-2xl relative"
+          style={{
+            background: meta.theme.gradient,
+            border: `2px solid ${meta.theme.secondary}66`,
+          }}
+        >
+          {/* Ambient ambient glows */}
+          <div
+            className="absolute -right-10 -top-10 h-80 w-80 rounded-full opacity-35 blur-3xl pointer-events-none"
+            style={{ background: meta.theme.secondary }}
+          />
+          <div
+            className="absolute -left-10 -bottom-10 h-80 w-80 rounded-full opacity-25 blur-3xl pointer-events-none"
+            style={{ background: meta.theme.primary }}
+          />
+
+          <div className="flex flex-wrap items-center justify-between gap-6 relative z-10">
+            <div className="flex-1 min-w-[240px]">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <span className="text-3xl sm:text-4xl">{meta.flag}</span>
+                <span className="rounded-full bg-black/30 px-3.5 py-1 text-xs sm:text-sm font-extrabold backdrop-blur-md border border-white/20">
+                  {meta.name} Night Market District
                 </span>
-              )}
+                {meta.appName && (
+                  <span className="rounded-full bg-white/25 px-3 py-1 text-xs font-black text-white border border-white/30 backdrop-blur-md shadow-sm">
+                    {meta.appName}
+                  </span>
+                )}
+              </div>
+              <h1 className="mt-3 text-3xl font-black sm:text-5xl lg:text-6xl text-white tracking-tight drop-shadow-sm">
+                {meta.district}
+              </h1>
+              <p className="mt-2 text-sm sm:text-base text-white/90">
+                {countryName(country, language)} · {markets.length} {ui.district.marketCount} · {recipes.length} {ui.district.districtDishes}
+              </p>
             </div>
-            <h1 className="mt-3 text-3xl font-black sm:text-5xl lg:text-6xl text-white tracking-tight">
-              {meta.district}
-            </h1>
-            <p className="mt-2 text-sm sm:text-base text-stone-200">
-              {countryName(country, language)} · {markets.length} {ui.district.marketCount} · {recipes.length} {ui.district.districtDishes}
-            </p>
-          </div>
 
-          {/* Authentic App Icon */}
-          {meta.appIcon && (
-            <div className="shrink-0">
-              <img
-                src={meta.appIcon}
-                alt={meta.appName}
-                className="h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28 rounded-3xl border-2 border-white/20 shadow-2xl object-cover"
-              />
-            </div>
-          )}
+            {/* Authentic App Icon */}
+            {meta.appIcon && (
+              <div className="shrink-0">
+                <img
+                  src={meta.appIcon}
+                  alt={meta.appName}
+                  className="h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28 rounded-3xl border-2 border-white/40 shadow-2xl object-cover"
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Top Segmented Navigation Tab: Markets vs Dishes */}
-      <div className="mt-8 flex items-center gap-3 border-b border-stone-200 pb-4">
-        <button
-          onClick={() => {
-            soundEffects.playClick();
-            setActiveTab('markets');
-          }}
-          className={`flex items-center gap-2.5 rounded-2xl px-6 py-3.5 text-xs sm:text-sm lg:text-base font-extrabold transition-all ${
-            activeTab === 'markets'
-              ? 'bg-amber-600 text-white shadow-md scale-[1.02]'
-              : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
-          }`}
-        >
-          <Store className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span>{ui.district.tabMarkets} ({markets.length})</span>
-        </button>
+        {/* Top Segmented Navigation Tab: Markets vs Dishes */}
+        <div className="mt-8 flex items-center gap-3 border-b border-stone-200/80 pb-4">
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setActiveTab('markets');
+            }}
+            className={`flex items-center gap-2.5 rounded-2xl px-6 py-3.5 text-xs sm:text-sm lg:text-base font-extrabold transition-all ${
+              activeTab === 'markets'
+                ? 'text-white shadow-lg scale-[1.02]'
+                : 'border border-stone-200 bg-white/80 text-stone-700 hover:bg-white'
+            }`}
+            style={activeTab === 'markets' ? { backgroundColor: meta.theme.primary } : undefined}
+          >
+            <Store className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span>{ui.district.tabMarkets} ({markets.length})</span>
+          </button>
 
-        <button
-          onClick={() => {
-            soundEffects.playClick();
-            setActiveTab('dishes');
-          }}
-          className={`flex items-center gap-2.5 rounded-2xl px-6 py-3.5 text-xs sm:text-sm lg:text-base font-extrabold transition-all ${
-            activeTab === 'dishes'
-              ? 'bg-amber-600 text-white shadow-md scale-[1.02]'
-              : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
-          }`}
-        >
-          <Utensils className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span>{ui.district.tabDishes} ({recipes.length})</span>
-        </button>
-      </div>
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setActiveTab('dishes');
+            }}
+            className={`flex items-center gap-2.5 rounded-2xl px-6 py-3.5 text-xs sm:text-sm lg:text-base font-extrabold transition-all ${
+              activeTab === 'dishes'
+                ? 'text-white shadow-lg scale-[1.02]'
+                : 'border border-stone-200 bg-white/80 text-stone-700 hover:bg-white'
+            }`}
+            style={activeTab === 'dishes' ? { backgroundColor: meta.theme.primary } : undefined}
+          >
+            <Utensils className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span>{ui.district.tabDishes} ({recipes.length})</span>
+          </button>
+        </div>
 
-      {activeTab === 'dishes' ? (
-        <>
-          {/* Category Filter Bar */}
-          <div className="mt-6 flex items-center gap-2.5 overflow-x-auto pb-2 no-scrollbar">
-            <div className="flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-stone-500 pl-1 shrink-0">
-              <Filter className="h-4 w-4" />
-              <span>{ui.district.categoryLabel}</span>
+        {activeTab === 'dishes' ? (
+          <>
+            {/* Category Filter Bar */}
+            <div className="mt-6 flex items-center gap-2.5 overflow-x-auto pb-2 no-scrollbar">
+              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-stone-500 pl-1 shrink-0">
+                <Filter className="h-4 w-4" />
+                <span>{ui.district.categoryLabel}</span>
+              </div>
+              {cats.map((c) => {
+                const isSelected = selectedCat === c;
+                return (
+                  <button
+                    key={c}
+                    onClick={() => {
+                      soundEffects.playClick();
+                      setSelectedCat(c);
+                    }}
+                    className={`shrink-0 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold capitalize transition-all ${
+                      isSelected
+                        ? 'text-white shadow-sm scale-[1.02]'
+                        : 'border border-stone-200 bg-white/80 text-stone-700 hover:bg-white'
+                    }`}
+                    style={isSelected ? { backgroundColor: meta.theme.primary } : undefined}
+                  >
+                    {c === 'all' ? ui.district.allCategory : c}
+                  </button>
+                );
+              })}
             </div>
-            {cats.map((c) => {
-              const isSelected = selectedCat === c;
-              return (
-                <button
-                  key={c}
-                  onClick={() => {
-                    soundEffects.playClick();
-                    setSelectedCat(c);
-                  }}
-                  className={`shrink-0 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold capitalize transition-all ${
-                    isSelected
-                      ? 'bg-amber-600 text-white shadow-sm scale-[1.02]'
-                      : 'border border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
-                  }`}
-                >
-                  {c === 'all' ? ui.district.allCategory : c}
-                </button>
-              );
-            })}
-          </div>
 
           {/* Recipe Cards Grid */}
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -250,6 +267,7 @@ export const DistrictView: React.FC<DistrictViewProps> = ({
           />
         </div>
       )}
+      </div>
     </div>
   );
 };
