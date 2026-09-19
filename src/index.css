@@ -9,7 +9,7 @@ body,
 }
 
 body {
-  background: linear-gradient(180deg, #090D16 0%, #0F172A 35%, #151F32 70%, #0B0E17 100%) fixed;
+  background: linear-gradient(180deg, #0A1931 0%, #0F2A4A 35%, #16365C 70%, #0B1C38 100%) fixed;
   color: #F8FAFC;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;

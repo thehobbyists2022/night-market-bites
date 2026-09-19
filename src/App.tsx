@@ -39,7 +39,7 @@ const Shell: React.FC = () => {
     <div
       className="min-h-screen text-stone-100 flex flex-col justify-between"
       style={{
-        background: 'linear-gradient(180deg, #090D16 0%, #0F172A 35%, #151F32 70%, #0B0E17 100%)',
+        background: 'linear-gradient(180deg, #0A1931 0%, #0F2A4A 35%, #16365C 70%, #0B1C38 100%)',
       }}
     >
       <div>
