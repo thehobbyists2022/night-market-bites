@@ -56,15 +56,6 @@ const DEVICES = [
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function clickButtonWithText(page, txt) {
-  return page.evaluate((t) => {
-    const el = [...document.querySelectorAll('button')]
-      .find((b) => (b.textContent || '').trim().toLowerCase().includes(t.toLowerCase()));
-    if (el) { el.click(); return true; }
-    return false;
-  }, txt);
-}
-
 async function main() {
   if (!fs.existsSync(path.join(DIST, 'index.html'))) {
     console.error('dist/index.html missing. Run "npm run build" first.');
@@ -86,48 +77,103 @@ async function main() {
       width: dev.width, height: dev.height,
       deviceScaleFactor: dev.dpr, isMobile: dev.mobile, hasTouch: dev.mobile
     });
-    await page.goto(`http://localhost:${PORT}/?lang=en`, { waitUntil: 'networkidle2', timeout: 90000 });
-    await sleep(2200);
+
+    console.log(`\nCapturing for ${dev.name}...`);
+    await page.goto(`http://localhost:${PORT}/?lang=en`, { waitUntil: 'networkidle2', timeout: 60000 });
+    await sleep(2500);
 
     const shot = async (name) => {
-      await page.screenshot({ path: path.join(outDir, `${name}.png`) });
-      console.log(`  ${dev.name} -> ${name}.png`);
+      const outPath = path.join(outDir, `${name}.png`);
+      const buf = await page.screenshot({ type: 'png' });
+      for (let i = 0; i < 5; i++) {
+        try {
+          fs.writeFileSync(outPath, buf);
+          break;
+        } catch (e) {
+          await sleep(500);
+        }
+      }
+      console.log(`  ✓ ${dev.name} -> ${name}.png`);
     };
 
-    // 01 market hall
+    // 01 Market Hall (Home view with vibrant banner and 7 country cards)
     await shot('01-market-hall');
 
-    // 02 district (Taiwan)
-    const okDistrict = await clickButtonWithText(page, 'Taiwan');
-    await sleep(2000);
-    if (okDistrict) {
-      await shot('02-district-taiwan');
-
-      // 03 recipe detail (first stall)
-      const okRecipe = await page.evaluate(() => {
-        const card = [...document.querySelectorAll('button')].find((b) => b.querySelector('img') && b.textContent.includes('min'));
-        if (card) { card.click(); return true; }
-        return false;
+    // 02 Taiwan District View
+    const clickedTw = await page.evaluate(() => {
+      const buttons = [...document.querySelectorAll('button')];
+      const twBtn = buttons.find((b) => {
+        const card = b.closest('.card-e');
+        return card && (card.textContent || '').includes('Taiwan');
       });
-      await sleep(2200);
-      if (okRecipe) {
-        await shot('03-recipe-detail');
-        await page.evaluate((h) => window.scrollTo({ top: Math.round(h * 1.05), behavior: 'instant' }), dev.height);
-        await sleep(700);
-        await shot('04-ingredients-steps');
-      } else {
-        console.log('  ! recipe click failed');
-        fs.copyFileSync(path.join(outDir, '02-district-taiwan.png'), path.join(outDir, '03-recipe-detail.png'));
-        fs.copyFileSync(path.join(outDir, '02-district-taiwan.png'), path.join(outDir, '04-ingredients-steps.png'));
+      if (twBtn) {
+        twBtn.click();
+        return true;
       }
-    } else {
-      console.log('  ! district click failed');
-      fs.copyFileSync(path.join(outDir, '01-market-hall.png'), path.join(outDir, '02-district-taiwan.png'));
-    }
+      // Fallback: click directly on the card-e div containing Taiwan
+      const cards = [...document.querySelectorAll('.card-e')];
+      const twCard = cards.find((c) => (c.textContent || '').includes('Taiwan'));
+      if (twCard) {
+        twCard.click();
+        return true;
+      }
+      return false;
+    });
+    console.log(`  Taiwan card click: ${clickedTw}`);
+    await sleep(2500);
+    await shot('02-district-taiwan');
 
-    // 05 passport (stamps visible)
-    await clickButtonWithText(page, 'Passport');
-    await sleep(2000);
+    // 03 Recipe Detail View (Switch to Recipes tab and open Popcorn Chicken / Lu Rou Fan)
+    const openedRecipe = await page.evaluate(async () => {
+      // Find and click the dishes/recipes tab button
+      const buttons = [...document.querySelectorAll('button')];
+      const recipeTab = buttons.find((b) => {
+        const text = (b.textContent || '').toLowerCase();
+        return text.includes('recipes') || text.includes('dishes');
+      });
+      if (recipeTab) recipeTab.click();
+      
+      await new Promise((r) => setTimeout(r, 600));
+
+      // Click the first recipe card with an image
+      const cards = [...document.querySelectorAll('button')];
+      const firstDish = cards.find((b) => b.querySelector('img') && (b.textContent || '').includes('min'));
+      if (firstDish) {
+        firstDish.click();
+        return true;
+      }
+      return false;
+    });
+    console.log(`  Recipe card click: ${openedRecipe}`);
+    await sleep(2500);
+    await shot('03-recipe-detail');
+
+    // 04 Pantry & Amazon Prime Essentials View
+    const openedPantry = await page.evaluate(() => {
+      const navButtons = [...document.querySelectorAll('nav button')];
+      const pantryBtn = navButtons.find((b) => (b.textContent || '').toLowerCase().includes('pantry')) || navButtons[2];
+      if (pantryBtn) {
+        pantryBtn.click();
+        return true;
+      }
+      return false;
+    });
+    console.log(`  Pantry nav click: ${openedPantry}`);
+    await sleep(2500);
+    await shot('04-ingredients-steps');
+
+    // 05 Taste Passport & Travel Stamps View
+    const openedPassport = await page.evaluate(() => {
+      const navButtons = [...document.querySelectorAll('nav button')];
+      const passportBtn = navButtons.find((b) => (b.textContent || '').toLowerCase().includes('passport')) || navButtons[3];
+      if (passportBtn) {
+        passportBtn.click();
+        return true;
+      }
+      return false;
+    });
+    console.log(`  Passport nav click: ${openedPassport}`);
+    await sleep(2500);
     await shot('05-passport');
 
     await page.close();
@@ -135,7 +181,8 @@ async function main() {
 
   await browser.close();
   server.close();
-  console.log('\nDone. Real-app screenshots in appstore_screenshots/');
+  console.log('\nAll App Store screenshots successfully captured and updated!');
 }
 
 main().catch((err) => { console.error('ERROR:', err); process.exit(1); });
+

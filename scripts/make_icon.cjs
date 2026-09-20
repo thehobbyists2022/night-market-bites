@@ -1,4 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" style="position:absolute;top:0;left:0;width:1024px;height:1024px;">
+const fs = require('fs');
+const path = require('path');
+
+const PUP = 'C:/Users/Matrixkuo/Desktop/Antigravity/APP Design/Filipino Food Master/node_modules';
+module.paths.push(PUP);
+const puppeteer = require(path.join(PUP, 'puppeteer-core'));
+
+const EDGE = [
+  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+  'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+].find((p) => fs.existsSync(p));
+
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" style="position:absolute;top:0;left:0;width:1024px;height:1024px;">
   <defs>
     <!-- Background Gradient: Deep Night Market Midnight -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -104,4 +117,31 @@
     />
   </g>
 
-</svg>
+</svg>`;
+
+async function run() {
+  const browser = await puppeteer.launch({
+    executablePath: EDGE,
+    headless: 'new',
+    args: ['--disable-gpu', '--hide-scrollbars', '--no-sandbox']
+  });
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1024, height: 1024, deviceScaleFactor: 1 });
+  await page.setContent(`<!DOCTYPE html><html><head><style>html,body{margin:0;padding:0;width:1024px;height:1024px;overflow:hidden;background:#080F20;}</style></head><body>${svg}</body></html>`);
+
+  const out1 = path.join(__dirname, '..', 'assets', 'images', 'icon-ios.png');
+  const out2 = path.join(__dirname, '..', 'ios', 'App', 'App', 'Assets.xcassets', 'AppIcon.appiconset', 'AppIcon-512@2x.png');
+
+  await page.screenshot({ path: out1, omitBackground: false });
+  fs.copyFileSync(out1, out2);
+  console.log('Saved:', out1);
+  console.log('Saved:', out2);
+
+  const favPath = path.join(__dirname, '..', 'public', 'favicon.svg');
+  fs.writeFileSync(favPath, svg.trim());
+  console.log('Saved:', favPath);
+
+  await browser.close();
+}
+
+run().catch((e) => { console.error(e); process.exit(1); });
