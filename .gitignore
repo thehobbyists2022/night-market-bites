@@ -37,3 +37,21 @@ credentials.json
 
 .vercel
 .env*
+
+# Security Hardening: Android/iOS Keystores, Temp Bundles & ASC Scripts
+*.jks
+*.keystore
+keystore.properties
+**/keystore.properties
+google-services.json
+GoogleService-Info.plist
+*.cer
+*.csr
+*.key
+*.pem
+*.aab
+*.apk
+*.ipa
+*.zip
+scripts/asc_*
+scripts/.tmp-bundles/
